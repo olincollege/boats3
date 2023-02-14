@@ -30,7 +30,8 @@ int main (int argc, char **argv)
 			    SDL_WINDOWPOS_UNDEFINED, /* Position y of the window */
 			    WIDTH, /* Width of the window in pixels */
 			    HEIGHT, /* Height of the window in pixels */
-			    0); /* Additional flag(s) */
+			    SDL_WINDOW_BORDERLESS ||
+          SDL_WINDOW_MAXIMIZED); /* Additional flag(s) */
 
   /* Checks if window has been created; if not, exits program */
   if (window == NULL) {
