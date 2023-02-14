@@ -3,7 +3,7 @@
 
 #include <SDL2/SDL.h> /* macOS- and GNU/Linux-specific */
 //sudo apt-get install libsdl2-dev
-// use compiler flag -lSDL2
+// use compiler flag -lSDL2 to link to SDL2
 
 /* Sets constants */
 #define WIDTH 800
@@ -38,6 +38,9 @@ int main (int argc, char **argv)
     fprintf(stderr, "SDL window failed to initialise: %s\n", SDL_GetError());
     return 1;
   }
+
+  // Uncomment if using a mac
+  SDL_PumpEvents();
 
   /* Pauses all SDL subsystems for a variable amount of milliseconds */
   SDL_Delay(DELAY);
