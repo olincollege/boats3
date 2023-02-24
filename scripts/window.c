@@ -78,18 +78,38 @@ int main (int argc, char **argv)
   /* Pauses all SDL subsystems for a variable amount of milliseconds */
   while (!quit)
     {
-        SDL_WaitEvent(&event);
- 
-        switch (event.type)
-        {
+      SDL_WaitEvent(&event);
+
+      switch (event.type)
+      {    
+        //if you press a key
+        case SDL_KEYDOWN:
+            switch(event.key.keysym.sym){
+
+              case SDLK_ESCAPE:
+              printf("got here");
+              quit = true;
+              break;
+            }
+
+            //break out of larger SDL_KEYDOWN
+            break;  
+              
         case SDLK_ESCAPE:
-            quit = true;
-            break;
-        }
-        SDL_RenderClear(renderer);
-        SDL_RenderCopy(renderer, texture, NULL, NULL);
-        SDL_RenderPresent(renderer);
-        //printf("got here");
+          printf("got here");
+          quit = true;
+        break;
+
+        case SDL_QUIT:
+          printf("got here");
+          quit = true;
+        break;
+
+      }
+      SDL_RenderClear(renderer);
+      SDL_RenderCopy(renderer, texture, NULL, NULL);
+      SDL_RenderPresent(renderer);
+      //printf("got here");
     }
     SDL_DestroyTexture(texture);
     SDL_FreeSurface(image);
