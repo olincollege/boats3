@@ -5,7 +5,7 @@
 #include <SDL2/SDL_image.h>
 
 //sudo apt-get install libsdl2-dev
-// use compiler flags -lSDL2 and -lSDL2_image 
+// use compiler flags -lSDL2 and -lSDL2_image  // gcc -o window scripts/window.c -lSDL2 -lSDL2_image
 //sudo apt-get install libsdl2-image
 
 /* Sets constants */
@@ -33,7 +33,7 @@ int main (int argc, char **argv)
   }
 
   if (IMG_Init(IMG_INIT_PNG) == 0) {
-	  printf("Error SDL2_image Initialization");
+	  printf("Error SDL2_image Initialization\n");
 	return 2;
 }
 
@@ -54,12 +54,25 @@ int main (int argc, char **argv)
 
   SDL_Renderer * renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
   if (renderer == NULL) {
-	    printf("renderer error");
+	    printf("renderer error\n");
 	return 4;
-}
+} 
+  //replace with lines that detect max resolution
+  int res_width = 1920;
+  int res_height = 1080;
+
+  if (SDL_RenderSetLogicalSize(renderer, res_width, res_height) != 0){
+    printf("resolution setting error\n");
+
+    printf("%s\n",SDL_GetError());
+
+    return 4;
+  }
+
+
   SDL_Surface * image = IMG_Load("boat.png");
   if (image == NULL) {
-	  printf("error loading image");
+	  printf("error loading image\n");
 	return 5;
 }
 
@@ -67,15 +80,17 @@ int main (int argc, char **argv)
   SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, image);
 
   if (texture == NULL) {
-	  printf("error creating texture");
+	  printf("error creating texture\n");
 	return 6;
 }
 
 
 
   //dont remember why we need this but apparently it prevents memory leaks
-  SDL_FreeSurface(image);
+  //SDL_FreeSurface(image);
   /* Pauses all SDL subsystems for a variable amount of milliseconds */
+
+  fprintf(stdout,"window initialized\n");
   while (!quit)
     {
       SDL_WaitEvent(&event);
@@ -96,12 +111,10 @@ int main (int argc, char **argv)
             break;  
               
         case SDLK_ESCAPE:
-          printf("got here");
           quit = true;
         break;
 
         case SDL_QUIT:
-          printf("got here");
           quit = true;
         break;
 
@@ -109,13 +122,17 @@ int main (int argc, char **argv)
       SDL_RenderClear(renderer);
       SDL_RenderCopy(renderer, texture, NULL, NULL);
       SDL_RenderPresent(renderer);
-      //printf("got here");
     }
     SDL_DestroyTexture(texture);
+    printf("got here 4\n");
     SDL_FreeSurface(image);
+    printf("got here 5\n");
     SDL_DestroyRenderer(renderer);
+    printf("got here 6\n");
     SDL_DestroyWindow(window);
+    printf("got here 7\n");
     SDL_Quit();
+    printf("got here 8\n");
   
   return 0;
 }
