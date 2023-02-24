@@ -102,7 +102,6 @@ int main (int argc, char **argv)
             switch(event.key.keysym.sym){
 
               case SDLK_ESCAPE:
-              printf("got here");
               quit = true;
               break;
             }
@@ -124,15 +123,10 @@ int main (int argc, char **argv)
       SDL_RenderPresent(renderer);
     }
     SDL_DestroyTexture(texture);
-    printf("got here 4\n");
     SDL_FreeSurface(image);
-    printf("got here 5\n");
     SDL_DestroyRenderer(renderer);
-    printf("got here 6\n");
     SDL_DestroyWindow(window);
-    printf("got here 7\n");
     SDL_Quit();
-    printf("got here 8\n");
   
   return 0;
 }
