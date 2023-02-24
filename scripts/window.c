@@ -57,7 +57,7 @@ int main (int argc, char **argv)
 	    printf("renderer error");
 	return 4;
 }
-  SDL_Surface * image = IMG_Load("boat.png");
+  SDL_Surface * image = IMG_Load("assets/boat.png");
   if (image == NULL) {
 	  printf("error loading image");
 	return 5;
