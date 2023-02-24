@@ -1,7 +1,6 @@
 // show the sprite in the window
 // change position
 
-#include <stdio.h> /* printf and fprintf */
 
 #include <SDL2/SDL.h> /* macOS- and GNU/Linux-specific */
 // sudo apt-get install libsdl2-dev
@@ -55,4 +54,40 @@ int main (int argc, char **argv)
   SDL_Quit(); 
   
   return 0;
+}
+
+int generate_random(int max, int min){
+  // not inclusive min/max
+  int random = rand() % (max - min) + min;
+}
+
+void move_up(void){
+
+}
+
+void move_down(void){
+
+}
+
+void move_left(void){
+
+}
+
+void move_right(void){
+
+}
+
+void move_random_direction(){
+  int direction = generate_random(0, 4);
+
+  switch(direction){
+    case 0:
+      move_up();
+    case 1:
+      move_down();
+    case 2:
+      move_left();
+    case 3:
+      move_right();
+  }
 }
