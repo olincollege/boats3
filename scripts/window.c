@@ -80,7 +80,7 @@ int main(int argc, char **argv) {
     return 5;
   }
 
-  SDL_Surface * image = IMG_Load("background.png");
+  SDL_Surface * image = IMG_Load("assets/background.png");
   if (image == NULL) {
 	  printf("error loading image\n");
     return 6;
