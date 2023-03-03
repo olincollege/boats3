@@ -1,22 +1,21 @@
-#include <stdio.h> /* printf and fprintf */
-#include <stdbool.h>
-#include <stdlib.h>
 #include <SDL2/SDL_image.h>
+#include <stdbool.h>
+#include <stdio.h> /* printf and fprintf */
+#include <stdlib.h>
 
-//sudo apt-get install libsdl2-dev
-// use compiler flags -lSDL2 and -lSDL2_image
-// gcc -o window scripts/window.c -lSDL2 -lSDL2_image
-//sudo apt-get install libsdl2-image
+// sudo apt-get install libsdl2-dev
+//  use compiler flags -lSDL2 and -lSDL2_image
+//  gcc -o window scripts/window.c -lSDL2 -lSDL2_image
+// sudo apt-get install libsdl2-image
 
 /* Sets constants */
 // replace the width and height with screen size
-#define WIDTH 1920  // this is based on the background image size currently
+#define WIDTH 1920 // this is based on the background image size currently
 #define HEIGHT 1080
 #define DELAY 3000
 
-
-
-void end_program(SDL_Texture *texture, SDL_Surface *image, SDL_Renderer *renderer, SDL_Window *window) {
+void end_program(SDL_Texture *texture, SDL_Surface *image,
+                 SDL_Renderer *renderer, SDL_Window *window) {
   SDL_DestroyTexture(texture);
   printf("got here 4\n");
   SDL_FreeSurface(image);
@@ -29,10 +28,7 @@ void end_program(SDL_Texture *texture, SDL_Surface *image, SDL_Renderer *rendere
   printf("got here 8\n");
 }
 
-
-
-
-int main(int argc, char **argv) {
+int main(void) {
   /* Initialises data */
   SDL_Window *window = NULL;
 
@@ -40,91 +36,102 @@ int main(int argc, char **argv) {
   SDL_Event event;
 
   /*
-  * Initialises the SDL video subsystem (as well as the events subsystem).
-  * Returns 0 on success or a negative error code on failure using SDL_GetError().
-  */
+   * Initialises the SDL video subsystem (as well as the events subsystem).
+   * Returns 0 on success or a negative error code on failure using
+   * SDL_GetError().
+   */
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     fprintf(stderr, "SDL failed to initialise: %s\n", SDL_GetError());
     return 1;
   }
 
   if (IMG_Init(IMG_INIT_PNG) == 0) {
-	  printf("Error SDL2_image Initialization\n");
+    printf("Error SDL2_image Initialization\n");
     return 2;
   }
 
   // Creates a SDL window
-  window = SDL_CreateWindow("SDL Example", /* Title of the SDL window */
-                            SDL_WINDOWPOS_UNDEFINED, /* Position x of the window */
-                            SDL_WINDOWPOS_UNDEFINED, /* Position y of the window */
-                            WIDTH, /* Width of the window in pixels */
-                            HEIGHT, /* Height of the window in pixels */
-                            SDL_WINDOW_BORDERLESS ||
-                            SDL_WINDOW_MAXIMIZED); /* Additional flag(s) */
-  
+  window = SDL_CreateWindow(
+      "SDL Example",           /* Title of the SDL window */
+      SDL_WINDOWPOS_UNDEFINED, /* Position x of the window */
+      SDL_WINDOWPOS_UNDEFINED, /* Position y of the window */
+      WIDTH,                   /* Width of the window in pixels */
+      HEIGHT,                  /* Height of the window in pixels */
+      SDL_WINDOW_BORDERLESS || SDL_WINDOW_MAXIMIZED); /* Additional flag(s) */
+
   // Checks if window has been created; if not, exits program
   if (window == NULL) {
     fprintf(stderr, "SDL window failed to initialise: %s\n", SDL_GetError());
     return 3;
   }
 
-  SDL_Renderer * renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+  SDL_Renderer *renderer =
+      SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
   if (renderer == NULL) {
     printf("renderer error\n");
     return 4;
   }
 
-  if (SDL_RenderSetLogicalSize(renderer, WIDTH, HEIGHT) != 0){
+  if (SDL_RenderSetLogicalSize(renderer, WIDTH, HEIGHT) != 0) {
     printf("resolution setting error\n");
     printf("%s\n", SDL_GetError());
     return 5;
   }
 
-  SDL_Surface * image = IMG_Load("assets/background.png");
+  SDL_Surface *image = IMG_Load("assets/background.png");
   if (image == NULL) {
-	  printf("error loading image\n");
+    printf("error loading image\n");
     return 6;
   }
 
-  SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, image);
+  SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, image);
   if (texture == NULL) {
     printf("error creating texture\n");
     return 7;
   }
 
-
   fprintf(stdout, "window initialized\n");
   while (!quit) {
     SDL_WaitEvent(&event);
 
-    switch (event.type)
-    {    
+    // The user exits the program
+    switch (event.type) {
       // if you press a key
-      case SDL_KEYDOWN:
-        switch(event.key.keysym.sym) {
-          case SDLK_ESCAPE:
-          printf("got here\n");
-          quit = true;
-          break;
-        }
-
-        //break out of larger SDL_KEYDOWN
-        break;  
-            
+    case SDL_KEYDOWN:
+      switch (event.key.keysym.sym) {
       case SDLK_ESCAPE:
+        printf("got here\n");
         quit = true;
         break;
 
-      case SDL_QUIT:
-        quit = true;
+      case SDLK_a:
+        SDL_Surface *little_guy = IMG_Load("assets/image_a.png");
+        if (little_guy == NULL) {
+          printf("error loading image\n");
+          return 6;
+        }
+        window.quit = true;
         break;
+      }
+      // break out of larger SDL_KEYDOWN
+      break;
+
+    case SDLK_ESCAPE:
+      quit = true;
+      break;
+
+    case SDL_QUIT:
+      quit = true;
+      break;
     }
+
+    // Clean out everything
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, NULL, NULL);
     SDL_RenderPresent(renderer);
   }
 
   end_program(texture, image, renderer, window);
-  
+
   return 0;
 }
