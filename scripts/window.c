@@ -18,6 +18,37 @@
 
 bool quit = false;
 
+typedef struct Animation{
+  SDL_Texture * texture;
+  int width;
+  int height;
+  int ypos;
+  int num_frames;
+  int frames_loop[30]; 
+  int frame_index;
+}Animation;
+
+//Animation kittykat = {
+
+void loop_Animation(Animation *loop, SDL_Renderer* renderer,SDL_Rect *box_ptr){
+
+  int xpos;
+  
+  xpos = loop->frames_loop[loop->frame_index]*loop->width;
+  printf("%d\n",xpos);
+  
+
+  
+  SDL_Rect crop_sprite = {.x=xpos,.y=loop->ypos,.w=loop->width,.h=loop->height};
+
+  
+  if (0!= SDL_RenderCopy(renderer, loop->texture, &crop_sprite, box_ptr)){
+    printf("error animating");
+  }
+  //update the position in the loop
+  loop->frame_index = loop->frame_index +1;
+  loop->frame_index = loop->frame_index % loop->num_frames;
+}
 
 void end_program(SDL_Texture *texture, SDL_Surface *image, SDL_Renderer *renderer, SDL_Window *window) {
   SDL_DestroyTexture(texture);
@@ -138,17 +169,56 @@ int main(int argc, char **argv) {
     return 7;
   }
 
+  SDL_Surface * cat_image = IMG_Load("assets/Catsprites.png");
+  if (image == NULL) {
+	  printf("error loading image\n");
+    return 6;
+  }
+
+  SDL_Texture * cat_texture = SDL_CreateTextureFromSurface(renderer, cat_image);
+  if (texture == NULL) {
+    printf("error creating texture\n");
+    return 7;
+  }
+
   SDL_Rect dstrect;
-  dstrect.x = 20;
-  dstrect.y = 20;
+  dstrect.x = 500;
+  dstrect.y = 0;
   dstrect.w = 350;
   dstrect.h = 350;
 
   SDL_Rect dstrect2;
   dstrect2.x = 500;
-  dstrect2.y = 0;
+  dstrect2.y = 500;
   dstrect2.w = 550;
   dstrect2.h = 350;
+
+  SDL_Rect dstrect3;
+  dstrect3.x = 0;
+  dstrect3.y = 0;
+  dstrect3.w = 200;
+  dstrect3.h = 200;
+
+  SDL_Rect srcrect2;
+  srcrect2.x = 0;
+  srcrect2.y = 0;
+  srcrect2.w = 100;
+  srcrect2.h = 100;
+
+
+  //kittykat spritesheet
+/*
+  typedef struct Animation{
+  SDL_Texture * texture;
+  int width;
+  int height;
+  int ypos;
+  int num_frames;
+  int frames_loop[30]; 
+  int frame_index;
+}Animation;//*/
+
+  Animation kittykat_walk = {.texture=boat_texture,.width=200,.height=200,.ypos=200,.num_frames=7,.frames_loop = {0,1,2,2,2,2,1},.frame_index=0};
 
   int cycle = 0;
 
@@ -166,13 +236,15 @@ int main(int argc, char **argv) {
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, NULL, NULL);
 
-    printf("%i\n",cycle);
+    //printf("%i\n",cycle);
     if (cycle){
       SDL_RenderCopy(renderer, boat_texture, NULL, &dstrect);
     }
     else{
-      SDL_RenderCopy(renderer, texture, NULL, &dstrect2);
+      //test of the crop image feature
+      SDL_RenderCopy(renderer, texture, &srcrect2, &dstrect2);
     }
+    loop_Animation(&kittykat_walk,renderer,&dstrect3);
     SDL_RenderPresent(renderer);
   }
   
