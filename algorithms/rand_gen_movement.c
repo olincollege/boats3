@@ -134,6 +134,35 @@ int main(int argc, char **argv) {
   }
 
 
+  // TODO: make a sprite appear
+  SDL_Texture* sprite;
+
+  SDL_Surface * boat_image = IMG_Load("boat.png");
+  SDL_Texture * boat_texture = SDL_CreateTextureFromSurface(renderer,
+        boat_image);
+  SDL_Rect dstrect = { 5, 5, 320, 240 };
+
+  // if (SDL_RenderSetLogicalSize(boat_renderer, 100, 100) != 0){
+  //   printf("resolution setting error\n");
+  //   printf("%s\n", SDL_GetError());
+  //   return 5;
+  // }
+
+  // SDL_Surface * boat_image = IMG_Load("boat.png");
+  // if (boat_image == NULL) {
+	//   printf("error loading boat image\n");
+  //   return 6;
+  // }
+
+  // SDL_Texture * boat_texture = SDL_CreateTextureFromSurface(boat_renderer, boat_image);
+  // if (boat_texture == NULL) {
+  //   printf("error creating texture\n");
+  //   return 7;
+  // }
+  
+  // int rendercopy = SDL_RenderCopy(renderer, boat_texture, NULL, NULL);
+
+
   fprintf(stdout, "window initialized\n");
   while (!quit) {
     // TODO: move the sprite each loop
@@ -166,6 +195,7 @@ int main(int argc, char **argv) {
     }
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, NULL, NULL);
+    SDL_RenderCopy(renderer, boat_texture, NULL, &dstrect);
     SDL_RenderPresent(renderer);
   }
 
