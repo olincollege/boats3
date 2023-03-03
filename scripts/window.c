@@ -241,15 +241,12 @@ int main(int argc, char **argv) {
                              .height = 200,
                              .ypos = 200,
                              .num_frames = 7,
-                             .frames_loop = {0, 1, 2, 2, 2, 2, 1},
+                             .frames_loop = {0, 1, 1, 1, 0, 0, 1},
                              .frame_index = 0};
-
-  int cycle = 0;
 
   fprintf(stdout, "window initialized\n");
   while (!quit) {
-    cycle++;
-    cycle = cycle % 2;
+
 
     if (SDL_PollEvent(&event)) {
       Handle_Event(event);
@@ -260,13 +257,13 @@ int main(int argc, char **argv) {
     SDL_RenderCopy(renderer, husky.texture, NULL, husky.rect);
 
     // printf("%i\n",cycle);
-    if (cycle) {
+    
       SDL_RenderCopy(renderer, boat_texture, NULL, &dstrect);
 
-    } else {
+    
       // test of the crop image feature
       SDL_RenderCopy(renderer, texture, &srcrect2, &dstrect2);
-    }
+    
     loop_Animation(&kittykat_walk, renderer, &dstrect3);
     SDL_RenderPresent(renderer);
   }
