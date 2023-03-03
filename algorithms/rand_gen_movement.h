@@ -22,21 +22,52 @@
 int generate_random(int min, int max);
 
 /**
- * Documentification
+ * Moves the sprite up within the window.
+ * 
+ * @param sprite A pointer to a rectangle object representing the size and
+ * position of the sprite within the window 
+ * @param distance An int representing how many pixels the sprite should be
+ * moved per function call
 */
-void move_up(void);
+void move_up(SDL_Rect *sprite, int distance);
 
 /**
- * Documentification
+ * Moves the sprite down towards the bottom of a window.
+ * 
+ * @param sprite A pointer to a rectangle object representing the size and
+ * position of the sprite within the window 
+ * @param distance An int representing how many pixels the sprite should be
+ * moved per function call
 */
-void move_down(void);
+void move_down(SDL_Rect *sprite, int distance);
 
 /**
- * Documentification
+ * Moves the sprite left within a window.
+ * 
+ * @param sprite A pointer to a rectangle object representing the size and
+ * position of the sprite within the window 
+ * @param distance An int representing how many pixels the sprite should be
+ * moved per function call
 */
-void move_left(void);
+void move_left(SDL_Rect *sprite, int distance);
 
 /**
- * Documentification
+ * Moves the sprite right within a window.
+ * 
+ * @param sprite A pointer to a rectangle object representing the size and
+ * position of the sprite within the window 
+ * @param distance An int representing how many pixels the sprite should be
+ * moved per function call
 */
-void move_right(void);
+void move_right(SDL_Rect *sprite, int distance);
+
+/**
+ * Runs end of program cleanup
+ * 
+ * @param texture A pointer to a texture representing the background image
+ * @param boat_texture A pointer to a texture representing the boat sprite
+ * @param renderer The window's renderer object
+ * @param window The window object
+*/
+void end_program(SDL_Texture *texture, SDL_Surface *image,
+                 SDL_Renderer *renderer, SDL_Window *window);
