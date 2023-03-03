@@ -5,7 +5,7 @@
 #include "rand_gen_movement.h"
 #include <SDL2/SDL_image.h>
 #include <stdbool.h>
-#include <stdio.h> /* printf and fprintf */
+#include <stdio.h>
 #include <stdlib.h>
 
 // gcc -o window scripts/window.c -lSDL2 -lSDL2_image
@@ -57,12 +57,11 @@ void move_random_direction(int num, SDL_Rect *sprite_pos, int distance) {
   }
 }
 
-void end_program(SDL_Texture *texture, SDL_Surface *image,
+void end_program(SDL_Texture *texture, SDL_Texture *boat_texture,
                  SDL_Renderer *renderer, SDL_Window *window) {
   SDL_DestroyTexture(texture);
+  SDL_DestroyTexture(boat_texture);
   // printf("got here 4\n");
-  SDL_FreeSurface(image);
-  // printf("got here 5\n");
   SDL_DestroyRenderer(renderer);
   // printf("got here 6\n");
   SDL_DestroyWindow(window);
@@ -72,7 +71,6 @@ void end_program(SDL_Texture *texture, SDL_Surface *image,
 }
 
 int main(int argc, char **argv) {
-  /* Initialises data */
   SDL_Window *window = NULL;
 
   bool quit = false;
@@ -132,7 +130,9 @@ int main(int argc, char **argv) {
     printf("error creating texture\n");
     return 7;
   }
+  SDL_FreeSurface(image);  // once the texture is made, you don't have to keep the surface around
 
+  // Create sprite
   SDL_Texture *sprite;
 
   SDL_Surface *boat_image = IMG_Load("boat.png");
@@ -140,13 +140,13 @@ int main(int argc, char **argv) {
     printf("error loading boat_image\n");
     return 6;
   }
-  SDL_Texture *boat_texture =
-      SDL_CreateTextureFromSurface(renderer, boat_image);
+  SDL_Texture *boat_texture = SDL_CreateTextureFromSurface(renderer, boat_image);
   if (boat_texture == NULL) {
     printf("error creating boat_texture\n");
     return 7;
   }
-  SDL_Rect dstrect = {50, 50, 260, 280};
+  SDL_FreeSurface(boat_image);  // once the texture is made, you don't have to keep the surface around
+  SDL_Rect dstrect = {50, 50, 260, 280};   // sets the desired size/pos of the sprite
 
 
 
@@ -192,9 +192,7 @@ int main(int argc, char **argv) {
     SDL_RenderPresent(renderer);
   }
 
-  end_program(texture, image, renderer, window);
-  SDL_DestroyTexture(boat_texture);
-  SDL_FreeSurface(boat_image);
+  end_program(texture, boat_texture, renderer, window);
 
   return 0;
 }
