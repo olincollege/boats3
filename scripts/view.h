@@ -13,7 +13,4 @@ A simple view for our desktop pet
 extern const SDL_Window *window = NULL;
 
 // Set up our event queue
-// extern const SDL_Event event;
-
-// Decide whether or not to quit
-extern bool quit = false;
+extern const SDL_Event event;
