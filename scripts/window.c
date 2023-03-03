@@ -119,6 +119,8 @@ sprite *initialize_sprite(SDL_Renderer *renderer, const char *sprite_path,
 
   sprite spr = {sprite_texture, &sprite_rect, sprite_path};
 
+  SDL_FreeSurface(sprite_surface);
+
   return &spr;
 }
 
