@@ -27,6 +27,42 @@ typedef struct animation {
   int frame_index;
 } animation;
 
+int find_sprite_grid(SDL_Texture *texture, int*row_height,int*column_width,int num_rows, int num_columns){
+ //function for automatically finding frame rectangles dimensions
+ int height_texture;
+ int width_texture;
+ if(0!= SDL_QueryTexture(texture,NULL, NULL, height_texture, width_texture)){
+  printf("QueryTexture Error in find_sprite_grid");
+  return 1;
+ }
+
+  *row_height = height_texture/num_rows;
+  *column_width = width_texture/num_columns;
+ return 0;
+}
+
+int initialize_animation(animation* loop,
+                          int num_rows,int num_col,int row_number){
+  //initialize an animation, num_rows, num_col, row_number num_frames, 
+  //and frames_loop content must be set individually for each animation  
+  //assume the texture, num frames and frame loop parameters are already set
+
+  int row_height;
+  int column_width;
+  if (find_sprite_grid(loop->texture,&row_height,&column_width,num_rows,num_col)){
+    printf("Error Initializing animation");
+    return 1;
+  }
+  //initialize to frame 0 in loop
+  loop->width = column_width;
+  loop->height = row_height;
+  loop->ypos = row_height*row_number;
+  //initialize to first frame
+  loop->frame_index = 0;
+
+  return 0;
+}
+
 void end_program(SDL_Texture *texture, SDL_Surface *image,
                  SDL_Renderer *renderer, SDL_Window *window) {
   SDL_DestroyTexture(texture);
