@@ -22,19 +22,27 @@ int generate_random(int min, int max) {
 }
 
 void move_up(SDL_Rect *sprite, int distance) {
-  sprite->y -= distance;
+  if (sprite->y > 0) {
+    sprite->y -= distance;
+  }
 }
 
 void move_down(SDL_Rect *sprite, int distance) {
-  sprite->y += distance;
+  if (sprite->y < 1920) {
+    sprite->y += distance;
+  }
 }
 
 void move_left(SDL_Rect *sprite, int distance) {
-  sprite->x -= distance;
+  if (sprite->x > 0) {
+    sprite->x -= distance;
+  }
 }
 
 void move_right(SDL_Rect *sprite, int distance) {
-  sprite->x += distance;
+  if (sprite->x < 1080) {
+    sprite->x += distance;
+  }
 }
 
 void move_random_direction(int num, SDL_Rect *sprite_pos, int distance) {
@@ -130,7 +138,8 @@ int main(int argc, char **argv) {
     printf("error creating texture\n");
     return 7;
   }
-  SDL_FreeSurface(image);  // once the texture is made, you don't have to keep the surface around
+  SDL_FreeSurface(image); // once the texture is made, you don't have to keep
+                          // the surface around
 
   // Create sprite
   SDL_Texture *sprite;
@@ -140,19 +149,20 @@ int main(int argc, char **argv) {
     printf("error loading boat_image\n");
     return 6;
   }
-  SDL_Texture *boat_texture = SDL_CreateTextureFromSurface(renderer, boat_image);
+  SDL_Texture *boat_texture =
+      SDL_CreateTextureFromSurface(renderer, boat_image);
   if (boat_texture == NULL) {
     printf("error creating boat_texture\n");
     return 7;
   }
-  SDL_FreeSurface(boat_image);  // once the texture is made, you don't have to keep the surface around
-  SDL_Rect dstrect = {50, 50, 260, 280};   // sets the desired size/pos of the sprite
+  SDL_FreeSurface(boat_image); // once the texture is made, you don't have to
+                               // keep the surface around
+  SDL_Rect dstrect = {50, 50, 260,
+                      280}; // sets the desired size/pos of the sprite
 
-
-
-
-  int movement_counter = 0;   // spaces out movement commands to look smoother
-  int random_num = 0;   // afaik declaring it once and just changing the value is faster
+  int movement_counter = 0; // spaces out movement commands to look smoother
+  int random_num =
+      0; // afaik declaring it once and just changing the value is faster
 
   fprintf(stdout, "window initialized\n");
   while (!quit) {
@@ -187,12 +197,13 @@ int main(int argc, char **argv) {
     }
 
     movement_counter++;
-    if (movement_counter%100000 == 0) {
+    if (movement_counter % 100000 == 0) {
       random_num = generate_random(0, 4);
       move_random_direction(random_num, &dstrect, 50);
       SDL_RenderClear(renderer);
       SDL_RenderCopy(renderer, texture, NULL, NULL);
-      SDL_RenderCopy(renderer, boat_texture, NULL, &dstrect); // display boat sprite
+      SDL_RenderCopy(renderer, boat_texture, NULL,
+                     &dstrect); // display boat sprite
       SDL_RenderPresent(renderer);
     }
   }
