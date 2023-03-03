@@ -156,40 +156,45 @@ int main(int argc, char **argv) {
 
   fprintf(stdout, "window initialized\n");
   while (!quit) {
-    movement_counter++;
-    if (movement_counter%10 == 0) {
-      random_num = generate_random(0, 4);
-      move_random_direction(random_num, &dstrect, 10);
-    }
+    if (SDL_PollEvent(&event)) {
+      switch (event.type) {
+      // if you press a key
+      case SDL_KEYDOWN:
+        switch (event.key.keysym.sym) {
 
-    SDL_WaitEvent(&event);
+        case SDLK_ESCAPE:
+          quit = true;
+          break;
+        }
+        switch (event.type) {
+        // if you press a key
+        case SDL_KEYDOWN:
+          switch (event.key.keysym.sym) {
+          case SDLK_ESCAPE:
+            printf("got here\n");
+            quit = true;
+            break;
+          }
 
-    switch (event.type) {
-    // if you press a key
-    case SDL_KEYDOWN:
-      switch (event.key.keysym.sym) {
-      case SDLK_ESCAPE:
-        printf("Recognized escape key\n");
-        quit = true;
-        break;
+          // break out of larger SDL_KEYDOWN
+          break;
+
+        case SDL_QUIT:
+          quit = true;
+          break;
+        }
       }
-
-      // break out of larger SDL_KEYDOWN
-      break;
-
-    case SDLK_ESCAPE:
-      quit = true;
-      break;
-
-    case SDL_QUIT:
-      quit = true;
-      break;
     }
-    SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, texture, NULL, NULL);
-    // display boat sprite
-    SDL_RenderCopy(renderer, boat_texture, NULL, &dstrect);
-    SDL_RenderPresent(renderer);
+
+    movement_counter++;
+    if (movement_counter%100000 == 0) {
+      random_num = generate_random(0, 4);
+      move_random_direction(random_num, &dstrect, 50);
+      SDL_RenderClear(renderer);
+      SDL_RenderCopy(renderer, texture, NULL, NULL);
+      SDL_RenderCopy(renderer, boat_texture, NULL, &dstrect); // display boat sprite
+      SDL_RenderPresent(renderer);
+    }
   }
 
   end_program(texture, boat_texture, renderer, window);
