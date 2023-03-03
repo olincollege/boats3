@@ -26,36 +26,36 @@ int generate_random(int min, int max){
   int random = rand() % (max - min) + min;
 }
 
-// void move_up(void){
+void move_up(void){
+  printf("Moving up\n");
+}
 
-// }
+void move_down(void){
+  printf("Moving down\n");
+}
 
-// void move_down(void){
+void move_left(void){
+  printf("Moving left\n");
+}
 
-// }
+void move_right(void){
+  printf("Moving right\n");
+}
 
-// void move_left(void){
-
-// }
-
-// void move_right(void){
-
-// }
-
-// void move_random_direction(){
-//   int direction = generate_random(0, 4);
-
-//   switch(direction){
-//     case 0:
-//       move_up();
-//     case 1:
-//       move_down();
-//     case 2:
-//       move_left();
-//     case 3:
-//       move_right();
-//   }
-// }
+void move_random_direction(int num){
+  switch(num) {
+    case 0:
+      move_up(); break;
+    case 1:
+      move_down(); break;
+    case 2:
+      move_left(); break;
+    case 3:
+      move_right(); break;
+    default:
+      move_up(); break;
+  }
+}
 
 
 void end_program(SDL_Texture *texture, SDL_Surface *image, SDL_Renderer *renderer, SDL_Window *window) {
@@ -138,36 +138,27 @@ int main(int argc, char **argv) {
   SDL_Texture* sprite;
 
   SDL_Surface * boat_image = IMG_Load("boat.png");
+  if (boat_image == NULL) {
+	  printf("error loading boat_image\n");
+    return 6;
+  }
   SDL_Texture * boat_texture = SDL_CreateTextureFromSurface(renderer,
         boat_image);
-  SDL_Rect dstrect = { 5, 5, 320, 240 };
+  if (boat_texture == NULL) {
+    printf("error creating boat_texture\n");
+    return 7;
+  }
+  SDL_Rect dstrect = { 5, 5, 260, 280 };
 
-  // if (SDL_RenderSetLogicalSize(boat_renderer, 100, 100) != 0){
-  //   printf("resolution setting error\n");
-  //   printf("%s\n", SDL_GetError());
-  //   return 5;
-  // }
 
-  // SDL_Surface * boat_image = IMG_Load("boat.png");
-  // if (boat_image == NULL) {
-	//   printf("error loading boat image\n");
-  //   return 6;
-  // }
-
-  // SDL_Texture * boat_texture = SDL_CreateTextureFromSurface(boat_renderer, boat_image);
-  // if (boat_texture == NULL) {
-  //   printf("error creating texture\n");
-  //   return 7;
-  // }
-  
-  // int rendercopy = SDL_RenderCopy(renderer, boat_texture, NULL, NULL);
-
+  // afaik declaring it once and just changing the value is faster
+  int random_num = 0;
 
   fprintf(stdout, "window initialized\n");
   while (!quit) {
     // TODO: move the sprite each loop
-    int random = generate_random(0, 100);
-    printf("%d\n", random);
+    random_num = generate_random(0, 4);
+    move_random_direction(random_num);
 
     SDL_WaitEvent(&event);
 
@@ -195,6 +186,7 @@ int main(int argc, char **argv) {
     }
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, NULL, NULL);
+    // display boat sprite
     SDL_RenderCopy(renderer, boat_texture, NULL, &dstrect);
     SDL_RenderPresent(renderer);
   }
