@@ -100,6 +100,28 @@ void Handle_Event(SDL_Event event) {
   }
 }
 
+sprite *initialize_sprite(SDL_Renderer *renderer, const char *sprite_path,
+                          int x_i, int y_i, int width, int height) {
+  SDL_Surface *sprite_surface = IMG_Load(sprite_path);
+  if (sprite_surface == NULL) {
+    fprintf(stderr, "Error loading image.\n");
+    return 6;
+  }
+
+  SDL_Texture *sprite_texture =
+      SDL_CreateTextureFromSurface(renderer, sprite_texture);
+  if (sprite_texture == NULL) {
+    fprintf(stderr, "Error creating texture.\n");
+    return 7;
+  }
+
+  SDL_Rect sprite_rect = {x_i, y_i, width, height};
+
+  sprite spr = {sprite_texture, &sprite_rect, sprite_path};
+
+  return &spr;
+}
+
 int main(int argc, char **argv) {
   /* Initialises data */
   SDL_Window *window = NULL;
@@ -193,6 +215,7 @@ int main(int argc, char **argv) {
   SDL_Rect husky_rect = {500, 0, 350, 350};*/
 
   // sprite husky = {husky_texture, &husky_rect, hpath};
+
   SDL_Rect husky_rect = {0, 500, 350, 350};
   sprite husky = {
       SDL_CreateTextureFromSurface(renderer, IMG_Load("assets/boat.png")),
@@ -200,13 +223,17 @@ int main(int argc, char **argv) {
 
   // sprite husky = {husky_texture, &(sprite){500, 0, 350, 350}, hpath};
 
-  SDL_Rect dstrect = {500,0,350,350};
+  // something something pointer creates problems lol
+  sprite *wee_woo =
+      initialize_sprite(renderer, "assets/boat.png", 0, 500, 350, 350);
 
-  SDL_Rect dstrect2 = {500,500,550,350};
+  SDL_Rect dstrect = {500, 0, 350, 350};
 
-  SDL_Rect dstrect3 = {0,0,200,200};
+  SDL_Rect dstrect2 = {500, 500, 550, 350};
 
-  SDL_Rect srcrect2 = {0,0,100,100};
+  SDL_Rect dstrect3 = {0, 0, 200, 200};
+
+  SDL_Rect srcrect2 = {0, 0, 100, 100};
 
   // kittykat spritesheet
   /*
@@ -231,7 +258,6 @@ int main(int argc, char **argv) {
   fprintf(stdout, "window initialized\n");
   while (!quit) {
 
-
     if (SDL_PollEvent(&event)) {
       Handle_Event(event);
     }
@@ -239,15 +265,15 @@ int main(int argc, char **argv) {
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, NULL, NULL);
     SDL_RenderCopy(renderer, husky.texture, NULL, husky.rect);
+    // printf((*wee_woo).path);
 
     // printf("%i\n",cycle);
-    
-      SDL_RenderCopy(renderer, boat_texture, NULL, &dstrect);
 
-    
-      // test of the crop image feature
-      SDL_RenderCopy(renderer, texture, &srcrect2, &dstrect2);
-    
+    SDL_RenderCopy(renderer, boat_texture, NULL, &dstrect);
+
+    // test of the crop image feature
+    SDL_RenderCopy(renderer, texture, &srcrect2, &dstrect2);
+
     loop_Animation(&kittykat_walk, renderer, &dstrect3);
     SDL_RenderPresent(renderer);
   }
