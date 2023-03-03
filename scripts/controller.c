@@ -1,0 +1,3 @@
+/*
+Handles interaction with the user.
+*/
