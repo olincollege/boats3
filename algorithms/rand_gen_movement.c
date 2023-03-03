@@ -21,45 +21,38 @@ int generate_random(int min, int max) {
   int random = rand() % (max - min) + min;
 }
 
-void move_up(sint16 *y, int distance) {
-  *y += distance;
-  printf("Moving up\n");
+void move_up(SDL_Rect *sprite, int distance) {
+  sprite->y -= distance;
 }
 
-void move_down(sint16 *y, int distance) {
-  *y -= distance;
-  printf("one line is ugly.\n");
-  printf("Moving down\n");
+void move_down(SDL_Rect *sprite, int distance) {
+  sprite->y += distance;
 }
 
-void move_left(sint16 *x, int distance) {
-  *x -= distance;
-  printf("one line is ugly.\n");
-  printf("Moving left\n");
+void move_left(SDL_Rect *sprite, int distance) {
+  sprite->x -= distance;
 }
 
-void move_right(sint16 *x, int distance) {
-  *x += distance;
-  printf("one line is ugly.\n");
-  printf("Moving right\n");
+void move_right(SDL_Rect *sprite, int distance) {
+  sprite->x += distance;
 }
 
-void move_random_direction(int num) {
+void move_random_direction(int num, SDL_Rect *sprite_pos, int distance) {
   switch (num) {
   case 0:
-    move_up();
+    move_up(sprite_pos, distance);
     break;
   case 1:
-    move_down();
+    move_down(sprite_pos, distance);
     break;
   case 2:
-    move_left();
+    move_left(sprite_pos, distance);
     break;
   case 3:
-    move_right();
+    move_right(sprite_pos, distance);
     break;
   default:
-    move_up();
+    move_up(sprite_pos, distance);
     break;
   }
 }
@@ -140,7 +133,6 @@ int main(int argc, char **argv) {
     return 7;
   }
 
-  // TODO: make a sprite appear
   SDL_Texture *sprite;
 
   SDL_Surface *boat_image = IMG_Load("boat.png");
@@ -154,16 +146,21 @@ int main(int argc, char **argv) {
     printf("error creating boat_texture\n");
     return 7;
   }
-  SDL_Rect dstrect = {5, 5, 260, 280};
+  SDL_Rect dstrect = {50, 50, 260, 280};
 
-  // afaik declaring it once and just changing the value is faster
-  int random_num = 0;
+
+
+
+  int movement_counter = 0;   // spaces out movement commands to look smoother
+  int random_num = 0;   // afaik declaring it once and just changing the value is faster
 
   fprintf(stdout, "window initialized\n");
   while (!quit) {
-    // TODO: move the sprite each loop
-    random_num = generate_random(0, 4);
-    move_random_direction(random_num);
+    movement_counter++;
+    if (movement_counter%10 == 0) {
+      random_num = generate_random(0, 4);
+      move_random_direction(random_num, &dstrect, 10);
+    }
 
     SDL_WaitEvent(&event);
 
@@ -196,6 +193,8 @@ int main(int argc, char **argv) {
   }
 
   end_program(texture, image, renderer, window);
+  SDL_DestroyTexture(boat_texture);
+  SDL_FreeSurface(boat_image);
 
   return 0;
 }
