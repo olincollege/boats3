@@ -226,8 +226,8 @@ int main(int argc, char **argv) {
   // sprite husky = {husky_texture, &(sprite){500, 0, 350, 350}, hpath};
 
   // something something pointer creates problems lol
-  sprite *wee_woo =
-      initialize_sprite(renderer, "assets/boat.png", 0, 500, 350, 350);
+  /*sprite *wee_woo =
+      initialize_sprite(renderer, "assets/boat.png", 0, 500, 350, 350);*/
 
   SDL_Rect dstrect = {500, 0, 350, 350};
 
