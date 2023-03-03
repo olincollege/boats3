@@ -200,29 +200,13 @@ int main(int argc, char **argv) {
 
   // sprite husky = {husky_texture, &(sprite){500, 0, 350, 350}, hpath};
 
-  SDL_Rect dstrect;
-  dstrect.x = 500;
-  dstrect.y = 0;
-  dstrect.w = 350;
-  dstrect.h = 350;
+  SDL_Rect dstrect = {500,0,350,350};
 
-  SDL_Rect dstrect2;
-  dstrect2.x = 500;
-  dstrect2.y = 500;
-  dstrect2.w = 550;
-  dstrect2.h = 350;
+  SDL_Rect dstrect2 = {500,500,550,350};
 
-  SDL_Rect dstrect3;
-  dstrect3.x = 0;
-  dstrect3.y = 0;
-  dstrect3.w = 200;
-  dstrect3.h = 200;
+  SDL_Rect dstrect3 = {0,0,200,200};
 
-  SDL_Rect srcrect2;
-  srcrect2.x = 0;
-  srcrect2.y = 0;
-  srcrect2.w = 100;
-  srcrect2.h = 100;
+  SDL_Rect srcrect2 = {0,0,100,100};
 
   // kittykat spritesheet
   /*
