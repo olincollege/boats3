@@ -17,15 +17,7 @@ typedef struct sprite {
   const char *path;
 } sprite;*/
 
-typedef struct animation {
-  SDL_Texture *texture;
-  int width;
-  int height;
-  int ypos;
-  int num_frames;
-  int frames_loop[30];
-  int frame_index;
-} animation;
+
 
 int find_sprite_grid(SDL_Texture *texture, int*row_height,int*column_width,int num_rows, int num_columns){
  //function for automatically finding frame rectangles dimensions
@@ -77,7 +69,7 @@ void end_program(SDL_Texture *texture, SDL_Surface *image,
   printf("got here 8\n");
 }
 
-void loop_Animation(Animation *loop, SDL_Renderer *renderer,
+void loop_Animation(animation *loop, SDL_Renderer *renderer,
                     SDL_Rect *box_ptr) {
 
   int xpos;

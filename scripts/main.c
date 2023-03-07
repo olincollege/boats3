@@ -7,7 +7,8 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <math.h>
+//math seems to require the -lm flag
 #include "controller.h"
 #include "model.h"
 #include "view.h"
@@ -75,13 +76,27 @@ state setup_state(state init) {
 
 int main(void) {
 
+  
+
   const SDL_Event event;
+  
 
   // Initialize our window.
   init = setup_state(init);
 
+  SDL_Surface *boat_img = IMG_Load("assets/boat.png");
+  SDL_Texture *boat_texture = SDL_CreateTextureFromSurface(init.renderer, boat_img);
+
+
+  animation boat_animate = {.texture =boat_texture,.frames_loop ={0,1,1,2,0},.num_frames=5};
+  initialize_animation(&boat_animate,3,3,2);
+  
   while (!quit) {
-    SDL_WaitEvent(&event);
+    //check the time of this update cycle
+    Uint64 time_start = SDL_GetPerformanceCounter();
+
+    //poll event, contents of if need to be in a function, if statement is important
+    if (SDL_PollEvent(&event)){
 
     switch (event.type) {
     // if you press a key
@@ -104,9 +119,20 @@ int main(void) {
       quit = true;
       break;
     }
+    }
+
+    //rendering cycle
     SDL_RenderClear(init.renderer);
     SDL_RenderCopy(init.renderer, init.texture, NULL, NULL);
     SDL_RenderPresent(init.renderer);
+
+    //put this in a function
+    Uint64 time_end = SDL_GetPerformanceCounter();
+    //find elapse time
+    float elapsed_time = (time_end -time_start)/(float)SDL_GetPerformanceFrequency() * 1000.0f;
+
+    //cap fps at 60
+    SDL_Delay(floor(16.666f - elapsed_time));
   }
 
   end_program(init.texture, init.background, init.renderer, init.window);
