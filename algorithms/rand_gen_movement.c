@@ -182,10 +182,10 @@ int main(int argc, char **argv) {
   SDL_Rect dstrect = {50, 50, SPRITE_WIDTH, SPRITE_HEIGHT}; // sets the desired size/pos of the sprite
 
   int movement_counter = 0; // spaces out movement commands to look smoother
-  int random_num = 0; // afaik declaring it once and just changing the value is faster
+  int direction = 0; // afaik declaring it once and just changing the value is faster
   int prev = 0;
   int cycle = 0;  // used for my manual pseudo-lerping implementation
-  int speed = 10;  // an int from 4-10. higher # = higher speed
+  int speed = rand() % 5 + 1;  // an int from 1-10. higher # = higher speed
 
   fprintf(stdout, "window initialized\n");
   while (!quit) {
@@ -207,15 +207,6 @@ int main(int argc, char **argv) {
             // printf("Pressed escape\n");
             quit = true;
             break;
-          
-          case SDLK_SPACE:
-            // printf("Pressed space\n");
-            if (speed == 10) {
-              speed = 4;
-            } else {
-              speed = 10;
-            }
-            break;
           }
 
           // break out of larger SDL_KEYDOWN
@@ -233,15 +224,21 @@ int main(int argc, char **argv) {
       cycle++;
       if (cycle == SMOOTHNESS) {
         // only update random num if the sprite has pseudo-lerped to another spot
-        random_num = generate_random(0, 5, &prev);
+        direction = generate_random(0, 5, &prev);
         cycle = 0;
       }
-      move_random_direction(random_num, &dstrect, 5 * speed / SMOOTHNESS);
+      move_random_direction(direction, &dstrect, speed);
       SDL_RenderClear(renderer);
       SDL_RenderCopy(renderer, texture, NULL, NULL);
       SDL_RenderCopy(renderer, boat_texture, NULL,
                      &dstrect); // display boat sprite
       SDL_RenderPresent(renderer);
+    }
+
+    // randomly change speed
+    if (rand() % 70000000 == 0) {
+      speed = rand() % 10 + 1;
+      printf("Changing speed to %i\n", speed);
     }
   }
 
