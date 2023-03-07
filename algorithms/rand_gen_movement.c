@@ -14,7 +14,8 @@
 // replace the width and height with screen size
 #define WIDTH 1920 // this is based on the background image size currently
 #define HEIGHT 1080
-#define DELAY 3000
+#define SPRITE_WIDTH 260
+#define SPRITE_HEIGHT 280
 
 int generate_random(int min, int max, int *prev) {
   // not inclusive min/max
@@ -37,7 +38,7 @@ void move_up(SDL_Rect *sprite, int distance) {
 }
 
 void move_down(SDL_Rect *sprite, int distance) {
-  if (sprite->y < 1080 - 280) {
+  if (sprite->y < HEIGHT - SPRITE_HEIGHT) {
     sprite->y += distance;
   } else {
     sprite->y -= distance;
@@ -53,7 +54,7 @@ void move_left(SDL_Rect *sprite, int distance) {
 }
 
 void move_right(SDL_Rect *sprite, int distance) {
-  if (sprite->x < 1920 - 260) {
+  if (sprite->x < WIDTH - SPRITE_WIDTH) {
     sprite->x += distance;
   } else {
     sprite->x -= distance;
@@ -176,8 +177,7 @@ int main(int argc, char **argv) {
   }
   SDL_FreeSurface(boat_image); // once the texture is made, you don't have to
                                // keep the surface around
-  SDL_Rect dstrect = {50, 50, 260,
-                      280}; // sets the desired size/pos of the sprite
+  SDL_Rect dstrect = {50, 50, SPRITE_WIDTH, SPRITE_HEIGHT}; // sets the desired size/pos of the sprite
 
   int movement_counter = 0; // spaces out movement commands to look smoother
   int random_num = 0; // afaik declaring it once and just changing the value is faster
