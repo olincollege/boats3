@@ -23,7 +23,7 @@ int find_sprite_grid(SDL_Texture *texture, int*row_height,int*column_width,int n
  //function for automatically finding frame rectangles dimensions
  int height_texture;
  int width_texture;
- if(0!= SDL_QueryTexture(texture,NULL, NULL, &height_texture, &width_texture)){
+ if(0!= SDL_QueryTexture(texture,NULL, NULL,&width_texture,&height_texture)){
   printf("QueryTexture Error in find_sprite_grid\n");
   return 1;
  }

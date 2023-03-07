@@ -103,11 +103,24 @@ int main(void) {
   //SDL_Texture *cat_texture = SDL_CreateTextureFromSurface(init.renderer, cat_img);
 
   SDL_Texture* cat_texture = initialize_texture("assets/catsheet_1.jpg",init.renderer);
-  animation cat_animate = {.texture =cat_texture,.frames_loop ={0,0,0,0,0,1,1,1,1,1,2,2,2,2,2},.num_frames=15};
+  animation cat_animate = {.texture =cat_texture,.frames_loop ={0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=34};
+  animation cat_animate1 = {.texture =cat_texture,.frames_loop ={0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=34};
+  animation cat_animate2 = {.texture =cat_texture,.frames_loop ={0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=34};
+  animation cat_animate3 = {.texture =cat_texture,.frames_loop ={0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=34};
   //number of num_rows,num_cols, selected row
-  initialize_animation(&cat_animate,8,12,1);
+
+  printf("cat initialization\n");
+  initialize_animation(&cat_animate,8,12,0);
+  initialize_animation(&cat_animate1,8,12,1);
+  initialize_animation(&cat_animate2,8,12,2);
+  initialize_animation(&cat_animate3,8,12,3);
 
   SDL_Rect cat_box = {0,0,550,350};
+  SDL_Rect cat_box1 = {0,350,550,350};
+  SDL_Rect cat_box2 = {550,0,550,350};
+  SDL_Rect cat_box3 = {550,350,550,350};
+
+
 
 
 
@@ -146,9 +159,15 @@ int main(void) {
     //rendering cycle
     SDL_RenderClear(init.renderer);
     SDL_RenderCopy(init.renderer, init.texture, NULL, NULL);
-    SDL_RenderCopy(init.renderer, cat_texture, NULL, &cat_box);
+    //SDL_RenderCopy(init.renderer, cat_texture, NULL, &cat_box);
 
-    loop_Animation(&boat_animate,init.renderer,&animation_box);
+    //loop_Animation(&boat_animate,init.renderer,&animation_box);
+
+    loop_Animation(&cat_animate,init.renderer,&cat_box);
+    loop_Animation(&cat_animate1,init.renderer,&cat_box1);
+    loop_Animation(&cat_animate2,init.renderer,&cat_box2);
+    loop_Animation(&cat_animate3,init.renderer,&cat_box3);
+
 
 
     SDL_RenderPresent(init.renderer);
