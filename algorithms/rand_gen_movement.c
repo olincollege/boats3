@@ -17,6 +17,8 @@
 #define SPRITE_WIDTH 260
 #define SPRITE_HEIGHT 280
 
+#define SMOOTHNESS 10  // int from 0-20. Higher number = more smooth movement
+
 int generate_random(int min, int max, int *prev) {
   // not inclusive min/max
   // if the number was chosen last time, then has a 40% chance to get picked again (everything else has 20%)
@@ -182,6 +184,7 @@ int main(int argc, char **argv) {
   int movement_counter = 0; // spaces out movement commands to look smoother
   int random_num = 0; // afaik declaring it once and just changing the value is faster
   int prev = 0;
+  int cycle = 0;  // used for my manual pseudo-lerping implementation
 
   fprintf(stdout, "window initialized\n");
   while (!quit) {
@@ -216,9 +219,14 @@ int main(int argc, char **argv) {
     }
 
     movement_counter++;
-    if (movement_counter % 200000 == 0) {
-      random_num = generate_random(0, 5, &prev);
-      move_random_direction(random_num, &dstrect, 50);
+    if (movement_counter % (200000/SMOOTHNESS) == 0) {
+      cycle++;
+      if (cycle == SMOOTHNESS) {
+        // only update random num if the sprite has pseudo-lerped to another spot
+        random_num = generate_random(0, 5, &prev);
+        cycle = 0;
+      }
+      move_random_direction(random_num, &dstrect, 50/SMOOTHNESS);
       SDL_RenderClear(renderer);
       SDL_RenderCopy(renderer, texture, NULL, NULL);
       SDL_RenderCopy(renderer, boat_texture, NULL,
