@@ -7,7 +7,8 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <math.h>
+//math seems to require the -lm flag
 #include "controller.h"
 #include "model.h"
 #include "view.h"
@@ -27,7 +28,11 @@ state setup_state(state init) {
   }
 
   if (IMG_Init(IMG_INIT_PNG) == 0) {
-    printf("Error SDL2_image Initialization\n");
+    printf("Error SDL2_image Initialization-PNG\n");
+    // return 2;
+  }
+  if (IMG_Init(IMG_INIT_JPG) == 0) {
+    printf("Error SDL2_image Initialization-JPG\n");
     // return 2;
   }
   // Creates a SDL window
@@ -75,13 +80,59 @@ state setup_state(state init) {
 
 int main(void) {
 
+  
+
   const SDL_Event event;
+  
 
   // Initialize our window.
   init = setup_state(init);
 
+  //SDL_Surface *boat_img = IMG_Load("assets/boat.png");
+  //SDL_Texture *boat_texture = SDL_CreateTextureFromSurface(init.renderer, boat_img);
+
+  SDL_Texture *boat_texture = initialize_texture("assets/boat.png",init.renderer);
+
+  animation boat_animate = {.texture =boat_texture,.frames_loop ={0,0,0,0,0,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5},.num_frames=30};
+  //number of num_rows,num_cols, selected row
+  initialize_animation(&boat_animate,2,6,1);
+
+  SDL_Rect animation_box = {500,500,550,350};
+
+  //SDL_Surface *cat_img = IMG_Load("assets/catsheet_1.jpg");
+  //SDL_Texture *cat_texture = SDL_CreateTextureFromSurface(init.renderer, cat_img);
+
+  SDL_Texture* cat_texture = initialize_texture("assets/catsheet_1.jpg",init.renderer);
+  animation cat_animate = {.texture =cat_texture,.frames_loop ={0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=34};
+  animation cat_animate1 = {.texture =cat_texture,.frames_loop ={0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=34};
+  animation cat_animate2 = {.texture =cat_texture,.frames_loop ={0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=34};
+  animation cat_animate3 = {.texture =cat_texture,.frames_loop ={0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=34};
+  //number of num_rows,num_cols, selected row
+
+  printf("cat initialization\n");
+  initialize_animation(&cat_animate,8,12,0);
+  initialize_animation(&cat_animate1,8,12,1);
+  initialize_animation(&cat_animate2,8,12,2);
+  initialize_animation(&cat_animate3,8,12,3);
+
+  //SDL_Rect cat_box = {0,0,550,350};
+  //numerical arguments: xpos, ypos, scaling value
+  SDL_Rect cat_box;
+  make_animation_box(&cat_box,&cat_animate,0,0,10);
+  SDL_Rect cat_box1;
+  make_animation_box(&cat_box1,&cat_animate1,0,350,10);
+  SDL_Rect cat_box2;
+  make_animation_box(&cat_box2,&cat_animate2,550,0,10);
+  SDL_Rect cat_box3;
+  make_animation_box(&cat_box3,&cat_animate3,550,350,10);
+
+
   while (!quit) {
-    SDL_WaitEvent(&event);
+    //check the time of this update cycle
+    Uint64 time_start = SDL_GetPerformanceCounter();
+
+    //poll event, contents of if need to be in a function, if statement is important
+    if (SDL_PollEvent(&event)){
 
     switch (event.type) {
     // if you press a key
@@ -104,9 +155,31 @@ int main(void) {
       quit = true;
       break;
     }
+    }
+
+    //rendering cycle
     SDL_RenderClear(init.renderer);
     SDL_RenderCopy(init.renderer, init.texture, NULL, NULL);
+    //SDL_RenderCopy(init.renderer, cat_texture, NULL, &cat_box);
+
+    //loop_Animation(&boat_animate,init.renderer,&animation_box);
+
+    loop_Animation(&cat_animate,init.renderer,&cat_box);
+    loop_Animation(&cat_animate1,init.renderer,&cat_box1);
+    loop_Animation(&cat_animate2,init.renderer,&cat_box2);
+    loop_Animation(&cat_animate3,init.renderer,&cat_box3);
+
+
+
     SDL_RenderPresent(init.renderer);
+
+    //put this in a function
+    Uint64 time_end = SDL_GetPerformanceCounter();
+    //find elapse time
+    float elapsed_time = (time_end -time_start)/(float)SDL_GetPerformanceFrequency() * 1000.0f;
+
+    //cap fps at 60
+    SDL_Delay(floor(16.666f - elapsed_time));
   }
 
   end_program(init.texture, init.background, init.renderer, init.window);

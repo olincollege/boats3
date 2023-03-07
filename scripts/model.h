@@ -20,7 +20,7 @@ typedef struct sprite {
   const char *path;
 } sprite;
 
-typedef struct Animation {
+typedef struct animation {
   SDL_Texture *texture;
   int width;
   int height;
@@ -28,7 +28,7 @@ typedef struct Animation {
   int num_frames;
   int frames_loop[30];
   int frame_index;
-} Animation;
+} animation;
 
 typedef struct initialized_state {
   SDL_Window *window;
@@ -52,4 +52,11 @@ state setup_state(state init);
 void end_program(SDL_Texture *texture, SDL_Surface *image,
                  SDL_Renderer *renderer, SDL_Window *window);
 
-void loop_Animation(Animation *loop, SDL_Renderer *renderer, SDL_Rect *box_ptr);
+void loop_Animation(animation *loop, SDL_Renderer *renderer, SDL_Rect *box_ptr);
+
+int find_sprite_grid(SDL_Texture *texture, int*row_height,int*column_width,int num_rows, int num_columns);
+int initialize_animation(animation* loop,
+                          int num_rows,int num_col,int row_number);
+                          
+SDL_Texture * initialize_texture(const char* filepath, SDL_Renderer * renderer);
+int make_animation_box(SDL_Rect * box,animation *loop,int xpos, int ypos,float scale);
