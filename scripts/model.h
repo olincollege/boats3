@@ -57,3 +57,5 @@ void loop_Animation(animation *loop, SDL_Renderer *renderer, SDL_Rect *box_ptr);
 int find_sprite_grid(SDL_Texture *texture, int*row_height,int*column_width,int num_rows, int num_columns);
 int initialize_animation(animation* loop,
                           int num_rows,int num_col,int row_number);
+                          
+SDL_Texture * initialize_texture(const char* filepath, SDL_Renderer * renderer);
