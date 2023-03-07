@@ -31,57 +31,61 @@ int generate_random(int min, int max, int *prev) {
   return random;
 }
 
-void move_up(SDL_Rect *sprite, int distance) {
+void move_up(SDL_Rect *sprite, int distance, int *prev) {
   if (sprite->y > 0) {
     sprite->y -= distance;
   } else {
     sprite->y += distance;
+    *prev = 1;
   }
 }
 
-void move_down(SDL_Rect *sprite, int distance) {
+void move_down(SDL_Rect *sprite, int distance, int *prev) {
   if (sprite->y < HEIGHT - SPRITE_HEIGHT) {
     sprite->y += distance;
   } else {
     sprite->y -= distance;
+    *prev = 0;
   }
 }
 
-void move_left(SDL_Rect *sprite, int distance) {
+void move_left(SDL_Rect *sprite, int distance, int *prev) {
   if (sprite->x > 0) {
     sprite->x -= distance;
   } else {
     sprite->x += distance;
+    *prev = 3;
   }
 }
 
-void move_right(SDL_Rect *sprite, int distance) {
+void move_right(SDL_Rect *sprite, int distance, int *prev) {
   if (sprite->x < WIDTH - SPRITE_WIDTH) {
     sprite->x += distance;
   } else {
     sprite->x -= distance;
+    *prev = 2;
   }
 }
 
-void move_random_direction(int num, SDL_Rect *sprite_pos, int distance) {
+void move_random_direction(int num, SDL_Rect *sprite_pos, int distance, int *prev) {
   switch (num) {
   case 0:
-    move_up(sprite_pos, distance);
+    move_up(sprite_pos, distance, prev);
     break;
   case 1:
-    move_down(sprite_pos, distance);
+    move_down(sprite_pos, distance, prev);
     break;
   case 2:
-    move_left(sprite_pos, distance);
+    move_left(sprite_pos, distance, prev);
     break;
   case 3:
-    move_right(sprite_pos, distance);
+    move_right(sprite_pos, distance, prev);
     break;
   case 4:
     // do nothing; idle
     break;
   default:
-    move_up(sprite_pos, distance);
+    move_up(sprite_pos, distance, prev);
     printf("default case reached\n");
     break;
   }
@@ -207,6 +211,9 @@ int main(int argc, char **argv) {
             // printf("Pressed escape\n");
             quit = true;
             break;
+          case SDLK_SPACE:
+            speed = rand() % 10 + 1;
+            printf("Changing speed to %i\n", speed);
           }
 
           // break out of larger SDL_KEYDOWN
@@ -227,7 +234,7 @@ int main(int argc, char **argv) {
         direction = generate_random(0, 5, &prev);
         cycle = 0;
       }
-      move_random_direction(direction, &dstrect, speed);
+      move_random_direction(direction, &dstrect, speed, &prev);
       SDL_RenderClear(renderer);
       SDL_RenderCopy(renderer, texture, NULL, NULL);
       SDL_RenderCopy(renderer, boat_texture, NULL,
