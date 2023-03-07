@@ -16,9 +16,16 @@
 #define HEIGHT 1080
 #define DELAY 3000
 
-int generate_random(int min, int max) {
+int generate_random(int min, int max, int *prev) {
   // not inclusive min/max
-  int random = rand() % (max - min) + min;
+  // if the number was chosen last time, then has a 40% chance to get picked again (everything else has 20%)
+  int random = *prev;
+  int probability = rand() % 10;
+  if (probability > 4) {
+    int random = rand() % (max - min) + min;
+    *prev = random;
+  }
+  return random;
 }
 
 void move_up(SDL_Rect *sprite, int distance) {
@@ -161,8 +168,8 @@ int main(int argc, char **argv) {
                       280}; // sets the desired size/pos of the sprite
 
   int movement_counter = 0; // spaces out movement commands to look smoother
-  int random_num =
-      0; // afaik declaring it once and just changing the value is faster
+  int random_num = 0; // afaik declaring it once and just changing the value is faster
+  int prev = 0;
 
   fprintf(stdout, "window initialized\n");
   while (!quit) {
@@ -198,7 +205,7 @@ int main(int argc, char **argv) {
 
     movement_counter++;
     if (movement_counter % 100000 == 0) {
-      random_num = generate_random(0, 4);
+      random_num = generate_random(0, 4, &prev);
       move_random_direction(random_num, &dstrect, 50);
       SDL_RenderClear(renderer);
       SDL_RenderCopy(renderer, texture, NULL, NULL);
