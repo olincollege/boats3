@@ -27,12 +27,12 @@ int find_sprite_grid(SDL_Texture *texture, int*row_height,int*column_width,int n
   printf("QueryTexture Error in find_sprite_grid\n");
   return 1;
  }
- printf("total texture height: %d total texture width: %d\n",height_texture,width_texture);
+ //printf("total texture height: %d total texture width: %d\n",height_texture,width_texture);
 
   *row_height = height_texture/num_rows;
   *column_width = width_texture/num_columns;
 
-  printf("row height: %d colm width: %d\n",*row_height,*column_width);
+  //printf("row height: %d colm width: %d\n",*row_height,*column_width);
  return 0;
 }
 
@@ -67,15 +67,11 @@ int initialize_animation(animation* loop,
 void end_program(SDL_Texture *texture, SDL_Surface *image,
                  SDL_Renderer *renderer, SDL_Window *window) {
   SDL_DestroyTexture(texture);
-  printf("got here 4\n");
   SDL_FreeSurface(image);
-  printf("got here 5\n");
   SDL_DestroyRenderer(renderer);
-  printf("got here 6\n");
   SDL_DestroyWindow(window);
-  printf("got here 7\n");
   SDL_Quit();
-  printf("got here 8\n");
+  printf("successfully exited program");
 }
 
 void loop_Animation(animation *loop, SDL_Renderer *renderer,
@@ -117,5 +113,16 @@ SDL_Texture * initialize_texture(const char* filepath, SDL_Renderer * renderer){
 
   SDL_FreeSurface(image);
   return texture;
+
+}
+
+int make_animation_box(SDL_Rect * box,animation *loop,int xpos, int ypos,float scale){
+
+  box->x = xpos;
+  box->y = ypos;
+  box->w = floor(loop->width * scale);
+  box->h = floor(loop->height * scale);
+
+  return 0;
 
 }

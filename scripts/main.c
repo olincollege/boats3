@@ -115,17 +115,18 @@ int main(void) {
   initialize_animation(&cat_animate2,8,12,2);
   initialize_animation(&cat_animate3,8,12,3);
 
-  SDL_Rect cat_box = {0,0,550,350};
-  SDL_Rect cat_box1 = {0,350,550,350};
-  SDL_Rect cat_box2 = {550,0,550,350};
-  SDL_Rect cat_box3 = {550,350,550,350};
+  //SDL_Rect cat_box = {0,0,550,350};
+  //numerical arguments: xpos, ypos, scaling value
+  SDL_Rect cat_box;
+  make_animation_box(&cat_box,&cat_animate,0,0,10);
+  SDL_Rect cat_box1;
+  make_animation_box(&cat_box1,&cat_animate1,0,350,10);
+  SDL_Rect cat_box2;
+  make_animation_box(&cat_box2,&cat_animate2,550,0,10);
+  SDL_Rect cat_box3;
+  make_animation_box(&cat_box3,&cat_animate3,550,350,10);
 
 
-
-
-
-
-  
   while (!quit) {
     //check the time of this update cycle
     Uint64 time_start = SDL_GetPerformanceCounter();

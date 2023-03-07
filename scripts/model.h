@@ -59,3 +59,4 @@ int initialize_animation(animation* loop,
                           int num_rows,int num_col,int row_number);
                           
 SDL_Texture * initialize_texture(const char* filepath, SDL_Renderer * renderer);
+int make_animation_box(SDL_Rect * box,animation *loop,int xpos, int ypos,float scale);
