@@ -31,24 +31,32 @@ int generate_random(int min, int max, int *prev) {
 void move_up(SDL_Rect *sprite, int distance) {
   if (sprite->y > 0) {
     sprite->y -= distance;
+  } else {
+    sprite->y += distance;
   }
 }
 
 void move_down(SDL_Rect *sprite, int distance) {
-  if (sprite->y < 1920) {
+  if (sprite->y < 1080 - 280) {
     sprite->y += distance;
+  } else {
+    sprite->y -= distance;
   }
 }
 
 void move_left(SDL_Rect *sprite, int distance) {
   if (sprite->x > 0) {
     sprite->x -= distance;
+  } else {
+    sprite->x += distance;
   }
 }
 
 void move_right(SDL_Rect *sprite, int distance) {
-  if (sprite->x < 1080) {
+  if (sprite->x < 1920 - 260) {
     sprite->x += distance;
+  } else {
+    sprite->x -= distance;
   }
 }
 
@@ -66,8 +74,12 @@ void move_random_direction(int num, SDL_Rect *sprite_pos, int distance) {
   case 3:
     move_right(sprite_pos, distance);
     break;
+  case 4:
+    // do nothing; idle
+    break;
   default:
     move_up(sprite_pos, distance);
+    printf("default case reached\n");
     break;
   }
 }
@@ -204,8 +216,8 @@ int main(int argc, char **argv) {
     }
 
     movement_counter++;
-    if (movement_counter % 100000 == 0) {
-      random_num = generate_random(0, 4, &prev);
+    if (movement_counter % 200000 == 0) {
+      random_num = generate_random(0, 5, &prev);
       move_random_direction(random_num, &dstrect, 50);
       SDL_RenderClear(renderer);
       SDL_RenderCopy(renderer, texture, NULL, NULL);
