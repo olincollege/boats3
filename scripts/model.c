@@ -64,6 +64,78 @@ int initialize_animation(animation* loop,
   return 0;
 }
 
+int generate_random(int min, int max, int *prev) {
+  // not inclusive min/max
+  // if the number was chosen last time, then has a 40% chance to get picked again (everything else has 20%)
+  int random = *prev;
+  int probability = rand() % 10;
+  if (probability > 4) {
+    int random = rand() % (max - min) + min;
+    *prev = random;
+  }
+  return random;
+}
+
+void move_up(SDL_Rect *sprite, int distance, int *prev) {
+  if (sprite->y > 0) {
+    sprite->y -= distance;
+  } else {
+    sprite->y += distance;
+    *prev = 1;
+  }
+}
+
+void move_down(SDL_Rect *sprite, int distance, int *prev) {
+  if (sprite->y < HEIGHT - SPRITE_HEIGHT) {
+    sprite->y += distance;
+  } else {
+    sprite->y -= distance;
+    *prev = 0;
+  }
+}
+
+void move_left(SDL_Rect *sprite, int distance, int *prev) {
+  if (sprite->x > 0) {
+    sprite->x -= distance;
+  } else {
+    sprite->x += distance;
+    *prev = 3;
+  }
+}
+
+void move_right(SDL_Rect *sprite, int distance, int *prev) {
+  if (sprite->x < WIDTH - SPRITE_WIDTH) {
+    sprite->x += distance;
+  } else {
+    sprite->x -= distance;
+    *prev = 2;
+  }
+}
+
+void move_random_direction(int num, SDL_Rect *sprite_pos, int distance, int *prev) {
+  switch (num) {
+  case 0:
+    move_up(sprite_pos, distance, prev);
+    break;
+  case 1:
+    move_down(sprite_pos, distance, prev);
+    break;
+  case 2:
+    move_left(sprite_pos, distance, prev);
+    break;
+  case 3:
+    move_right(sprite_pos, distance, prev);
+    break;
+  case 4:
+    // do nothing; idle
+    break;
+  default:
+    move_up(sprite_pos, distance, prev);
+    printf("default case reached\n");
+    break;
+  }
+}
+
 void end_program(SDL_Texture *texture, SDL_Surface *image,
                  SDL_Renderer *renderer, SDL_Window *window) {
   SDL_DestroyTexture(texture);
