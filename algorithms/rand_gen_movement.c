@@ -185,6 +185,7 @@ int main(int argc, char **argv) {
   int random_num = 0; // afaik declaring it once and just changing the value is faster
   int prev = 0;
   int cycle = 0;  // used for my manual pseudo-lerping implementation
+  int speed = 10;  // an int from 4-10. higher # = higher speed
 
   fprintf(stdout, "window initialized\n");
   while (!quit) {
@@ -203,8 +204,17 @@ int main(int argc, char **argv) {
         case SDL_KEYDOWN:
           switch (event.key.keysym.sym) {
           case SDLK_ESCAPE:
-            printf("got here\n");
+            // printf("Pressed escape\n");
             quit = true;
+            break;
+          
+          case SDLK_SPACE:
+            // printf("Pressed space\n");
+            if (speed == 10) {
+              speed = 4;
+            } else {
+              speed = 10;
+            }
             break;
           }
 
@@ -226,7 +236,7 @@ int main(int argc, char **argv) {
         random_num = generate_random(0, 5, &prev);
         cycle = 0;
       }
-      move_random_direction(random_num, &dstrect, 50/SMOOTHNESS);
+      move_random_direction(random_num, &dstrect, 5 * speed / SMOOTHNESS);
       SDL_RenderClear(renderer);
       SDL_RenderCopy(renderer, texture, NULL, NULL);
       SDL_RenderCopy(renderer, boat_texture, NULL,
