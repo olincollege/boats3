@@ -28,6 +28,7 @@ typedef struct animation {
   int num_frames;
   int frames_loop[30];
   int frame_index;
+  int super_animation_index;
 } animation;
 
 typedef struct initialized_state {
@@ -60,3 +61,4 @@ int initialize_animation(animation* loop,
                           
 SDL_Texture * initialize_texture(const char* filepath, SDL_Renderer * renderer);
 int make_animation_box(SDL_Rect * box,animation *loop,int xpos, int ypos,float scale);
+void animate_sequential(SDL_Renderer * renderer,animation * animations[10],SDL_Rect *box,int num_animations);
