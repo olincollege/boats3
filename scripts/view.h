@@ -10,5 +10,5 @@ A simple view for our desktop pet
 #include <stdlib.h>
 
 // Define our window
-extern const SDL_Window *window = NULL;
+// extern const SDL_Window *window = NULL;
 

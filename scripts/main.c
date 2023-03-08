@@ -63,7 +63,6 @@ state setup_state(state init) {
   // }
 
   // ? change this to rely on the initialize_texture function?
-  // ? if not, then make sure to free surface
   init.background = IMG_Load("assets/background.png");
   if (init.background == NULL) {
     printf("error loading image\n");
@@ -167,20 +166,21 @@ int main(void) {
       }
     }
 
-    movement_counter++;
-    if (movement_counter % (200000/SMOOTHNESS) == 0) {
-      cycle++;
-      if (cycle == SMOOTHNESS) {
-        // only update random num if the sprite has pseudo-lerped to another spot
-        direction = generate_random(0, 5, &prev);
-        cycle = 0;
-      }
-      move_random_direction(direction, &dstrect, speed, &prev);
+    // movement_counter++;
+    // if (movement_counter % (200000/SMOOTHNESS) == 0) {
+    //   cycle++;
+    //   if (cycle == SMOOTHNESS) {
+    //     // only update random num if the sprite has pseudo-lerped to another spot
+    //     direction = generate_random(0, 5, &prev);
+    //     cycle = 0;
+    //   }
+    //   move_random_direction(direction, &dstrect, speed, &prev);
 
-      SDL_RenderClear(init.renderer);
-      SDL_RenderCopy(init.renderer, init.texture, NULL, NULL);
-      SDL_RenderCopy(init.renderer, boat_texture, NULL, &dstrect);
-    }
+    //   SDL_RenderClear(init.renderer);
+    //   SDL_RenderCopy(init.renderer, init.texture, NULL, NULL);
+    //   SDL_RenderCopy(init.renderer, boat_texture, NULL, &dstrect);
+    //   // SDL_RenderPresent(init.renderer);
+    // }
     // randomly change speed
     if (rand() % 70000000 == 0) {
       speed = rand() % 10 + 1;
@@ -190,6 +190,19 @@ int main(void) {
     //SDL_RenderCopy(init.renderer, cat_texture, NULL, &cat_box);
 
     //loop_Animation(&boat_animate,init.renderer,&animation_box);
+
+
+    cycle++;
+    if (cycle == SMOOTHNESS) {
+      // only update random num if the sprite has pseudo-lerped to another spot
+      direction = generate_random(0, 5, &prev);
+      cycle = 0;
+    }
+    move_random_direction(direction, &dstrect, speed, &prev);
+    SDL_RenderClear(init.renderer);
+    SDL_RenderCopy(init.renderer, init.texture, NULL, NULL);
+    SDL_RenderCopy(init.renderer, boat_texture, NULL,
+                    &dstrect); // display boat sprite
 
     loop_Animation(&cat_animate,init.renderer,&cat_box);
     loop_Animation(&cat_animate1,init.renderer,&cat_box1);
