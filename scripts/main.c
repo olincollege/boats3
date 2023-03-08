@@ -137,7 +137,8 @@ int main(void) {
   initialize_animation(&cat_animate2,8,12,2);
   initialize_animation(&cat_animate3,8,12,3);
 
-  animation * cat_list[10] = {&cat_animate,&cat_animate1,&cat_animate2,&cat_animate3};
+
+  //animation * cat_list[10] = {&cat_animate,&cat_animate1,&cat_animate2,&cat_animate3};
 
 
   //SDL_Rect cat_box = {0,0,550,350};
