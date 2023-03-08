@@ -151,3 +151,29 @@ void animate_sequential(SDL_Renderer * renderer,animation * animations[10],SDL_R
   animations[0]->super_animation_index++;
   animations[0]->super_animation_index = animations[0]->super_animation_index %frame_sum;
 }
+
+void make_sequential_animation(animation * animation_list[10],animation * uninitialized_animation,int num_rows, int num_cols,int num_sequential_rows){
+
+  //makes a sequential animation, initialize a bunch of animation objects
+
+  for (int i = 0; i <num_sequential_rows;i++){
+    //copy the struct
+
+    printf("cat %d initialization\n",i);
+    
+    (animation_list[i])->texture = uninitialized_animation->texture;
+    (animation_list[i])->num_frames = uninitialized_animation->num_frames;
+    for(int j=0; j<uninitialized_animation->num_frames;j++){
+          *(animation_list[i]->frames_loop + j) = *(uninitialized_animation->frames_loop +j);
+
+          printf("%d %d\n",animation_list[i]->frames_loop[j],uninitialized_animation->frames_loop[j]);
+    }
+    
+    
+
+    initialize_animation(animation_list[i],num_rows,num_cols,i);
+    //initialize for each row
+  }
+  printf("sequential animation created");
+
+}

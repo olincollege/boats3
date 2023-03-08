@@ -22,11 +22,11 @@ typedef struct sprite {
 
 typedef struct animation {
   SDL_Texture *texture;
+  int frames_loop[70];
   int width;
   int height;
   int ypos;
   int num_frames;
-  int frames_loop[30];
   int frame_index;
   int super_animation_index;
 } animation;
@@ -62,3 +62,4 @@ int initialize_animation(animation* loop,
 SDL_Texture * initialize_texture(const char* filepath, SDL_Renderer * renderer);
 int make_animation_box(SDL_Rect * box,animation *loop,int xpos, int ypos,float scale);
 void animate_sequential(SDL_Renderer * renderer,animation * animations[10],SDL_Rect *box,int num_animations);
+void make_sequential_animation(animation * animation_list[10],animation * uninitialized_animation,int num_rows, int num_cols,int num_sequential_rows);
