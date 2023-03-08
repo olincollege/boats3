@@ -8,18 +8,18 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-#define WIDTH 1920 // this is based on the background image size currently
+#define WIDTH 1920
 #define HEIGHT 1080
+// Define starting position and size of sprite
+#define SPRITE_X 50
+#define SPRITE_Y 50
 #define SPRITE_WIDTH 260
 #define SPRITE_HEIGHT 280
 
 // defines smoothness of sprite movement. Int from 0-10. Higher number = smoother movement
 #define SMOOTHNESS 10
 
-// to do: Do we need this?
-#define DELAY 3000
-
-// Decide whether or not to quit
+// #define DELAY 3000
 
 typedef struct sprite {
   SDL_Texture *texture;
@@ -51,7 +51,7 @@ state setup_state(state init);
 /**
  * to do: write docs
  *
- * @param loop
+ * @param loop _______________
  */
 int initialize_animation(animation* loop, int num_rows, int num_col,
                          int row_number);
@@ -158,7 +158,8 @@ void end_program(SDL_Texture *bg_texture, SDL_Texture *sprite_texture,
 
 void loop_Animation(animation *loop, SDL_Renderer *renderer, SDL_Rect *box_ptr);
 
-int find_sprite_grid(SDL_Texture *texture, int*row_height,int*column_width,int num_rows, int num_columns);
-        
-SDL_Texture * initialize_texture(const char* filepath, SDL_Renderer * renderer);
-int make_animation_box(SDL_Rect * box,animation *loop,int xpos, int ypos,float scale);
+int find_sprite_grid(SDL_Texture *texture, int *row_height, int *column_width, int num_rows, int num_columns);
+
+SDL_Texture* initialize_texture(const char* filepath, SDL_Renderer *renderer);
+
+int make_animation_box(SDL_Rect *box, animation *loop, int xpos, int ypos, float scale);

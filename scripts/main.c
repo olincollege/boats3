@@ -3,46 +3,36 @@
  *
  */
 
-#include <SDL2/SDL_image.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-//math seems to require the -lm flag
 #include "controller.h"
 #include "model.h"
 #include "view.h"
+#include <SDL2/SDL_image.h>
+#include <math.h> //math seems to require the -lm flag
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 state init;
 
 state setup_state(state init) {
-  /*
-   * Initialises the SDL video subsystem (as well as the events subsystem).
-   * Returns 0 on success or a negative error code on failure using
-   * SDL_GetError().
-   */
-
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     fprintf(stderr, "SDL failed to initialise: %s\n", SDL_GetError());
-    // return 1;
   }
-
   if (IMG_Init(IMG_INIT_PNG) == 0) {
     printf("Error SDL2_image Initialization-PNG\n");
-    // return 2;
   }
   if (IMG_Init(IMG_INIT_JPG) == 0) {
     printf("Error SDL2_image Initialization-JPG\n");
-    // return 2;
   }
+
   // Creates a SDL window
   init.window = SDL_CreateWindow(
-      "SDL Example",           /* Title of the SDL window */
-      SDL_WINDOWPOS_UNDEFINED, /* Position x of the window */
-      SDL_WINDOWPOS_UNDEFINED, /* Position y of the window */
-      WIDTH,                   /* Width of the window in pixels */
-      HEIGHT,                  /* Height of the window in pixels */
-      SDL_WINDOW_BORDERLESS || SDL_WINDOW_MAXIMIZED); /* Additional flag(s) */
+      "SDL Example",           // Title of the SDL window
+      SDL_WINDOWPOS_UNDEFINED, // Position x of the window
+      SDL_WINDOWPOS_UNDEFINED, // Position y of the window
+      WIDTH,                   // Width of the window in pixels
+      HEIGHT,                  // Height of the window in pixels
+      SDL_WINDOW_BORDERLESS || SDL_WINDOW_MAXIMIZED); // Additional flag(s)
 
   // Checks if window has been created; if not, exits program
   // if (init.window == NULL) {
@@ -66,17 +56,14 @@ state setup_state(state init) {
   init.background = IMG_Load("assets/background.png");
   if (init.background == NULL) {
     printf("error loading image\n");
-    // return 6;
   }
 
   init.texture = SDL_CreateTextureFromSurface(init.renderer, init.background);
   // if (init.texture == NULL) {
   //   printf("error creating texture\n");
-  //   return 7;
   // }
   SDL_FreeSurface(init.background);
 
-  fprintf(stdout, "window initialized\n");
   return init;
 }
 
@@ -91,45 +78,43 @@ int main(void) {
 
   SDL_Texture *boat_texture = initialize_texture("assets/boat.png", init.renderer);
 
-  animation boat_animate = {.texture =boat_texture,.frames_loop ={0,0,0,0,0,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5},.num_frames=30};
-  //number of num_rows,num_cols, selected row
-  initialize_animation(&boat_animate,2,6,1);
-
-  // SDL_Rect animation_box = {500,500,550,350};
-
-  //SDL_Surface *cat_img = IMG_Load("assets/catsheet_1.jpg");
-  //SDL_Texture *cat_texture = SDL_CreateTextureFromSurface(init.renderer, cat_img);
+  // animation boat_animate = {.texture =boat_texture, .frames_loop ={0,0,0,0,0,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5},.num_frames=30};
+  // initialize_animation(&boat_animate, 2, 6, 1);
 
   SDL_Texture* cat_texture = initialize_texture("assets/catsheet_1.jpg",init.renderer);
-  animation cat_animate = {.texture =cat_texture,.frames_loop ={0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=34};
-  animation cat_animate1 = {.texture =cat_texture,.frames_loop ={0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=34};
-  animation cat_animate2 = {.texture =cat_texture,.frames_loop ={0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=34};
-  animation cat_animate3 = {.texture =cat_texture,.frames_loop ={0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=34};
-  //number of num_rows,num_cols, selected row
 
-  printf("cat initialization\n");
-  initialize_animation(&cat_animate,8,12,0);
-  initialize_animation(&cat_animate1,8,12,1);
-  initialize_animation(&cat_animate2,8,12,2);
-  initialize_animation(&cat_animate3,8,12,3);
+  const int frame_loop[] = {0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12};
+  const int number_frames = 34;
+  animation cat_animate = {.texture=cat_texture, .frames_loop={frame_loop}, .num_frames=number_frames};
+  animation cat_animate1 = {.texture=cat_texture, .frames_loop={frame_loop}, .num_frames=number_frames};
+  animation cat_animate2 = {.texture=cat_texture, .frames_loop={frame_loop}, .num_frames=number_frames};
+  animation cat_animate3 = {.texture=cat_texture, .frames_loop={frame_loop}, .num_frames=number_frames};
 
-  //SDL_Rect cat_box = {0,0,550,350};
-  //numerical arguments: xpos, ypos, scaling value
+  const int cat_sheet_rows = 8;
+  const int cat_sheet_cols = 12;
+  initialize_animation(&cat_animate, cat_sheet_rows, cat_sheet_cols, 0);
+  initialize_animation(&cat_animate1, cat_sheet_rows, cat_sheet_cols, 1);
+  initialize_animation(&cat_animate2, cat_sheet_rows, cat_sheet_cols, 2);
+  initialize_animation(&cat_animate3, cat_sheet_rows, cat_sheet_cols, 3);
+
+  const float cat_box_scale = 10.0;
+  const int cat_box_x = 550;
+  const int cat_box_y = 350;
   SDL_Rect cat_box;
-  make_animation_box(&cat_box,&cat_animate,0,0,10);
+  make_animation_box(&cat_box, &cat_animate, 0, 0, cat_box_scale);
   SDL_Rect cat_box1;
-  make_animation_box(&cat_box1,&cat_animate1,0,350,10);
+  make_animation_box(&cat_box1, &cat_animate1, 0, cat_box_y, cat_box_scale);
   SDL_Rect cat_box2;
-  make_animation_box(&cat_box2,&cat_animate2,550,0,10);
+  make_animation_box(&cat_box2, &cat_animate2, cat_box_x, 0, cat_box_scale);
   SDL_Rect cat_box3;
-  make_animation_box(&cat_box3,&cat_animate3,550,350,10);
+  make_animation_box(&cat_box3, &cat_animate3, cat_box_x, cat_box_y, cat_box_scale);
 
+  // set the desired size/pos of the sprite
+  SDL_Rect dstrect = {SPRITE_X, SPRITE_Y, SPRITE_WIDTH, SPRITE_HEIGHT};
 
-  SDL_Rect dstrect = {50, 50, SPRITE_WIDTH, SPRITE_HEIGHT}; // sets the desired size/pos of the sprite
-
-  int movement_counter = 0; // spaces out movement commands to look smoother
-  int direction = 0; // afaik declaring it once and just changing the value is faster
-  int prev = 0;
+  // int movement_counter = 0; // spaces out movement commands to look smoother
+  int direction = 0;
+  int prev = 0;  // represents the previous direction the sprite moved
   int cycle = 0;  // used for my manual pseudo-lerping implementation
   int speed = rand() % 5 + 1;  // an int from 1-10. higher # = higher speed
 
@@ -215,10 +200,10 @@ int main(void) {
     //put this in a function
     Uint64 time_end = SDL_GetPerformanceCounter();
     //find elapse time
-    float elapsed_time = (time_end -time_start)/(float)SDL_GetPerformanceFrequency() * 1000.0f;
+    float elapsed_time = (time_end - time_start) / (float)SDL_GetPerformanceFrequency() * 1000.0F;
 
     //cap fps at 60
-    SDL_Delay(floor(16.666f - elapsed_time));
+    SDL_Delay(floorf(16.666F - elapsed_time));
   }
 
   end_program(init.texture, boat_texture, init.renderer, init.window);
