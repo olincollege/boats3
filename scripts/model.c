@@ -21,6 +21,7 @@ typedef struct sprite {
 
 int find_sprite_grid(SDL_Texture *texture, int*row_height,int*column_width,int num_rows, int num_columns){
  //function for automatically finding frame rectangles dimensions
+ // CMAKE WARNING: wants height and width to be initialize
  int height_texture;
  int width_texture;
  if(0!= SDL_QueryTexture(texture,NULL, NULL,&width_texture,&height_texture)){
@@ -67,13 +68,13 @@ int initialize_animation(animation* loop,
 int generate_random(int min, int max, int *prev) {
   // not inclusive min/max
   // if the number was chosen last time, then has a 40% chance to get picked again (everything else has 20%)
-  int random = *prev;
+  int random_val = *prev;
   int probability = rand() % 10;
   if (probability > 4) {
-    int random = rand() % (max - min) + min;
-    *prev = random;
+    int random_val = rand() % (max - min) + min;
+    *prev = random_val;
   }
-  return random;
+  return random_val;
 }
 
 void move_up(SDL_Rect *sprite, int distance, int *prev) {
@@ -136,20 +137,22 @@ void move_random_direction(int num, SDL_Rect *sprite_pos, int distance, int *pre
   }
 }
 
-void end_program(SDL_Texture *texture, SDL_Surface *image,
+void end_program(SDL_Texture *bg_texture, SDL_Texture *sprite_texture,
                  SDL_Renderer *renderer, SDL_Window *window) {
-  SDL_DestroyTexture(texture);
-  SDL_FreeSurface(image);
+  SDL_DestroyTexture(bg_texture);
+  SDL_DestroyTexture(sprite_texture);
+  // printf("got here 4\n");
   SDL_DestroyRenderer(renderer);
+  // printf("got here 6\n");
   SDL_DestroyWindow(window);
+  // printf("got here 7\n");
   SDL_Quit();
-  printf("successfully exited program");
+  printf("successfully exited program\n");
 }
 
 void loop_Animation(animation *loop, SDL_Renderer *renderer,
                     SDL_Rect *box_ptr) {
-
-  int xpos;
+  int xpos = 0;
 
   xpos = loop->frames_loop[loop->frame_index] * loop->width;
   // printf("%d\n", xpos);
@@ -164,11 +167,9 @@ void loop_Animation(animation *loop, SDL_Renderer *renderer,
   // update the position in the loop
   loop->frame_index = loop->frame_index + 1;
   loop->frame_index = loop->frame_index % loop->num_frames;
-
-  
 }
 
-SDL_Texture * initialize_texture(const char* filepath, SDL_Renderer * renderer){
+SDL_Texture* initialize_texture(const char* filepath, SDL_Renderer * renderer){
   //initialize an SDL_texture from a filepath
 
   SDL_Surface* image = IMG_Load(filepath);
@@ -185,16 +186,13 @@ SDL_Texture * initialize_texture(const char* filepath, SDL_Renderer * renderer){
 
   SDL_FreeSurface(image);
   return texture;
-
 }
 
-int make_animation_box(SDL_Rect * box,animation *loop,int xpos, int ypos,float scale){
-
+int make_animation_box(SDL_Rect *box, animation *loop, int xpos, int ypos, float scale) {
   box->x = xpos;
   box->y = ypos;
   box->w = floor(loop->width * scale);
   box->h = floor(loop->height * scale);
 
   return 0;
-
 }

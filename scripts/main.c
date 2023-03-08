@@ -62,42 +62,41 @@ state setup_state(state init) {
   //   return 5;
   // }
 
+  // ? change this to rely on the initialize_texture function?
+  // ? if not, then make sure to free surface
   init.background = IMG_Load("assets/background.png");
-  // if (init.background == NULL) {
-  //   printf("error loading image\n");
-  //   return 6;
-  // }
+  if (init.background == NULL) {
+    printf("error loading image\n");
+    // return 6;
+  }
 
   init.texture = SDL_CreateTextureFromSurface(init.renderer, init.background);
   // if (init.texture == NULL) {
   //   printf("error creating texture\n");
   //   return 7;
   // }
+  SDL_FreeSurface(init.background);
 
   fprintf(stdout, "window initialized\n");
   return init;
 }
 
+
+
 int main(void) {
-
-  
-
-  const SDL_Event event;
-  
+  bool quit = false;
+  SDL_Event event;
 
   // Initialize our window.
   init = setup_state(init);
 
-  //SDL_Surface *boat_img = IMG_Load("assets/boat.png");
-  //SDL_Texture *boat_texture = SDL_CreateTextureFromSurface(init.renderer, boat_img);
-
-  SDL_Texture *boat_texture = initialize_texture("assets/boat.png",init.renderer);
+  SDL_Texture *boat_texture = initialize_texture("assets/boat.png", init.renderer);
 
   animation boat_animate = {.texture =boat_texture,.frames_loop ={0,0,0,0,0,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5},.num_frames=30};
   //number of num_rows,num_cols, selected row
   initialize_animation(&boat_animate,2,6,1);
 
-  SDL_Rect animation_box = {500,500,550,350};
+  // SDL_Rect animation_box = {500,500,550,350};
 
   //SDL_Surface *cat_img = IMG_Load("assets/catsheet_1.jpg");
   //SDL_Texture *cat_texture = SDL_CreateTextureFromSurface(init.renderer, cat_img);
@@ -127,39 +126,67 @@ int main(void) {
   make_animation_box(&cat_box3,&cat_animate3,550,350,10);
 
 
+  SDL_Rect dstrect = {50, 50, SPRITE_WIDTH, SPRITE_HEIGHT}; // sets the desired size/pos of the sprite
+
+  int movement_counter = 0; // spaces out movement commands to look smoother
+  int direction = 0; // afaik declaring it once and just changing the value is faster
+  int prev = 0;
+  int cycle = 0;  // used for my manual pseudo-lerping implementation
+  int speed = rand() % 5 + 1;  // an int from 1-10. higher # = higher speed
+
   while (!quit) {
     //check the time of this update cycle
     Uint64 time_start = SDL_GetPerformanceCounter();
 
     //poll event, contents of if need to be in a function, if statement is important
     if (SDL_PollEvent(&event)){
+      switch (event.type) {
+      // if you press a key
+      case SDL_KEYDOWN:
+        switch (event.key.keysym.sym) {
+        case SDLK_ESCAPE:
+          printf("got here\n");
+          quit = true;
+          break;
+        }
 
-    switch (event.type) {
-    // if you press a key
-    case SDL_KEYDOWN:
-      switch (event.key.keysym.sym) {
+        // break out of larger SDL_KEYDOWN
+        break;
+
       case SDLK_ESCAPE:
-        printf("got here\n");
+        quit = true;
+        break;
+      
+      case SDLK_SPACE:
+        speed = rand() % 10 + 1;
+        printf("Changing speed to %i\n", speed);
+
+      case SDL_QUIT:
         quit = true;
         break;
       }
-
-      // break out of larger SDL_KEYDOWN
-      break;
-
-    case SDLK_ESCAPE:
-      quit = true;
-      break;
-
-    case SDL_QUIT:
-      quit = true;
-      break;
-    }
     }
 
-    //rendering cycle
-    SDL_RenderClear(init.renderer);
-    SDL_RenderCopy(init.renderer, init.texture, NULL, NULL);
+    movement_counter++;
+    if (movement_counter % (200000/SMOOTHNESS) == 0) {
+      cycle++;
+      if (cycle == SMOOTHNESS) {
+        // only update random num if the sprite has pseudo-lerped to another spot
+        direction = generate_random(0, 5, &prev);
+        cycle = 0;
+      }
+      move_random_direction(direction, &dstrect, speed, &prev);
+
+      SDL_RenderClear(init.renderer);
+      SDL_RenderCopy(init.renderer, init.texture, NULL, NULL);
+      SDL_RenderCopy(init.renderer, boat_texture, NULL, &dstrect);
+    }
+    // randomly change speed
+    if (rand() % 70000000 == 0) {
+      speed = rand() % 10 + 1;
+      printf("Changing speed to %i\n", speed);
+    }
+
     //SDL_RenderCopy(init.renderer, cat_texture, NULL, &cat_box);
 
     //loop_Animation(&boat_animate,init.renderer,&animation_box);
@@ -168,7 +195,6 @@ int main(void) {
     loop_Animation(&cat_animate1,init.renderer,&cat_box1);
     loop_Animation(&cat_animate2,init.renderer,&cat_box2);
     loop_Animation(&cat_animate3,init.renderer,&cat_box3);
-
 
 
     SDL_RenderPresent(init.renderer);
@@ -182,6 +208,6 @@ int main(void) {
     SDL_Delay(floor(16.666f - elapsed_time));
   }
 
-  end_program(init.texture, init.background, init.renderer, init.window);
+  end_program(init.texture, boat_texture, init.renderer, init.window);
   return 0;
 }

@@ -12,5 +12,3 @@ A simple view for our desktop pet
 // Define our window
 extern const SDL_Window *window = NULL;
 
-// Set up our event queue
-extern const SDL_Event event;

@@ -16,7 +16,7 @@
 // defines smoothness of sprite movement. Int from 0-10. Higher number = smoother movement
 #define SMOOTHNESS 10
 
-// TODO: Do we need this?
+// to do: Do we need this?
 #define DELAY 3000
 
 // Decide whether or not to quit
@@ -49,7 +49,7 @@ extern state init;
 state setup_state(state init);
 
 /**
- * TODO: write docs
+ * to do: write docs
  *
  * @param loop
  */
@@ -148,19 +148,17 @@ void move_random_direction(int num, SDL_Rect *sprite_pos, int distance, int *pre
 /**
  * Runs the cleanup commands when exiting the program.
  *
- * @param texture An SDL_Texture created from the SDL_Surface object
- * @param image An SDL_Surface representing the image object
- * @param renderer A renderer object
- * @param window An SDL_Window representing the popup window.
+ * @param bg_texture An SDL_Texture pointer representing the background image
+ * @param sprite_texture An SDL_Texture pointer representing the sprite image
+ * @param renderer A renderer object, used to render the images into the window
+ * @param window An SDL_Window representing the popup window
  */
-void end_program(SDL_Texture *texture, SDL_Surface *image,
+void end_program(SDL_Texture *bg_texture, SDL_Texture *sprite_texture,
                  SDL_Renderer *renderer, SDL_Window *window);
 
 void loop_Animation(animation *loop, SDL_Renderer *renderer, SDL_Rect *box_ptr);
 
 int find_sprite_grid(SDL_Texture *texture, int*row_height,int*column_width,int num_rows, int num_columns);
-int initialize_animation(animation* loop,
-                          int num_rows,int num_col,int row_number);
-                          
+        
 SDL_Texture * initialize_texture(const char* filepath, SDL_Renderer * renderer);
 int make_animation_box(SDL_Rect * box,animation *loop,int xpos, int ypos,float scale);
