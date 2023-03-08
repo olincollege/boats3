@@ -130,7 +130,7 @@ int main(void) {
   printf("cat initialization\n");
 
   animation * cat_list[10];
-  //make_sequential_animation(cat_list,&cat_animate,8,12,4);
+  make_sequential_animation(cat_list,&cat_animate,8,12,4);
 
   initialize_animation(&cat_animate,8,12,0);
   initialize_animation(&cat_animate1,8,12,1);
