@@ -85,10 +85,18 @@ int main(void) {
 
   // const int frame_loop[30] = {0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12};
   const int number_frames = 26;
-  animation cat_animate = {.texture =cat_texture,.frames_loop = {0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=number_frames};
-  animation cat_animate1 = {.texture =cat_texture,.frames_loop = {0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=number_frames};
-  animation cat_animate2 = {.texture =cat_texture,.frames_loop = {0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=number_frames};
-  animation cat_animate3 = {.texture =cat_texture,.frames_loop = {0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=number_frames};
+  // loop through the entire row (all colors at once)
+  // 0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12
+  // loop through just the first color
+  // 0,0,1,1,2,2,1,1,0,0,1,1,2,2,1,1,0,0,1,1,2,2,1,1,0,0
+  // loop through first color slower
+  // 0,0,0,0, 1,1,1,1, 2,2,2,2, 1,1,1,1, 0,0,0,0, 1,1,1,1,1,1
+  // loop through first color really slow
+  // 0,0,0,0,0,0, 1,1,1,1,1,1, 2,2,2,2,2,2, 1,1,1,1,1,1, 0,0
+  animation cat_animate = {.texture =cat_texture,.frames_loop = {0,0,0,0,0,0, 1,1,1,1,1,1, 2,2,2,2,2,2, 1,1,1,1,1,1, 0,0},.num_frames=number_frames};
+  animation cat_animate1 = {.texture =cat_texture,.frames_loop = {0,0,0,0,0,0, 1,1,1,1,1,1, 2,2,2,2,2,2, 1,1,1,1,1,1, 0,0},.num_frames=number_frames};
+  animation cat_animate2 = {.texture =cat_texture,.frames_loop = {0,0,0,0,0,0, 1,1,1,1,1,1, 2,2,2,2,2,2, 1,1,1,1,1,1, 0,0},.num_frames=number_frames};
+  animation cat_animate3 = {.texture =cat_texture,.frames_loop = {0,0,0,0,0,0, 1,1,1,1,1,1, 2,2,2,2,2,2, 1,1,1,1,1,1, 0,0},.num_frames=number_frames};
 
   const int cat_sheet_rows = 8;
   const int cat_sheet_cols = 12;
