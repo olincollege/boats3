@@ -8,7 +8,7 @@ The controller, responsible for handling inputs from the user.
 #include <stdbool.h>
 #include <stdlib.h>
 
-extern bool quit = false;
+
 /**
 Handle an event
 
@@ -19,3 +19,4 @@ the correct corresponding behavior
 * @param event An SDL event queue to manage
 **/
 void Handle_Event(SDL_Event event);
+
