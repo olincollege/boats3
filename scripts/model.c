@@ -194,3 +194,29 @@ void change_cat_color(animation *cat0, animation *cat1, animation *cat2, animati
   cat2->frames_loop = new_frame_loop;
   cat3->frames_loop = new_frame_loop;
 }
+
+void change_random_cat_color(animation *cat0, animation *cat1, animation *cat2,
+                             animation *cat3, int *orange, int *black, int *white,
+                             int *gray, int *current_frame_loop) {
+  // if the number corresponds to the current color, then fall through to the default case
+  switch (rand() % 3) {
+    case 0:
+      if (current_frame_loop != black) {
+        change_cat_color(&cat0, &cat1, &cat2, &cat3, &black);
+        break;
+      }
+    case 1:
+      if (current_frame_loop != white) {
+        change_cat_color(&cat0, &cat1, &cat2, &cat3, &white);
+        break;
+      }
+    case 2:
+      if (current_frame_loop != gray) {
+        change_cat_color(&cat0, &cat1, &cat2, &cat3, &gray);
+        break;
+      }
+    default:
+      change_cat_color(&cat0, &cat1, &cat2, &cat3, &orange);
+      break;
+  }
+}

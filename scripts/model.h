@@ -22,6 +22,13 @@
 // Int from 0-10; a higher number = smoother .
 #define SMOOTHNESS 10
 
+
+// TO DO: refactor main.c and model.c code to rely on these global constants instead of passing lots of parameters
+// #define WALK_GRAY = {0,0,0,0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,2,2,1,1,1,1,1,1};
+// #define WALK_WHITE = {3,3,3,3,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,4,4,4,4,4,4};
+// #define WALK_BLACK = {6,6,6,6,6,6,6,7,7,7,7,7,7,8,8,8,8,8,8,8,7,7,7,7,7,7};
+// #define WALK_ORANGE = {9,9,9,9,9,9,9,10,10,10,10,10,10,11,11,11,11,11,11,11,10,10,10,10,10,10};
+
 // #define DELAY 3000
 
 typedef struct sprite {
