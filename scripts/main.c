@@ -76,11 +76,6 @@ int main(void) {
   // Initialize our window.
   init = setup_state(init);
 
-  SDL_Texture *boat_texture = initialize_texture("assets/boat.png", init.renderer);
-
-  // animation boat_animate = {.texture =boat_texture, .frames_loop ={0,0,0,0,0,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5},.num_frames=30};
-  // initialize_animation(&boat_animate, 2, 6, 1);
-
   SDL_Texture* cat_texture = initialize_texture("assets/catsheet_1.jpg",init.renderer);
 
   const int number_frames = 26;
@@ -106,22 +101,16 @@ int main(void) {
   initialize_animation(&cat_animate2, cat_sheet_rows, cat_sheet_cols, 2);
   initialize_animation(&cat_animate3, cat_sheet_rows, cat_sheet_cols, 3);
 
-  const float cat_box_scale = 10.0;
-  const int cat_box_x = 550;
-  const int cat_box_y = 350;
+  const float cat_box_scale = 3.0;
   SDL_Rect cat_box;
   make_animation_box(&cat_box, &cat_animate, 0, 0, cat_box_scale);
   SDL_Rect cat_box1;
-  make_animation_box(&cat_box1, &cat_animate1, 0, cat_box_y, cat_box_scale);
+  make_animation_box(&cat_box1, &cat_animate1, 0, SPRITE_HEIGHT, cat_box_scale);
   SDL_Rect cat_box2;
-  make_animation_box(&cat_box2, &cat_animate2, cat_box_x, 0, cat_box_scale);
+  make_animation_box(&cat_box2, &cat_animate2, SPRITE_WIDTH, 0, cat_box_scale);
   SDL_Rect cat_box3;
-  make_animation_box(&cat_box3, &cat_animate3, cat_box_x, cat_box_y, cat_box_scale);
+  make_animation_box(&cat_box3, &cat_animate3, SPRITE_WIDTH, SPRITE_HEIGHT, cat_box_scale);
 
-  // set the desired size/pos of the sprite
-  SDL_Rect dstrect = {SPRITE_X, SPRITE_Y, SPRITE_WIDTH, SPRITE_HEIGHT};
-
-  // int movement_counter = 0; // spaces out movement commands to look smoother
   int direction = 0;
   int prev = 0;  // represents the previous direction the sprite moved
   int cycle = 0;  // used for my manual pseudo-lerping implementation
@@ -138,53 +127,29 @@ int main(void) {
       case SDL_KEYDOWN:
         switch (event.key.keysym.sym) {
         case SDLK_ESCAPE:
-          printf("got here\n");
           quit = true;
+          break;
+
+        case SDLK_SPACE:
+          speed = rand() % 10 + 1;
+          printf("Manually changing speed to %i\n", speed);
           break;
         }
 
         // break out of larger SDL_KEYDOWN
         break;
 
-      case SDLK_ESCAPE:
-        quit = true;
-        break;
-      
-      case SDLK_SPACE:
-        speed = rand() % 10 + 1;
-        printf("Changing speed to %i\n", speed);
-
-      case SDL_QUIT:
+      case SDLK_ESCAPE: case SDL_QUIT:
         quit = true;
         break;
       }
     }
 
-    // movement_counter++;
-    // if (movement_counter % (200000/SMOOTHNESS) == 0) {
-    //   cycle++;
-    //   if (cycle == SMOOTHNESS) {
-    //     // only update random num if the sprite has pseudo-lerped to another spot
-    //     direction = generate_random(0, 5, &prev);
-    //     cycle = 0;
-    //   }
-    //   move_random_direction(direction, &dstrect, speed, &prev);
-
-    //   SDL_RenderClear(init.renderer);
-    //   SDL_RenderCopy(init.renderer, init.texture, NULL, NULL);
-    //   SDL_RenderCopy(init.renderer, boat_texture, NULL, &dstrect);
-    //   // SDL_RenderPresent(init.renderer);
-    // }
     // randomly change speed
     if (rand() % 70000000 == 0) {
       speed = rand() % 10 + 1;
       printf("Changing speed to %i\n", speed);
     }
-
-    //SDL_RenderCopy(init.renderer, cat_texture, NULL, &cat_box);
-
-    //loop_Animation(&boat_animate,init.renderer,&animation_box);
-
 
     cycle++;
     if (cycle == SMOOTHNESS) {
@@ -195,7 +160,6 @@ int main(void) {
     move_random_direction(direction, &cat_box, speed, &prev);
     SDL_RenderClear(init.renderer);
     SDL_RenderCopy(init.renderer, init.texture, NULL, NULL);
-    // SDL_RenderCopy(init.renderer, boat_texture, NULL, &dstrect);
 
     switch (direction) {
       case 0:
@@ -227,6 +191,6 @@ int main(void) {
     SDL_Delay(floorf(16.666F - elapsed_time));
   }
 
-  end_program(init.texture, boat_texture, init.renderer, init.window);
+  end_program(init.texture, cat_texture, init.renderer, init.window);
   return 0;
 }
