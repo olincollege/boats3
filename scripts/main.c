@@ -83,12 +83,12 @@ int main(void) {
 
   SDL_Texture* cat_texture = initialize_texture("assets/catsheet_1.jpg",init.renderer);
 
-  const int frame_loop[] = {0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12};
-  const int number_frames = 34;
-  animation cat_animate = {.texture=cat_texture, .frames_loop={frame_loop}, .num_frames=number_frames};
-  animation cat_animate1 = {.texture=cat_texture, .frames_loop={frame_loop}, .num_frames=number_frames};
-  animation cat_animate2 = {.texture=cat_texture, .frames_loop={frame_loop}, .num_frames=number_frames};
-  animation cat_animate3 = {.texture=cat_texture, .frames_loop={frame_loop}, .num_frames=number_frames};
+  // const int frame_loop[30] = {0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12};
+  const int number_frames = 26;
+  animation cat_animate = {.texture =cat_texture,.frames_loop = {0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=number_frames};
+  animation cat_animate1 = {.texture =cat_texture,.frames_loop = {0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=number_frames};
+  animation cat_animate2 = {.texture =cat_texture,.frames_loop = {0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=number_frames};
+  animation cat_animate3 = {.texture =cat_texture,.frames_loop = {0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=number_frames};
 
   const int cat_sheet_rows = 8;
   const int cat_sheet_cols = 12;
@@ -183,16 +183,15 @@ int main(void) {
       direction = generate_random(0, 5, &prev);
       cycle = 0;
     }
-    move_random_direction(direction, &dstrect, speed, &prev);
+    move_random_direction(direction, &cat_box, speed, &prev);
     SDL_RenderClear(init.renderer);
     SDL_RenderCopy(init.renderer, init.texture, NULL, NULL);
-    SDL_RenderCopy(init.renderer, boat_texture, NULL,
-                    &dstrect); // display boat sprite
+    // SDL_RenderCopy(init.renderer, boat_texture, NULL, &dstrect);
 
-    loop_Animation(&cat_animate,init.renderer,&cat_box);
-    loop_Animation(&cat_animate1,init.renderer,&cat_box1);
-    loop_Animation(&cat_animate2,init.renderer,&cat_box2);
-    loop_Animation(&cat_animate3,init.renderer,&cat_box3);
+    loop_Animation(&cat_animate, init.renderer, &cat_box);
+    // loop_Animation(&cat_animate1,init.renderer,&cat_box1);
+    // loop_Animation(&cat_animate2,init.renderer,&cat_box2);
+    // loop_Animation(&cat_animate3,init.renderer,&cat_box3);
 
 
     SDL_RenderPresent(init.renderer);
