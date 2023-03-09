@@ -1,6 +1,5 @@
 /**
  * Main game loop
- *
  */
 
 #include "controller.h"
@@ -67,8 +66,6 @@ state setup_state(state init) {
   return init;
 }
 
-
-
 int main(void) {
   bool quit = false;
   SDL_Event event;
@@ -79,8 +76,9 @@ int main(void) {
   SDL_Texture* cat_texture = initialize_texture("assets/catsheet_1.jpg", init.renderer);
 
   const int number_frames = 26;
-  // int sprint_all[30] = {0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,11,11};
-  // int sprint_gray[30] = {0,0,1,1,2,2,1,1,0,0,1,1,2,2,1,1,0,0,1,1,2,2,1,1,0,0};
+  // int sprint_all[30] =
+  // {0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,11,11}; int
+  // sprint_gray[30] = {0,0,1,1,2,2,1,1,0,0,1,1,2,2,1,1,0,0,1,1,2,2,1,1,0,0};
   // int run_gray[30] = {0,0,0,0,1,1,1,1,2,2,2,2,1,1,1,1,0,0,0,0,1,1,1,1,1,1};
   int walk_gray[30] = {0,0,0,0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,2,2,1,1,1,1,1,1};
   int walk_white[30] = {3,3,3,3,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,4,4,4,4,4,4};
@@ -109,7 +107,8 @@ int main(void) {
   SDL_Rect cat_box2;
   make_animation_box(&cat_box2, &cat_animate2, SPRITE_WIDTH, 0, cat_box_scale);
   SDL_Rect cat_box3;
-  make_animation_box(&cat_box3, &cat_animate3, SPRITE_WIDTH, SPRITE_HEIGHT, cat_box_scale);
+  make_animation_box(&cat_box3, &cat_animate3, SPRITE_WIDTH, SPRITE_HEIGHT,
+                     cat_box_scale);
 
   int direction = 0;
   int prev = 0;  // represents the previous direction the sprite moved
@@ -117,11 +116,12 @@ int main(void) {
   int speed = 2;  // an int from 1-10. higher # = higher speed
 
   while (!quit) {
-    //check the time of this update cycle
+    // check the time of this update cycle
     Uint64 time_start = SDL_GetPerformanceCounter();
 
-    //poll event, contents of if need to be in a function, if statement is important
-    if (SDL_PollEvent(&event)){
+    // poll event, contents of if need to be in a function, if statement is
+    // important
+    if (SDL_PollEvent(&event)) {
       switch (event.type) {
       // if you press a key
       case SDL_KEYDOWN:
@@ -139,7 +139,8 @@ int main(void) {
         // break out of larger SDL_KEYDOWN
         break;
 
-      case SDLK_ESCAPE: case SDL_QUIT:
+      case SDLK_ESCAPE:
+      case SDL_QUIT:
         quit = true;
         break;
       
@@ -197,32 +198,32 @@ int main(void) {
     SDL_RenderCopy(init.renderer, init.texture, NULL, NULL);
 
     switch (direction) {
-      case 0:
-        loop_Animation(&cat_animate3, init.renderer, &cat_box);
-        break;
-      case 1:
-        loop_Animation(&cat_animate, init.renderer, &cat_box);
-        break;
-      case 2:
-        loop_Animation(&cat_animate1,init.renderer,&cat_box);
-        break;
-      case 3:
-        loop_Animation(&cat_animate2,init.renderer,&cat_box);
-        break;
-      default:
-        loop_Animation(&cat_animate,init.renderer,&cat_box);
-        break;
+    case 0:
+      loop_Animation(&cat_animate3, init.renderer, &cat_box);
+      break;
+    case 1:
+      loop_Animation(&cat_animate, init.renderer, &cat_box);
+      break;
+    case 2:
+      loop_Animation(&cat_animate1, init.renderer, &cat_box);
+      break;
+    case 3:
+      loop_Animation(&cat_animate2, init.renderer, &cat_box);
+      break;
+    default:
+      loop_Animation(&cat_animate, init.renderer, &cat_box);
+      break;
     }
-
 
     SDL_RenderPresent(init.renderer);
 
-    //put this in a function
+    // put this in a function
     Uint64 time_end = SDL_GetPerformanceCounter();
-    //find elapse time
-    float elapsed_time = (time_end - time_start) / (float)SDL_GetPerformanceFrequency() * 1000.0F;
+    // find elapse time
+    float elapsed_time = (time_end - time_start) /
+                         (float)SDL_GetPerformanceFrequency() * 1000.0F;
 
-    //cap fps at 60
+    // cap fps at 60
     SDL_Delay(floorf(16.666F - elapsed_time));
   }
 
