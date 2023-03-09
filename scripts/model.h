@@ -13,8 +13,8 @@
 // Define starting position and size of sprite
 #define SPRITE_X 50
 #define SPRITE_Y 50
-#define SPRITE_WIDTH 260
-#define SPRITE_HEIGHT 280
+#define SPRITE_WIDTH 550
+#define SPRITE_HEIGHT 350
 
 // defines smoothness of sprite movement. Int from 0-10. Higher number = smoother movement
 #define SMOOTHNESS 10

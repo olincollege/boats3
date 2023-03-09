@@ -5,8 +5,8 @@ Handles interaction with the user.
 #include "controller.h"
 #include "model.h"
 #include "view.h"
-#include <stdbool.h>
 #include <SDL2/SDL_image.h>
+#include <stdbool.h>
 
 void Handle_Event(bool* quit, SDL_Event event) {
 
