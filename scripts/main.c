@@ -103,17 +103,53 @@ int main(void) {
   //SDL_Texture *cat_texture = SDL_CreateTextureFromSurface(init.renderer, cat_img);
 
   SDL_Texture* cat_texture = initialize_texture("assets/catsheet_1.jpg",init.renderer);
-  animation cat_animate = {.texture =cat_texture,.frames_loop ={0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=34};
-  animation cat_animate1 = {.texture =cat_texture,.frames_loop ={0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=34};
-  animation cat_animate2 = {.texture =cat_texture,.frames_loop ={0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=34};
-  animation cat_animate3 = {.texture =cat_texture,.frames_loop ={0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=34};
+  animation cat_animate = {.texture =cat_texture,.frames_loop = {0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=26};
+  animation cat_animate1 = {.texture =cat_texture,.frames_loop ={0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=26};
+  animation cat_animate2 = {.texture =cat_texture,.frames_loop ={0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=26};
+  animation cat_animate3 = {.texture =cat_texture,.frames_loop ={0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12},.num_frames=26};
+  
+  SDL_Texture* explosion_texture = initialize_texture("assets/explosion.png",init.renderer);
+  animation explosion0 = {.texture =explosion_texture,.frames_loop ={0,1,2,3,4,5,6,7},.num_frames=8};
+  
+  
+  
+  //this is redundant, we only need that first one
+  //animation explosion1 = {.texture =explosion_texture,.frames_loop ={0,1,2,3,4,5,6,7},.num_frames=8};
+  //animation explosion2 = {.texture =explosion_texture,.frames_loop ={0,1,2,3,4,5,6,7},.num_frames=8};
+  //animation explosion3 = {.texture =explosion_texture,.frames_loop ={0,1,2,3,4,5,6,7},.num_frames=8};
+  //animation explosion4 = {.texture =explosion_texture,.frames_loop ={0,1,2,3,4,5,6,7},.num_frames=8};
+  //animation explosion5 = {.texture =explosion_texture,.frames_loop ={0,1,2,3,4,5,6,7},.num_frames=8};
+
+  //also redundant
+  
+  //initialize_animation(&explosion1,6,8,1);
+  //initialize_animation(&explosion2,6,8,2);
+  //initialize_animation(&explosion3,6,8,3);
+  //initialize_animation(&explosion4,6,8,4);
+  //initialize_animation(&explosion5,6,8,5);
+
+  // not useful anymore
+  //animation * explosion_list[10] = {&explosion0,&explosion1,&explosion2,&explosion3,&explosion4,&explosion5};
+  
+  animation explosion_list[10];
+  make_sequential_animation(explosion_list,&explosion0,6,8,6);
+
+  initialize_animation(&explosion0,6,8,0);
   //number of num_rows,num_cols, selected row
 
   printf("cat initialization\n");
+
+  animation cat_list[10];
+  make_sequential_animation(cat_list,&cat_animate,8,12,4);
+
   initialize_animation(&cat_animate,8,12,0);
   initialize_animation(&cat_animate1,8,12,1);
   initialize_animation(&cat_animate2,8,12,2);
   initialize_animation(&cat_animate3,8,12,3);
+
+
+  //animation * cat_list[10] = {&cat_animate,&cat_animate1,&cat_animate2,&cat_animate3};
+
 
   //SDL_Rect cat_box = {0,0,550,350};
   //numerical arguments: xpos, ypos, scaling value
@@ -125,6 +161,14 @@ int main(void) {
   make_animation_box(&cat_box2,&cat_animate2,550,0,10);
   SDL_Rect cat_box3;
   make_animation_box(&cat_box3,&cat_animate3,550,350,10);
+
+  SDL_Rect cat_box4;
+  make_animation_box(&cat_box4,&cat_animate,1100,350,10);
+
+  SDL_Rect explode_box;
+  make_animation_box(&explode_box,&explosion0,1100,0,1);
+
+  //animation * cat_list[10] = {&cat_animate,&cat_animate1,&cat_animate2,&cat_animate3};
 
 
   while (!quit) {
@@ -169,6 +213,11 @@ int main(void) {
     loop_Animation(&cat_animate2,init.renderer,&cat_box2);
     loop_Animation(&cat_animate3,init.renderer,&cat_box3);
 
+    //printf("got here 3\n");
+
+    animate_sequential(init.renderer,cat_list,&cat_box4,4);
+    //printf("got here 4\n");
+    animate_sequential(init.renderer,explosion_list,&explode_box,6);
 
 
     SDL_RenderPresent(init.renderer);
