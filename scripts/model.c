@@ -202,21 +202,21 @@ void change_random_cat_color(animation *cat0, animation *cat1, animation *cat2,
   switch (rand() % 3) {
     case 0:
       if (current_frame_loop != black) {
-        change_cat_color(&cat0, &cat1, &cat2, &cat3, &black);
+        change_cat_color(cat0, cat1, cat2, cat3, black);
         break;
       }
     case 1:
       if (current_frame_loop != white) {
-        change_cat_color(&cat0, &cat1, &cat2, &cat3, &white);
+        change_cat_color(cat0, cat1, cat2, cat3, white);
         break;
       }
     case 2:
       if (current_frame_loop != gray) {
-        change_cat_color(&cat0, &cat1, &cat2, &cat3, &gray);
+        change_cat_color(cat0, cat1, cat2, cat3, gray);
         break;
       }
     default:
-      change_cat_color(&cat0, &cat1, &cat2, &cat3, &orange);
+      change_cat_color(cat0, cat1, cat2, cat3, orange);
       break;
   }
 }

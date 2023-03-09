@@ -153,59 +153,9 @@ int main(void) {
           mousePosition.y = event.motion.y;
 
           if (SDL_PointInRect(&mousePosition, &cat_box)) {
-            // change_random_cat_color(&cat_animate, &cat_animate1, &cat_animate2, &cat_animate3,
-            //                         &walk_orange, &walk_black, &walk_white, &walk_gray,
-            //                         cat_animate.frames_loop);
-            
-            if ((cat_animate.frames_loop) == &walk_orange) {
-              switch (rand() % 3) {
-                case 0:
-                  change_cat_color(&cat_animate, &cat_animate1, &cat_animate2, &cat_animate3, &walk_black);
-                  break;
-                case 1:
-                  change_cat_color(&cat_animate, &cat_animate1, &cat_animate2, &cat_animate3, &walk_white);
-                  break;
-                case 2: default:
-                  change_cat_color(&cat_animate, &cat_animate1, &cat_animate2, &cat_animate3, &walk_gray);
-                  break;
-              }
-            } else if ((cat_animate.frames_loop) == &walk_black) {
-              switch (rand() % 3) {
-                case 0:
-                  change_cat_color(&cat_animate, &cat_animate1, &cat_animate2, &cat_animate3, &walk_orange);
-                  break;
-                case 1:
-                  change_cat_color(&cat_animate, &cat_animate1, &cat_animate2, &cat_animate3, &walk_white);
-                  break;
-                case 2: default:
-                  change_cat_color(&cat_animate, &cat_animate1, &cat_animate2, &cat_animate3, &walk_gray);
-                  break;
-              }
-            } else if ((cat_animate.frames_loop) == &walk_white) {
-              switch (rand() % 3) {
-                case 0:
-                  change_cat_color(&cat_animate, &cat_animate1, &cat_animate2, &cat_animate3, &walk_orange);
-                  break;
-                case 1:
-                  change_cat_color(&cat_animate, &cat_animate1, &cat_animate2, &cat_animate3, &walk_black);
-                  break;
-                case 2: default:
-                  change_cat_color(&cat_animate, &cat_animate1, &cat_animate2, &cat_animate3, &walk_gray);
-                  break;
-              }
-            } else {
-              switch (rand() % 3) {
-                case 0:
-                  change_cat_color(&cat_animate, &cat_animate1, &cat_animate2, &cat_animate3, &walk_orange);
-                  break;
-                case 1:
-                  change_cat_color(&cat_animate, &cat_animate1, &cat_animate2, &cat_animate3, &walk_white);
-                  break;
-                case 2: default:
-                  change_cat_color(&cat_animate, &cat_animate1, &cat_animate2, &cat_animate3, &walk_black);
-                  break;
-              }
-            }
+            change_random_cat_color(&cat_animate, &cat_animate1, &cat_animate2, &cat_animate3,
+                                    &walk_orange, &walk_black, &walk_white, &walk_gray,
+                                    cat_animate.frames_loop);
           }
           break;
       }
