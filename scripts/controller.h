@@ -8,11 +8,10 @@ The controller, responsible for handling inputs from the user.
 #include <stdbool.h>
 #include <stdlib.h>
 
-
 /**
 Handle an event
 
-Given an SDL event queue, identify what event is occuring
+Given an SDL event queue, identify what event is occurring
 (generally, what key is being pressed) and produce
 the correct corresponding behavior
 
@@ -20,5 +19,4 @@ the correct corresponding behavior
 * should continue running
 * @param event An SDL event queue to manage
 **/
-void Handle_Event(bool* quit, SDL_Event event);
-
+void Handle_Event(bool *quit, SDL_Event event);
