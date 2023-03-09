@@ -109,13 +109,12 @@ int initialize_animation(animation *loop, int num_rows, int num_col,
 SDL_Texture *initialize_texture(const char *filepath, SDL_Renderer *renderer);
 
 /**
- * Generates a random number within the range (min, max).
+ * Generates a random number within the range [min, max).
  *
  * The random generation involves custom probabilities to simulate a more
  * realistic movement pattern; if a given number was chosen the last time this
  * function was called, it has a 40% chance to get picked again, as opposed to
- * everything else at 20%. Also updates the value of `prev` to the newly
- * generated number.
+ * everything else at 20%.
  *
  * @param min An integer representing the lower (inclusive) bound of the range
  *  to generate from.
@@ -128,66 +127,62 @@ SDL_Texture *initialize_texture(const char *filepath, SDL_Renderer *renderer);
 int generate_random(int min, int max, int *prev);
 
 /**
- * Moves the sprite towards the top of the screen.
- *
- * Updates the sprite's rectangular coordinates to move it up within the
- * window. If the sprite is at the upper bound of the window, it instead
- * moves the sprite down and changes the value of `prev` to reflect this.
- *
- * @param sprite An SDL_Rect pointer representing the position and size of the
- * sprite image.
- * @param distance An integer representing the number of pixels to travel.
- * @param prev An integer pointer representing the previously-chosen number.
- */
-void move_up(SDL_Rect *sprite, int distance, int *prev);
-
-/**
  * Moves the sprite towards the bottom of the screen.
  *
  * Updates the sprite's rectangular coordinates to move it down within the
  * window. If the sprite is at the lower bound of the window, it instead
- * moves the sprite up and changes the value of `prev` to reflect this.
+ * moves the sprite up.
  *
  * @param sprite An SDL_Rect pointer representing the position and size of the
  * sprite image.
  * @param distance An int representing the number of pixels to travel.
- * @param prev An int pointer representing the previously-chosen number.
  */
-void move_down(SDL_Rect *sprite, int distance, int *prev);
+int move_down(SDL_Rect *sprite, int distance);
+
+/**
+ * Moves the sprite towards the top of the screen.
+ *
+ * Updates the sprite's rectangular coordinates to move it up within the
+ * window. If the sprite is at the upper bound of the window, it instead
+ * moves the sprite down.
+ *
+ * @param sprite An SDL_Rect pointer representing the position and size of the
+ * sprite image.
+ * @param distance An integer representing the number of pixels to travel.
+ */
+int move_up(SDL_Rect *sprite, int distance);
 
 /**
  * Moves the sprite towards the left of the screen.
  *
  * Updates the sprite's rectangular coordinates to move it left within the
  * window. If the sprite is at the left bound of the window, it instead
- * moves the sprite right and changes the value of `prev` to reflect this.
+ * moves the sprite right.
  *
  * @param sprite An SDL_Rect pointer representing the position and size of the
  * sprite image.
  * @param distance An int representing the number of pixels to travel.
- * @param prev An int pointer representing the previously-chosen number.
  */
-void move_left(SDL_Rect *sprite, int distance, int *prev);
+int move_left(SDL_Rect *sprite, int distance);
 
 /**
  * Moves the sprite towards the right of the screen.
  *
  * Updates the sprite's rectangular coordinates to move it right within the
  * window. If the sprite is at the right bound of the window, it instead
- * moves the sprite left and changes the value of `prev` to reflect this.
+ * moves the sprite left.
  *
  * @param sprite An SDL_Rect pointer representing the position and size of the
  * sprite image.
  * @param distance An int representing the number of pixels to travel.
- * @param prev An int pointer representing the previously-chosen number.
  */
-void move_right(SDL_Rect *sprite, int distance, int *prev);
+int move_right(SDL_Rect *sprite, int distance);
 
 /**
  * Based on an integer value (1-5), calls the corresponding sprite movement
  * function.
  *
- * Numbers 0, 1, 2, 3 represent moving up, down, left, and right. Number 5
+ * Numbers 0, 1, 2, 3 represent moving up, down, left, and right. Number 4
  * represents staying in place, or idling. The default is to idle.
  *
  * @param num An integer representing a randomly-generated number corresponding

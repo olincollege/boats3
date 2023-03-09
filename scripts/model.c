@@ -19,7 +19,7 @@ int find_sprite_grid(SDL_Texture *texture, int *row_height, int *column_width,
   int width_texture;
   if (0 !=
       SDL_QueryTexture(texture, NULL, NULL, &width_texture, &height_texture)) {
-    printf("QueryTexture Error in find_sprite_grid\n");
+    fprintf(stderr, "QueryTexture Error in find_sprite_grid.\n");
     return 1;
   }
   // printf("total texture height: %d total texture width:
@@ -36,14 +36,14 @@ int initialize_animation(animation *loop, int num_rows, int num_col,
                          int row_number) {
   // bounds check the initialization
   if (row_number > num_rows) {
-    printf("row number too large for texture");
+    printf("row number too large for texture.");
     return 1;
   }
   int row_height;
   int column_width;
   if (find_sprite_grid(loop->texture, &row_height, &column_width, num_rows,
                        num_col)) {
-    printf("Error Initializing animation");
+    fprintf(stderr, "Error Initializing animation.");
     return 1;
   }
 
@@ -61,13 +61,13 @@ int initialize_animation(animation *loop, int num_rows, int num_col,
 SDL_Texture *initialize_texture(const char *filepath, SDL_Renderer *renderer) {
   SDL_Surface *image = IMG_Load(filepath);
   if (image == NULL) {
-    printf("Surface creation error");
+    fprintf(stderr, "Surface creation error.");
     return NULL;
   }
 
   SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, image);
   if (texture == NULL) {
-    printf("Texture creation error");
+    fprintf(stderr, "Texture creation error.");
     return NULL;
   }
 
@@ -79,69 +79,65 @@ int generate_random(int min, int max, int *prev) {
   int random_val = *prev;
   int probability = rand() % 10;
   if (probability > 4) {
-    int random_val = rand() % (max - min) + min;
-    *prev = random_val;
+    random_val = rand() % (max - min) + min;
   }
   return random_val;
 }
 
-void move_up(SDL_Rect *sprite, int distance, int *prev) {
-  if (sprite->y > 0) {
-    sprite->y -= distance;
-  } else {
-    sprite->y += distance;
-    *prev = 1;
-  }
-}
-
-void move_down(SDL_Rect *sprite, int distance, int *prev) {
+int move_down(SDL_Rect *sprite, int distance) {
   if (sprite->y < HEIGHT - SPRITE_HEIGHT) {
     sprite->y += distance;
-  } else {
-    sprite->y -= distance;
-    *prev = 0;
+    return 0;
   }
+  return move_up(sprite, distance);
 }
 
-void move_left(SDL_Rect *sprite, int distance, int *prev) {
+int move_up(SDL_Rect *sprite, int distance) {
+  if (sprite->y > 0) {
+    sprite->y -= distance;
+    return 1;
+  }
+  return move_down(sprite, distance);
+}
+
+int move_left(SDL_Rect *sprite, int distance) {
   if (sprite->x > 0) {
     sprite->x -= distance;
-  } else {
-    sprite->x += distance;
-    *prev = 3;
+    return 2;
   }
+  return move_right(sprite, distance);
 }
 
-void move_right(SDL_Rect *sprite, int distance, int *prev) {
+int move_right(SDL_Rect *sprite, int distance) {
   if (sprite->x < WIDTH - SPRITE_WIDTH) {
     sprite->x += distance;
-  } else {
-    sprite->x -= distance;
-    *prev = 2;
+    return 3;
   }
+  return move_left(sprite, distance);
 }
 
 void move_random_direction(int num, SDL_Rect *sprite_pos, int distance,
                            int *prev) {
   switch (num) {
   case 0:
-    move_up(sprite_pos, distance, prev);
+    *prev = move_up(sprite_pos, distance);
     break;
   case 1:
-    move_down(sprite_pos, distance, prev);
+    *prev = move_down(sprite_pos, distance);
     break;
   case 2:
-    move_left(sprite_pos, distance, prev);
+    *prev = move_left(sprite_pos, distance);
     break;
   case 3:
-    move_right(sprite_pos, distance, prev);
+    *prev = move_right(sprite_pos, distance);
     break;
   case 4:
-    // do nothing; idle
+    // do nothing/idle (walks in place)
+    *prev = 4;
     break;
   default:
-    move_up(sprite_pos, distance, prev);
-    printf("default case reached\n");
+    *prev = move_up(sprite_pos, distance);
+    printf("Default case reached.\n");
     break;
   }
 }
@@ -156,7 +152,7 @@ void end_program(SDL_Texture *bg_texture, SDL_Texture *sprite_texture,
   SDL_DestroyWindow(window);
   // printf("got here 7\n");
   SDL_Quit();
-  printf("successfully exited program\n");
+  printf("Successfully exited program.\n");
 }
 
 void loop_Animation(animation *loop, SDL_Renderer *renderer,
@@ -170,7 +166,7 @@ void loop_Animation(animation *loop, SDL_Renderer *renderer,
       .x = xpos, .y = loop->ypos, .w = loop->width, .h = loop->height};
 
   if (0 != SDL_RenderCopy(renderer, loop->texture, &crop_sprite, box_ptr)) {
-    printf("error animating");
+    fprintf(stderr, "Error animating.");
   }
   // printf("animated frame %d\n",loop->frame_index);
   //  update the position in the loop
