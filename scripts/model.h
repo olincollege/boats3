@@ -33,7 +33,8 @@ typedef struct animation {
   int height;
   int ypos;
   int num_frames;
-  int frames_loop[30];
+  int *frames_loop;
+  // int frames_loop[30];
   int frame_index;
 } animation;
 

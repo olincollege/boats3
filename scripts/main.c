@@ -76,19 +76,19 @@ int main(void) {
   // Initialize our window.
   init = setup_state(init);
 
-  SDL_Texture* cat_texture = initialize_texture("assets/catsheet_1.jpg",init.renderer);
+  SDL_Texture* cat_texture = initialize_texture("assets/catsheet_1.jpg", init.renderer);
 
   const int number_frames = 26;
   // int sprint_all[30] = {0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,11,11};
   // int sprint_gray[30] = {0,0,1,1,2,2,1,1,0,0,1,1,2,2,1,1,0,0,1,1,2,2,1,1,0,0};
   // int run_gray[30] = {0,0,0,0,1,1,1,1,2,2,2,2,1,1,1,1,0,0,0,0,1,1,1,1,1,1};
-  // int walk_gray[30] = {0,0,0,0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,2,2,1,1,1,1,1,1};
-  // int walk_white[30] = {3,3,3,3,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,4,4,4,4,4,4};
-  // int walk_black[30] = {6,6,6,6,6,6,6,7,7,7,7,7,7,8,8,8,8,8,8,8,7,7,7,7,7,7};
-  // int walk_orange[30] = {9,9,9,9,9,9,9,10,10,10,10,10,10,11,11,11,11,11,11,11,10,10,10,10,10,10};
+  int walk_gray[30] = {0,0,0,0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,2,2,1,1,1,1,1,1};
+  int walk_white[30] = {3,3,3,3,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,4,4,4,4,4,4};
+  int walk_black[30] = {6,6,6,6,6,6,6,7,7,7,7,7,7,8,8,8,8,8,8,8,7,7,7,7,7,7};
+  int walk_orange[30] = {9,9,9,9,9,9,9,10,10,10,10,10,10,11,11,11,11,11,11,11,10,10,10,10,10,10};
   animation cat_animate = {
     .texture = cat_texture,
-    .frames_loop = {9,9,9,9,9,9,9,10,10,10,10,10,10,11,11,11,11,11,11,11,10,10,10,10,10,10},
+    .frames_loop = &walk_orange,
     .num_frames = number_frames};
   animation cat_animate1 = cat_animate;
   animation cat_animate2 = cat_animate;
@@ -114,7 +114,7 @@ int main(void) {
   int direction = 0;
   int prev = 0;  // represents the previous direction the sprite moved
   int cycle = 0;  // used for my manual pseudo-lerping implementation
-  int speed = rand() % 5 + 1;  // an int from 1-10. higher # = higher speed
+  int speed = 2;  // an int from 1-10. higher # = higher speed
 
   while (!quit) {
     //check the time of this update cycle
@@ -142,6 +142,41 @@ int main(void) {
       case SDLK_ESCAPE: case SDL_QUIT:
         quit = true;
         break;
+      
+      case SDL_MOUSEBUTTONDOWN:
+          // idk why but commenting out the print statement causes stuff to break. boo.
+          printf("Clicked mouse\n");
+          SDL_Point mousePosition;
+          // Mouse click coords from event handler
+          mousePosition.x = event.motion.x; 
+          mousePosition.y = event.motion.y;
+
+          if (SDL_PointInRect(&mousePosition, &cat_box)) {
+              // printf("Clicked on the sprite\n");
+
+              // int walk_white[30] = {3,3,3,3,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,4,4,4,4,4,4};
+
+              // printf(cat_animate.frames_loop);
+
+              if ((cat_animate.frames_loop) == &walk_orange) {
+                cat_animate.frames_loop = &walk_black;
+                cat_animate1.frames_loop = &walk_black;
+                cat_animate2.frames_loop = &walk_black;
+                cat_animate3.frames_loop = &walk_black;
+              } else {
+                cat_animate.frames_loop = &walk_orange;
+                cat_animate1.frames_loop = &walk_orange;
+                cat_animate2.frames_loop = &walk_orange;
+                cat_animate3.frames_loop = &walk_orange;
+              }
+              //   initialize_animation(&cat_animate, cat_sheet_rows, cat_sheet_cols, 0);
+              //   initialize_animation(&cat_animate1, cat_sheet_rows, cat_sheet_cols, 1);
+              //   initialize_animation(&cat_animate2, cat_sheet_rows, cat_sheet_cols, 2);
+              //   initialize_animation(&cat_animate3, cat_sheet_rows, cat_sheet_cols, 3);
+              //   printf("got here");
+              // }
+          }
+          break;
       }
     }
 
