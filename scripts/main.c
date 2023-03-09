@@ -188,10 +188,23 @@ int main(void) {
     SDL_RenderCopy(init.renderer, init.texture, NULL, NULL);
     // SDL_RenderCopy(init.renderer, boat_texture, NULL, &dstrect);
 
-    loop_Animation(&cat_animate, init.renderer, &cat_box);
-    // loop_Animation(&cat_animate1,init.renderer,&cat_box1);
-    // loop_Animation(&cat_animate2,init.renderer,&cat_box2);
-    // loop_Animation(&cat_animate3,init.renderer,&cat_box3);
+    switch (direction) {
+      case 0:
+        loop_Animation(&cat_animate3, init.renderer, &cat_box);
+        break;
+      case 1:
+        loop_Animation(&cat_animate, init.renderer, &cat_box);
+        break;
+      case 2:
+        loop_Animation(&cat_animate1,init.renderer,&cat_box);
+        break;
+      case 3:
+        loop_Animation(&cat_animate2,init.renderer,&cat_box);
+        break;
+      default:
+        loop_Animation(&cat_animate,init.renderer,&cat_box);
+        break;
+    }
 
 
     SDL_RenderPresent(init.renderer);
