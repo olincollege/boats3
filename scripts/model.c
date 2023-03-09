@@ -54,6 +54,7 @@ int initialize_animation(animation* loop,
     printf("Error Initializing animation\n");
     return 1;
   }
+  printf("got here 2\n");
   //initialize to frame 0 in loop
   loop->width = column_width;
   loop->height = row_height;
@@ -128,7 +129,7 @@ int make_animation_box(SDL_Rect * box,animation *loop,int xpos, int ypos,float s
 
 }
 
-void animate_sequential(SDL_Renderer * renderer,animation * animations[10],SDL_Rect *box,int num_animations){
+void animate_sequential(SDL_Renderer * renderer,animation animations[10],SDL_Rect *box,int num_animations){
 
   //first frame's super animation index tracks the total state,
   //will not work if the first
@@ -137,22 +138,26 @@ void animate_sequential(SDL_Renderer * renderer,animation * animations[10],SDL_R
   int current_animation = 0;
   int not_found = 1;
 
-  for (int i =0; i <num_animations;i++){
-    frame_sum += animations[i]->num_frames;
+  
 
-    if (not_found && animations[0]->super_animation_index < frame_sum){
+  for (int i =0; i <num_animations;i++){
+    frame_sum += animations[i].num_frames;
+    //animations[0]->super_animation_index
+    //animations[0].super_animation_index
+    
+    if (not_found && animations[0].super_animation_index < frame_sum){
       //find the index of the current animation
       current_animation = i;
       not_found = 0;
     }
   }
-  loop_Animation(animations[current_animation],renderer,box);
+  loop_Animation(&(animations[current_animation]),renderer,box);
 
-  animations[0]->super_animation_index++;
-  animations[0]->super_animation_index = animations[0]->super_animation_index %frame_sum;
+  animations[0].super_animation_index++;
+  animations[0].super_animation_index = animations[0].super_animation_index %frame_sum;
 }
 
-void make_sequential_animation(animation * animation_list[10],animation * uninitialized_animation,int num_rows, int num_cols,int num_sequential_rows){
+void make_sequential_animation(animation animation_list[10],animation * uninitialized_animation,int num_rows, int num_cols,int num_sequential_rows){
 
   //makes a sequential animation, initialize a bunch of animation objects
 
@@ -160,18 +165,21 @@ void make_sequential_animation(animation * animation_list[10],animation * uninit
     //copy the struct
 
     printf("cat %d initialization\n",i);
-    
-    (animation_list[i])->texture = uninitialized_animation->texture;
-    (animation_list[i])->num_frames = uninitialized_animation->num_frames;
+    //(*animation_list)[i].texture
+    //(animation_list[i])->num_frames
+
+    animation_list[i].texture = uninitialized_animation->texture;
+    printf("got here 1\n");
+    animation_list[i].num_frames = uninitialized_animation->num_frames;
     for(int j=0; j<uninitialized_animation->num_frames;j++){
-          *(animation_list[i]->frames_loop + j) = *(uninitialized_animation->frames_loop +j);
+          *(animation_list[i].frames_loop + j) = *(uninitialized_animation->frames_loop +j);
 
-          printf("%d %d\n",animation_list[i]->frames_loop[j],uninitialized_animation->frames_loop[j]);
-    }
+          printf("%d %d\n",animation_list[i].frames_loop[j],uninitialized_animation->frames_loop[j]);
+    }//*/
     
     
 
-    initialize_animation(animation_list[i],num_rows,num_cols,i);
+    initialize_animation(&(animation_list[i]),num_rows,num_cols,i);
     //initialize for each row
   }
   printf("sequential animation created");
