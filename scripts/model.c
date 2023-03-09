@@ -187,3 +187,10 @@ int make_animation_box(SDL_Rect *box, animation *loop, int xpos, int ypos,
 
   return 0;
 }
+
+void change_cat_color(animation *cat0, animation *cat1, animation *cat2, animation *cat3, int *new_frame_loop) {
+  cat0->frames_loop = new_frame_loop;
+  cat1->frames_loop = new_frame_loop;
+  cat2->frames_loop = new_frame_loop;
+  cat3->frames_loop = new_frame_loop;
+}

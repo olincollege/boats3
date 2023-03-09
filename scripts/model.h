@@ -37,7 +37,6 @@ typedef struct animation {
   int ypos;
   int num_frames;
   int *frames_loop;
-  // int frames_loop[30];
   int frame_index;
 } animation;
 
@@ -233,3 +232,5 @@ void loop_Animation(animation *loop, SDL_Renderer *renderer, SDL_Rect *box_ptr);
  */
 int make_animation_box(SDL_Rect *box, animation *loop, int xpos, int ypos,
                        float scale);
+
+void change_cat_color(animation *cat0, animation *cat1, animation *cat2, animation *cat3, int *new_frame_loop);
