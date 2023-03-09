@@ -16,7 +16,9 @@ Given an SDL event queue, identify what event is occuring
 (generally, what key is being pressed) and produce
 the correct corresponding behavior
 
+* @param quit A pointer to a bool representing whether the animation loop
+* should continue running
 * @param event An SDL event queue to manage
 **/
-void Handle_Event(SDL_Event event);
+void Handle_Event(bool* quit, SDL_Event event);
 
