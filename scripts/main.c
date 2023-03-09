@@ -83,20 +83,21 @@ int main(void) {
 
   SDL_Texture* cat_texture = initialize_texture("assets/catsheet_1.jpg",init.renderer);
 
-  // const int frame_loop[30] = {0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12};
   const int number_frames = 26;
-  // loop through the entire row (all colors at once)
-  // 0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12
-  // loop through just the first color
-  // 0,0,1,1,2,2,1,1,0,0,1,1,2,2,1,1,0,0,1,1,2,2,1,1,0,0
-  // loop through first color slower
-  // 0,0,0,0, 1,1,1,1, 2,2,2,2, 1,1,1,1, 0,0,0,0, 1,1,1,1,1,1
-  // loop through first color really slow
-  // 0,0,0,0,0,0, 1,1,1,1,1,1, 2,2,2,2,2,2, 1,1,1,1,1,1, 0,0
-  animation cat_animate = {.texture =cat_texture,.frames_loop = {0,0,0,0,0,0, 1,1,1,1,1,1, 2,2,2,2,2,2, 1,1,1,1,1,1, 0,0},.num_frames=number_frames};
-  animation cat_animate1 = {.texture =cat_texture,.frames_loop = {0,0,0,0,0,0, 1,1,1,1,1,1, 2,2,2,2,2,2, 1,1,1,1,1,1, 0,0},.num_frames=number_frames};
-  animation cat_animate2 = {.texture =cat_texture,.frames_loop = {0,0,0,0,0,0, 1,1,1,1,1,1, 2,2,2,2,2,2, 1,1,1,1,1,1, 0,0},.num_frames=number_frames};
-  animation cat_animate3 = {.texture =cat_texture,.frames_loop = {0,0,0,0,0,0, 1,1,1,1,1,1, 2,2,2,2,2,2, 1,1,1,1,1,1, 0,0},.num_frames=number_frames};
+  // int sprint_all[30] = {0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,11,11};
+  // int sprint_gray[30] = {0,0,1,1,2,2,1,1,0,0,1,1,2,2,1,1,0,0,1,1,2,2,1,1,0,0};
+  // int run_gray[30] = {0,0,0,0,1,1,1,1,2,2,2,2,1,1,1,1,0,0,0,0,1,1,1,1,1,1};
+  // int walk_gray[30] = {0,0,0,0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,2,2,1,1,1,1,1,1};
+  // int walk_white[30] = {3,3,3,3,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,4,4,4,4,4,4};
+  // int walk_black[30] = {6,6,6,6,6,6,6,7,7,7,7,7,7,8,8,8,8,8,8,8,7,7,7,7,7,7};
+  // int walk_orange[30] = {9,9,9,9,9,9,9,10,10,10,10,10,10,11,11,11,11,11,11,11,10,10,10,10,10,10};
+  animation cat_animate = {
+    .texture = cat_texture,
+    .frames_loop = {9,9,9,9,9,9,9,10,10,10,10,10,10,11,11,11,11,11,11,11,10,10,10,10,10,10},
+    .num_frames = number_frames};
+  animation cat_animate1 = cat_animate;
+  animation cat_animate2 = cat_animate;
+  animation cat_animate3 = cat_animate;
 
   const int cat_sheet_rows = 8;
   const int cat_sheet_cols = 12;
