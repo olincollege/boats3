@@ -196,8 +196,10 @@ void change_random_cat_color(animation *cat0, animation *cat1, animation *cat2,
                              animation *cat3, int *orange, int *black,
                              int *white, int *gray, int *current_frame_loop) {
   // if the number corresponds to the current color, then fall through to the
+
+  int case_no = rand() % 3;
   // default case
-  switch (rand() % 3) {
+  switch (case_no) {
   case 0:
     if (current_frame_loop != black) {
       change_cat_color(cat0, cat1, cat2, cat3, black);
