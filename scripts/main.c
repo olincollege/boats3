@@ -158,31 +158,10 @@ int main(void) {
         mousePosition.y = event.motion.y;
 
         if (SDL_PointInRect(&mousePosition, &cat_box)) {
-          // printf("Clicked on the sprite\n");
-
-          // int walk_white[30] =
-          // {3,3,3,3,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,4,4,4,4,4,4};
-
-          // printf(cat_animate.frames_loop);
-
-          if ((cat_animate.frames_loop) == &walk_orange) {
-            cat_animate.frames_loop = &walk_black;
-            cat_animate1.frames_loop = &walk_black;
-            cat_animate2.frames_loop = &walk_black;
-            cat_animate3.frames_loop = &walk_black;
-          } else {
-            cat_animate.frames_loop = &walk_orange;
-            cat_animate1.frames_loop = &walk_orange;
-            cat_animate2.frames_loop = &walk_orange;
-            cat_animate3.frames_loop = &walk_orange;
-          }
-          //   initialize_animation(&cat_animate, cat_sheet_rows,
-          //   cat_sheet_cols, 0); initialize_animation(&cat_animate1,
-          //   cat_sheet_rows, cat_sheet_cols, 1);
-          //   initialize_animation(&cat_animate2, cat_sheet_rows,
-          //   cat_sheet_cols, 2); initialize_animation(&cat_animate3,
-          //   cat_sheet_rows, cat_sheet_cols, 3); printf("got here");
-          // }
+          change_random_cat_color(&cat_animate, &cat_animate1, &cat_animate2,
+                                  &cat_animate3, &walk_orange, &walk_black,
+                                  &walk_white, &walk_gray,
+                                  cat_animate.frames_loop);
         }
         break;
       }

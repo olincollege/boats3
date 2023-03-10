@@ -184,7 +184,8 @@ int make_animation_box(SDL_Rect *box, animation *loop, int xpos, int ypos,
   return 0;
 }
 
-void change_cat_color(animation *cat0, animation *cat1, animation *cat2, animation *cat3, int *new_frame_loop) {
+void change_cat_color(animation *cat0, animation *cat1, animation *cat2,
+                      animation *cat3, int *new_frame_loop) {
   cat0->frames_loop = new_frame_loop;
   cat1->frames_loop = new_frame_loop;
   cat2->frames_loop = new_frame_loop;
@@ -192,27 +193,30 @@ void change_cat_color(animation *cat0, animation *cat1, animation *cat2, animati
 }
 
 void change_random_cat_color(animation *cat0, animation *cat1, animation *cat2,
-                             animation *cat3, int *orange, int *black, int *white,
-                             int *gray, int *current_frame_loop) {
-  // if the number corresponds to the current color, then fall through to the default case
-  switch (rand() % 3) {
-    case 0:
-      if (current_frame_loop != black) {
-        change_cat_color(cat0, cat1, cat2, cat3, black);
-        break;
-      }
-    case 1:
-      if (current_frame_loop != white) {
-        change_cat_color(cat0, cat1, cat2, cat3, white);
-        break;
-      }
-    case 2:
-      if (current_frame_loop != gray) {
-        change_cat_color(cat0, cat1, cat2, cat3, gray);
-        break;
-      }
-    default:
-      change_cat_color(cat0, cat1, cat2, cat3, orange);
-      break;
+                             animation *cat3, int *orange, int *black,
+                             int *white, int *gray, int *current_frame_loop) {
+  // if the number corresponds to the current color, then fall through to the
+
+  int case_no = rand() % 3;
+  // default case
+  switch (case_no) {
+  case 0:
+    if (current_frame_loop != black) {
+      change_cat_color(cat0, cat1, cat2, cat3, black);
+    }
+    break;
+  case 1:
+    if (current_frame_loop != white) {
+      change_cat_color(cat0, cat1, cat2, cat3, white);
+    }
+    break;
+  case 2:
+    if (current_frame_loop != gray) {
+      change_cat_color(cat0, cat1, cat2, cat3, gray);
+    }
+    break;
+  default:
+    change_cat_color(cat0, cat1, cat2, cat3, orange);
+    break;
   }
 }
