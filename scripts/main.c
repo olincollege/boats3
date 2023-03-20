@@ -77,10 +77,8 @@ int main(void) {
       initialize_texture("assets/catsheet_1.jpg", init.renderer);
 
   const int number_frames = 26;
-  // int sprint_all[30] =
-  // {0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,11,11}; int
-  // sprint_gray[30] = {0,0,1,1,2,2,1,1,0,0,1,1,2,2,1,1,0,0,1,1,2,2,1,1,0,0};
-  // int run_gray[30] = {0,0,0,0,1,1,1,1,2,2,2,2,1,1,1,1,0,0,0,0,1,1,1,1,1,1};
+
+  // NOLINTBEGIN(*-magic-numbers)
   int walk_gray[30] = {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
                        2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1};
   int walk_white[30] = {3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4,
@@ -89,6 +87,8 @@ int main(void) {
                         8, 8, 8, 8, 8, 8, 8, 7, 7, 7, 7, 7, 7};
   int walk_orange[30] = {9,  9,  9,  9,  9,  9,  9,  10, 10, 10, 10, 10, 10,
                          11, 11, 11, 11, 11, 11, 11, 10, 10, 10, 10, 10, 10};
+  // NOLINTEND(*-magic-numbers)
+
   animation cat_animate = {.texture = cat_texture,
                            .frames_loop = &walk_orange,
                            .num_frames = number_frames};
@@ -135,7 +135,9 @@ int main(void) {
           break;
 
         case SDLK_SPACE:
+          // NOLINTBEGIN(*-magic-numbers)
           speed = rand() % 10 + 1;
+          // NOLINTEND(*-magic-numbers)
           printf("Manually changing speed to %i\n", speed);
           break;
         }
@@ -168,17 +170,18 @@ int main(void) {
     }
 
     // randomly change speed
+    // NOLINTBEGIN(*-magic-numbers)
     if (rand() % 70000000 == 0) {
       speed = rand() % 10 + 1;
       printf("Changing speed to %i\n", speed);
     }
-
     cycle++;
     if (cycle == SMOOTHNESS) {
       // only update random num if the sprite has pseudo-lerped to another spot
       direction = generate_random(0, 5, &prev);
       cycle = 0;
     }
+    // NOLINTEND(*-magic-numbers)
     move_random_direction(direction, &cat_box, speed, &prev);
     SDL_RenderClear(init.renderer);
     SDL_RenderCopy(init.renderer, init.texture, NULL, NULL);
@@ -202,15 +205,15 @@ int main(void) {
     }
 
     SDL_RenderPresent(init.renderer);
-
+    // NOLINTBEGIN(*-magic-numbers)
     // put this in a function
     Uint64 time_end = SDL_GetPerformanceCounter();
     // find elapse time
     float elapsed_time = (time_end - time_start) /
                          (float)SDL_GetPerformanceFrequency() * 1000.0F;
-
     // cap fps at 60
     SDL_Delay(floorf(16.666F - elapsed_time));
+    // NOLINTEND(*-magic-numbers)
   }
 
   end_program(init.texture, cat_texture, init.renderer, init.window);
