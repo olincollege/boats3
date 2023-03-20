@@ -79,14 +79,17 @@ int main(void) {
   const int number_frames = 26;
 
   // NOLINTBEGIN(*-magic-numbers)
-  int walk_gray[30] = {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
-                       2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1};
-  int walk_white[30] = {3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4,
-                        5, 5, 5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4};
-  int walk_black[30] = {6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7,
-                        8, 8, 8, 8, 8, 8, 8, 7, 7, 7, 7, 7, 7};
-  int walk_orange[30] = {9,  9,  9,  9,  9,  9,  9,  10, 10, 10, 10, 10, 10,
-                         11, 11, 11, 11, 11, 11, 11, 10, 10, 10, 10, 10, 10};
+  int walk_gray[MAX_LENGTH_ANIMATION] = {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
+                                         2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1};
+  int walk_white[MAX_LENGTH_ANIMATION] = {3, 3, 3, 3, 3, 3, 3, 4, 4,
+                                          4, 4, 4, 4, 5, 5, 5, 5, 5,
+                                          5, 5, 4, 4, 4, 4, 4, 4};
+  int walk_black[MAX_LENGTH_ANIMATION] = {6, 6, 6, 6, 6, 6, 6, 7, 7,
+                                          7, 7, 7, 7, 8, 8, 8, 8, 8,
+                                          8, 8, 7, 7, 7, 7, 7, 7};
+  int walk_orange[MAX_LENGTH_ANIMATION] = {9,  9,  9,  9,  9,  9,  9,  10, 10,
+                                           10, 10, 10, 10, 11, 11, 11, 11, 11,
+                                           11, 11, 10, 10, 10, 10, 10, 10};
   // NOLINTEND(*-magic-numbers)
 
   animation cat_animate = {.texture = cat_texture,

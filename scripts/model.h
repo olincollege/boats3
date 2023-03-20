@@ -22,6 +22,8 @@
 // Int from 0-10; a higher number = smoother .
 #define SMOOTHNESS 10
 
+// Define maximum animation length
+#define MAX_LENGTH_ANIMATION 30
 // TO DO: refactor main.c and model.c code to rely on these global constants
 // instead of passing lots of parameters #define WALK_GRAY =
 // {0,0,0,0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,2,2,1,1,1,1,1,1}; #define WALK_WHITE =
