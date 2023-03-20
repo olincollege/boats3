@@ -22,12 +22,12 @@
 // Int from 0-10; a higher number = smoother .
 #define SMOOTHNESS 10
 
-
-// TO DO: refactor main.c and model.c code to rely on these global constants instead of passing lots of parameters
-// #define WALK_GRAY = {0,0,0,0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,2,2,1,1,1,1,1,1};
-// #define WALK_WHITE = {3,3,3,3,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,4,4,4,4,4,4};
-// #define WALK_BLACK = {6,6,6,6,6,6,6,7,7,7,7,7,7,8,8,8,8,8,8,8,7,7,7,7,7,7};
-// #define WALK_ORANGE = {9,9,9,9,9,9,9,10,10,10,10,10,10,11,11,11,11,11,11,11,10,10,10,10,10,10};
+// TO DO: refactor main.c and model.c code to rely on these global constants
+// instead of passing lots of parameters #define WALK_GRAY =
+// {0,0,0,0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,2,2,1,1,1,1,1,1}; #define WALK_WHITE =
+// {3,3,3,3,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,4,4,4,4,4,4}; #define WALK_BLACK =
+// {6,6,6,6,6,6,6,7,7,7,7,7,7,8,8,8,8,8,8,8,7,7,7,7,7,7}; #define WALK_ORANGE =
+// {9,9,9,9,9,9,9,10,10,10,10,10,10,11,11,11,11,11,11,11,10,10,10,10,10,10};
 
 // #define DELAY 3000
 
@@ -96,15 +96,20 @@ int find_sprite_grid(SDL_Texture *texture, int *row_height, int *column_width,
 int initialize_animation(animation *loop, int num_rows, int num_col,
                          int row_number);
 
+void change_random_cat_color(animation *cat0, animation *cat1, animation *cat2,
+                             animation *cat3, int *orange, int *black,
+                             int *white, int *gray, int *current_frame_loop);
+
 /**
  * Initializes and SDL Texture from an image given a file path.
  *
- * Creates a surface with the given file path which a texture is then generated
- * from. The surface used to make the texture is then freed.
+ * Creates a surface with the given file path which a texture is then
+ * generated from. The surface used to make the texture is then freed.
  *
- * @param filepath  A string representing the image of the sprite's location.
- * @param renderer  An SDL_Renderer representing the current window to display
- *  images on.
+ * @param filepath  A string representing the image of the sprite's
+ * location.
+ * @param renderer  An SDL_Renderer representing the current window to
+ * display images on.
  */
 SDL_Texture *initialize_texture(const char *filepath, SDL_Renderer *renderer);
 
@@ -235,4 +240,5 @@ void loop_Animation(animation *loop, SDL_Renderer *renderer, SDL_Rect *box_ptr);
 int make_animation_box(SDL_Rect *box, animation *loop, int xpos, int ypos,
                        float scale);
 
-void change_cat_color(animation *cat0, animation *cat1, animation *cat2, animation *cat3, int *new_frame_loop);
+void change_cat_color(animation *cat0, animation *cat1, animation *cat2,
+                      animation *cat3, int *new_frame_loop);
