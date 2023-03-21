@@ -36,5 +36,6 @@ int handle_event(SDL_Event event) {
     return 2;
     break;
   }
+  puts("Yikes! An error occurred");
   return 0;
 }
