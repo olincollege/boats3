@@ -25,17 +25,17 @@ int main(void) {
 
   // NOLINTBEGIN(*-magic-numbers)
   const int number_frames = 26;
-  int walk_gray[30] = {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
-                       2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1};
-  int walk_white[30] = {3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4,
-                        5, 5, 5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4};
-  int walk_black[30] = {6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7,
-                        8, 8, 8, 8, 8, 8, 8, 7, 7, 7, 7, 7, 7};
-  int walk_orange[30] = {9,  9,  9,  9,  9,  9,  9,  10, 10, 10, 10, 10, 10,
-                         11, 11, 11, 11, 11, 11, 11, 10, 10, 10, 10, 10, 10};
+  int walk_gray[26] = {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
+                  2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1};
+  int walk_white[26] = {3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4,
+                  5, 5, 5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4};
+  int walk_black[26] = {6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7,
+                  8, 8, 8, 8, 8, 8, 8, 7, 7, 7, 7, 7, 7};
+  int walk_orange[26] = {9,  9,  9,  9,  9,  9,  9,  10, 10, 10, 10,
+                  10, 10, 11, 11, 11, 11, 11, 11, 11, 10, 10, 10, 10, 10, 10};
   // NOLINTEND(*-magic-numbers)
   animation cat_animate = {.texture = cat_texture,
-                           .frames_loop = &walk_orange,
+                           .frames_loop = walk_orange,
                            .num_frames = number_frames};
   animation cat_animate1 = cat_animate;
   animation cat_animate2 = cat_animate;
@@ -62,6 +62,7 @@ int main(void) {
   int prev = 0;  // represents the previous direction the sprite moved
   int cycle = 0; // used for my manual pseudo-lerping implementation
   int speed = 2; // an int from 1-10. higher # = higher speed
+  const int speed_range = 10;
 
   while (!quit) {
     // check the time of this update cycle
@@ -74,35 +75,35 @@ int main(void) {
 
       switch (action) {
         // if you press a key
+        case 1:
+          speed = rand() % speed_range + 1; // NOLINT(cert-msc30-c, cert-msc50-cpp)
+          printf("Manually changing speed to %i\n", speed);
+          break;
+        case 2:
+          printf("Clicked mouse\n");
+          SDL_Point mousePosition;
+          // Mouse click coords from event handler
+          mousePosition.x = event.motion.x;
+          mousePosition.y = event.motion.y;
 
-      case 1:
-        speed = rand() % 10 + 1;
-        printf("Manually changing speed to %i\n", speed);
-        break;
-      case 2:
-        printf("Clicked mouse\n");
-        SDL_Point mousePosition;
-        // Mouse click coords from event handler
-        mousePosition.x = event.motion.x;
-        mousePosition.y = event.motion.y;
-
-        if (SDL_PointInRect(&mousePosition, &cat_box)) {
-          change_random_cat_color(&cat_animate, &cat_animate1, &cat_animate2,
-                                  &cat_animate3, &walk_orange, &walk_black,
-                                  &walk_white, &walk_gray,
-                                  cat_animate.frames_loop);
+          if (SDL_PointInRect(&mousePosition, &cat_box)) {
+            change_random_cat_color(&cat_animate, &cat_animate1, &cat_animate2,
+                                    &cat_animate3, walk_orange, walk_black,
+                                    walk_white, walk_gray);
+          }
+          break;
+        case 3:
+          quit = true;
+          break;
+        default:
+          break;
         }
-        break;
-      case 3:
-        quit = true;
-        break;
-      }
     }
 
     // NOLINTBEGIN(*-magic-numbers)
     // randomly change speed
-    if (rand() % 70000000 == 0) {
-      speed = rand() % 10 + 1;
+    if (rand() % 70000000 == 0) { // NOLINT(cert-msc30-c, cert-msc50-cpp)
+      speed = rand() % 10 + 1; // NOLINT(cert-msc30-c, cert-msc50-cpp)
       printf("Changing speed to %i\n", speed);
     }
     cycle++;
@@ -138,7 +139,7 @@ int main(void) {
     float elapsed_time = (time_end - time_start) /
                          (float)SDL_GetPerformanceFrequency() * 1000.0F;
     // cap fps at 60
-    SDL_Delay(floorf(16.666F - elapsed_time));
+    SDL_Delay(floor(16.666F - elapsed_time));
     // NOLINTEND(*-magic-numbers)
   }
 
