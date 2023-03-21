@@ -1,6 +1,6 @@
-/*
-Handles interaction with the user.
-*/
+/**
+ * Handles interaction with the user.
+ */
 
 #include "controller.h"
 #include "model.h"
@@ -27,7 +27,7 @@ int handle_event(SDL_Event event) {
     }
     break;
 
-  // Sometimes it registers ESCAPE without a KEYDOWN
+  // Sometimes it registers ESCAPE without a KEYDOWN.
   case SDL_QUIT:
     return 3;
     break;

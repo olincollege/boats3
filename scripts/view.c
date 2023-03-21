@@ -1,6 +1,6 @@
-/*
-Handle's the user's view of the system; displaying background + surfaces
-*/
+/**
+ * Handles the user's view of the system; displaying background + surfaces
+ */
 
 #include "view.h"
 #include <SDL2/SDL_image.h>
@@ -20,13 +20,13 @@ state setup_state() {
     (void)fprintf(stderr, "Error SDL2_image Initialization-JPG\n");
   }
 
-  // Creates a SDL window
+  // Creates a SDL window.
   init.window = SDL_CreateWindow(
-      "Desktop Pet",           // Title of the SDL window
-      SDL_WINDOWPOS_UNDEFINED, // Position x of the window
-      SDL_WINDOWPOS_UNDEFINED, // Position y of the window
-      WIDTH,                   // Width of the window in pixels
-      HEIGHT,                  // Height of the window in pixels
+      "Desktop Pet",           // Title of the SDL window.
+      SDL_WINDOWPOS_UNDEFINED, // Position x of the window.
+      SDL_WINDOWPOS_UNDEFINED, // Position y of the window.
+      WIDTH,                   // Width of the window in pixels.
+      HEIGHT,                  // Height of the window in pixels.
       SDL_WINDOW_BORDERLESS ||
           SDL_WINDOW_MAXIMIZED); // NOLINT(clang-diagnostic-int-in-bool-context)
 

@@ -1,5 +1,5 @@
 /**
- *  A simple model for a desktop pet
+ *  A simple model for a desktop pet.
  */
 
 #pragma once
@@ -27,19 +27,19 @@ enum { MAX_ANIMATION_LEN = 26 };
  * Represents an animation loop of the desktop pet for one direction.
  */
 typedef struct animation {
-  // A pointer to the image representing the pet, displayed on screen
+  // A pointer to the image representing the pet, displayed on screen.
   SDL_Texture *texture;
-  // The width of the animation
+  // The width of the animation.
   int width;
-  // The height of the animation
+  // The height of the animation.
   int height;
-  // The y position of the animation
+  // The y position of the animation.
   int ypos;
-  // The total number of frames the animation will cycle through
+  // The total number of frames the animation will cycle through.
   int num_frames;
-  // A pointer to the array of possibel frame positions within the sprite sheet
+  // A pointer to the array of possible frame positions within the sprite sheet.
   int *frames_loop;
-  // The current frame position within the sprite sheet
+  // The current frame position within the sprite sheet.
   int frame_index;
 } animation;
 
@@ -99,8 +99,8 @@ SDL_Texture *initialize_texture(const char *filepath, SDL_Renderer *renderer);
  *
  * The random generation involves custom probabilities to simulate a more
  * realistic movement pattern; if a given number was chosen the last time this
- * function was called, it has a 40% chance to get picked again, as opposed to
- * everything else at 20%.
+ * function was called, it has a 52% chance to get picked again, as opposed to
+ * everything else at 12%.
  *
  * @param min An integer representing the lower (inclusive) bound of the range
  *  to generate from.
@@ -165,7 +165,7 @@ int move_left(SDL_Rect *sprite, int distance);
 int move_right(SDL_Rect *sprite, int distance);
 
 /**
- * Based on an integer value (1-5), calls the corresponding sprite movement
+ * Based on an integer value (1-4), calls the corresponding sprite movement
  * function.
  *
  * Numbers 0, 1, 2, 3 represent moving up, down, left, and right. Number 4
@@ -178,8 +178,7 @@ int move_right(SDL_Rect *sprite, int distance);
  * @param distance An integer representing the number of pixels to travel.
  * @param prev An integer pointer representing the previously-chosen number.
  */
-void move_random_direction(int num, SDL_Rect *sprite_pos, int distance,
-                           int *prev);
+void move_direction(int num, SDL_Rect *sprite_pos, int distance, int *prev);
 
 /**
  * Runs the cleanup commands when exiting the program.

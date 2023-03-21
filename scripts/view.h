@@ -1,6 +1,6 @@
-/*
-A simple view for our desktop pet
-*/
+/**
+ * A simple view for our desktop pet.
+ */
 
 #pragma once
 
@@ -11,27 +11,26 @@ A simple view for our desktop pet
 #include <stdlib.h>
 
 /**
- *A structure containing all of the parameters of our screen's background
- *display
+ * A structure containing all of the parameters of the screen's background
+ * display.
  */
 typedef struct initialized_state {
-  // A pointer to an SDL Window object
+  // A pointer to an SDL Window object.
   SDL_Window *window;
-  // A pointer to the image representing the pet, displayed on screen
+  // A pointer to the image representing the pet, displayed on screen.
   SDL_Texture *texture;
-  // A pointer to an SDL Renderer object
+  // A pointer to an SDL Renderer object.
   SDL_Renderer *renderer;
-  // A pointer to the image representing the background
+  // A pointer to the image representing the background.
   SDL_Surface *background;
 } state;
 
 /**
- * Set up the background of our desktop pet interaction.
+ * Set up the background of the desktop pet interaction.
  *
  * When called, generate a state object and initialize it
  * with all of the necessary qualities.
  *  *
- * @return the initialized background with all textures
- * and renderings
+ * @return the initialized background with all textures and renderings.
  */
 state setup_state();

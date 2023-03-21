@@ -1,12 +1,12 @@
 /**
- * Main game loop
+ * Main game loop for a desktop pet.
  */
 
 #include "controller.h"
 #include "model.h"
 #include "view.h"
 #include <SDL2/SDL_image.h>
-#include <math.h> //math seems to require the -lm flag
+#include <math.h> // math seems to require the -lm flag
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,7 +16,7 @@ int main(void) {
   bool quit = false;
   SDL_Event event;
 
-  // Initialize our window.
+  // Initializes the window.
   init = setup_state();
 
   SDL_Texture *cat_texture =
@@ -58,22 +58,22 @@ int main(void) {
                      cat_box_scale);
 
   int direction = 0;
-  int prev = 0;  // represents the previous direction the sprite moved
-  int cycle = 0; // used for my manual pseudo-lerping implementation
-  int speed = 2; // an int from 1-10. higher # = higher speed
+  int prev = 0;  // Represents the previous direction the sprite moved.
+  int cycle = 0; // Used for my manual pseudo-lerping implementation.
+  int speed = 2; // An int from 1-10. higher # = higher speed.
   const int speed_range = 10;
 
   while (!quit) {
-    // check the time of this update cycle
+    // Check the time of this update cycle.
     Uint64 time_start = SDL_GetPerformanceCounter();
 
-    // poll event, contents of if need to be in a function, if statement is
-    // important
+    /* Poll event, contents of if need to be in a function, if statement is
+     * important. */
     if (SDL_PollEvent(&event)) {
       int action = handle_event(event);
 
       switch (action) {
-      // if you press a key
+      // If a key is pressed.
       case 1:
         speed = rand() % speed_range +
                 1; // NOLINT(cert-msc30-c, cert-msc50-cpp concurrency-mt-unsafe)
@@ -82,7 +82,7 @@ int main(void) {
       case 2:
         printf("Clicked mouse\n");
         SDL_Point mousePosition;
-        // Mouse click coords from event handler
+        // Mouse click coords from event handler.
         mousePosition.x = event.motion.x;
         mousePosition.y = event.motion.y;
 
@@ -101,7 +101,7 @@ int main(void) {
     }
 
     // NOLINTBEGIN(*-magic-numbers)
-    // randomly change speed
+    // Randomly changes speed.
     if (rand() % 70000000 ==
         0) { // NOLINT(cert-msc30-c, cert-msc50-cpp concurrency-mt-unsafe)
       speed = rand() % 10 +
@@ -110,11 +110,11 @@ int main(void) {
     }
     cycle++;
     if (cycle == SMOOTHNESS) {
-      // only update random num if the sprite has pseudo-lerped to another spot
+      // Only update random num if the sprite has pseudo-lerped to another spot.
       direction = generate_random(0, 5, prev);
       cycle = 0;
     }
-    move_random_direction(direction, &cat_box, speed, &prev);
+    move_direction(direction, &cat_box, speed, &prev);
     SDL_RenderClear(init.renderer);
     SDL_RenderCopy(init.renderer, init.texture, NULL, NULL);
 
@@ -138,7 +138,7 @@ int main(void) {
     Uint64 time_end = SDL_GetPerformanceCounter();
     float elapsed_time = (time_end - time_start) /
                          (float)SDL_GetPerformanceFrequency() * 1000.0F;
-    // cap fps at 60
+    // Cap fps at 60.
     SDL_Delay(floor(16.666F - elapsed_time));
     // NOLINTEND(*-magic-numbers)
   }
