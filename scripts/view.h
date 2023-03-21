@@ -10,10 +10,18 @@ A simple view for our desktop pet
 #include <stdio.h>
 #include <stdlib.h>
 
+/**
+ *A structure containing all of the parameters of our screen's background
+ *display
+ */
 typedef struct initialized_state {
+  // A pointer to an SDL Window object
   SDL_Window *window;
+  // A pointer to the image representing the pet, displayed on screen
   SDL_Texture *texture;
+  // A pointer to an SDL Renderer object
   SDL_Renderer *renderer;
+  // A pointer to the image representing the background
   SDL_Surface *background;
 } state;
 
