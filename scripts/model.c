@@ -149,7 +149,6 @@ void end_program(SDL_Texture *bg_texture, SDL_Texture *sprite_texture,
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
   SDL_Quit();
-  printf("Successfully exited program.\n");
 }
 
 void loop_animation(animation *loop, SDL_Renderer *renderer,
