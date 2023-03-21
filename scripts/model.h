@@ -80,10 +80,6 @@ int find_sprite_grid(SDL_Texture *texture, int *row_height, int *column_width,
 int initialize_animation(animation *loop, int num_rows, int num_col,
                          int row_number);
 
-void change_random_cat_color(animation *cat0, animation *cat1, animation *cat2,
-                             animation *cat3, int *orange, int *black,
-                             int *white, int *gray, int *current_frame_loop);
-
 /**
  * Initializes and SDL Texture from an image given a file path.
  *
@@ -109,11 +105,11 @@ SDL_Texture *initialize_texture(const char *filepath, SDL_Renderer *renderer);
  *  to generate from.
  * @param max An integer representing the lower (exclusive) bound of the range
  *  to generate from.
- * @param prev An integer pointer representing the previously-chosen number.
+ * @param prev An integer representing the previously-chosen number.
  *
  * @return An integer representing the random number generated.
  */
-int generate_random(int min, int max, int *prev);
+int generate_random(int min, int max, int prev);
 
 /**
  * Moves the sprite towards the bottom of the screen.
@@ -267,9 +263,9 @@ void change_cat_color(animation *cat0, animation *cat1, animation *cat2,
  *  for the white cat.
  * @param gray  An int pointer representing an array of the frame sequence
  *  for the gray cat.
- * @param current_frame_loop  An int pointer representing an array of the frame
+ * @param current_frame_loop  An int representing an array of the frame
  *  sequence for the current cat.
  */
 void change_random_cat_color(animation *cat0, animation *cat1, animation *cat2,
                              animation *cat3, int *orange, int *black,
-                             int *white, int *gray, int *current_frame_loop);
+                             int *white, int *gray, int current_frame_loop);

@@ -22,6 +22,8 @@ int main(void) {
   SDL_Texture *cat_texture =
       initialize_texture("assets/catsheet_1.jpg", init.renderer);
 
+
+  // NOLINTBEGIN(*-magic-numbers)
   const int number_frames = 26;
   int walk_gray[30] = {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
                        2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1};
@@ -31,6 +33,7 @@ int main(void) {
                         8, 8, 8, 8, 8, 8, 8, 7, 7, 7, 7, 7, 7};
   int walk_orange[30] = {9,  9,  9,  9,  9,  9,  9,  10, 10, 10, 10, 10, 10,
                          11, 11, 11, 11, 11, 11, 11, 10, 10, 10, 10, 10, 10};
+  // NOLINTEND(*-magic-numbers)
   animation cat_animate = {.texture = cat_texture,
                            .frames_loop = &walk_orange,
                            .num_frames = number_frames};
@@ -96,8 +99,8 @@ int main(void) {
       }
     }
 
-    // randomly change speed
     // NOLINTBEGIN(*-magic-numbers)
+    // randomly change speed
     if (rand() % 70000000 == 0) {
       speed = rand() % 10 + 1;
       printf("Changing speed to %i\n", speed);
@@ -105,29 +108,28 @@ int main(void) {
     cycle++;
     if (cycle == SMOOTHNESS) {
       // only update random num if the sprite has pseudo-lerped to another spot
-      direction = generate_random(0, 5, &prev);
+      direction = generate_random(0, 5, prev);
       cycle = 0;
     }
-    // NOLINTEND(*-magic-numbers)
     move_random_direction(direction, &cat_box, speed, &prev);
     SDL_RenderClear(init.renderer);
     SDL_RenderCopy(init.renderer, init.texture, NULL, NULL);
 
     switch (direction) {
     case 0:
-      loop_Animation(&cat_animate3, init.renderer, &cat_box);
+      loop_animation(&cat_animate3, init.renderer, &cat_box);
       break;
     case 1:
-      loop_Animation(&cat_animate, init.renderer, &cat_box);
+      loop_animation(&cat_animate, init.renderer, &cat_box);
       break;
     case 2:
-      loop_Animation(&cat_animate1, init.renderer, &cat_box);
+      loop_animation(&cat_animate1, init.renderer, &cat_box);
       break;
     case 3:
-      loop_Animation(&cat_animate2, init.renderer, &cat_box);
+      loop_animation(&cat_animate2, init.renderer, &cat_box);
       break;
     default:
-      loop_Animation(&cat_animate, init.renderer, &cat_box);
+      loop_animation(&cat_animate, init.renderer, &cat_box);
       break;
     }
 
