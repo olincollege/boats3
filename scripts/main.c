@@ -11,67 +11,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-state init;
-
-state setup_state(state init) {
-  if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-    fprintf(stderr, "SDL failed to initialise: %s\n", SDL_GetError());
-  }
-  if (IMG_Init(IMG_INIT_PNG) == 0) {
-    printf("Error SDL2_image Initialization-PNG\n");
-  }
-  if (IMG_Init(IMG_INIT_JPG) == 0) {
-    printf("Error SDL2_image Initialization-JPG\n");
-  }
-
-  // Creates a SDL window
-  init.window = SDL_CreateWindow(
-      "SDL Example",           // Title of the SDL window
-      SDL_WINDOWPOS_UNDEFINED, // Position x of the window
-      SDL_WINDOWPOS_UNDEFINED, // Position y of the window
-      WIDTH,                   // Width of the window in pixels
-      HEIGHT,                  // Height of the window in pixels
-      SDL_WINDOW_BORDERLESS || SDL_WINDOW_MAXIMIZED); // Additional flag(s)
-
-  // Checks if window has been created; if not, exits program
-  // if (init.window == NULL) {
-  //   fprintf(stderr, "SDL window failed to initialise: %s\n", SDL_GetError());
-  //   return 3;
-  // }
-
-  init.renderer = SDL_CreateRenderer(init.window, -1, SDL_RENDERER_ACCELERATED);
-  // if (init.renderer == NULL) {
-  //   printf("renderer error\n");
-  //   return 4;
-  // }
-
-  // if (SDL_RenderSetLogicalSize(init.renderer, WIDTH, HEIGHT) != 0) {
-  //   printf("resolution setting error\n");
-  //   printf("%s\n", SDL_GetError());
-  //   return 5;
-  // }
-
-  // ? change this to rely on the initialize_texture function?
-  init.background = IMG_Load("assets/background.png");
-  if (init.background == NULL) {
-    printf("error loading image\n");
-  }
-
-  init.texture = SDL_CreateTextureFromSurface(init.renderer, init.background);
-  // if (init.texture == NULL) {
-  //   printf("error creating texture\n");
-  // }
-  SDL_FreeSurface(init.background);
-
-  return init;
-}
-
 int main(void) {
+  state init;
   bool quit = false;
   SDL_Event event;
 
   // Initialize our window.
-  init = setup_state(init);
+  init = setup_state();
 
   SDL_Texture *cat_texture =
       initialize_texture("assets/catsheet_1.jpg", init.renderer);
