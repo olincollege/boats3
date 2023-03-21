@@ -37,7 +37,7 @@ typedef struct animation {
   // The total number of frames the animation will cycle through
   int num_frames;
   // A pointer to the array of possibel frame positions within the sprite sheet
-  int *frames_loop;
+  int* frames_loop;
   // The current frame position within the sprite sheet
   int frame_index;
 } animation;
@@ -263,9 +263,7 @@ void change_cat_color(animation *cat0, animation *cat1, animation *cat2,
  *  for the white cat.
  * @param gray  An int pointer representing an array of the frame sequence
  *  for the gray cat.
- * @param current_frame_loop  An int representing an array of the frame
- *  sequence for the current cat.
  */
 void change_random_cat_color(animation *cat0, animation *cat1, animation *cat2,
                              animation *cat3, int *orange, int *black,
-                             int *white, int *gray, int current_frame_loop);
+                             int *white, int *gray);

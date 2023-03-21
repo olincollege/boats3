@@ -178,7 +178,7 @@ int make_animation_box(SDL_Rect *box, animation *loop, int xpos, int ypos,
 }
 
 void change_cat_color(animation *cat0, animation *cat1, animation *cat2,
-                      animation *cat3, int *new_frame_loop) {
+                      animation *cat3, int new_frame_loop[26]) {
   cat0->frames_loop = new_frame_loop;
   cat1->frames_loop = new_frame_loop;
   cat2->frames_loop = new_frame_loop;
@@ -186,25 +186,25 @@ void change_cat_color(animation *cat0, animation *cat1, animation *cat2,
 }
 
 void change_random_cat_color(animation *cat0, animation *cat1, animation *cat2,
-                             animation *cat3, int *orange, int *black,
-                             int *white, int *gray, int current_frame_loop) {
-  // if the number corresponds to the current color, then fall through to the
+                             animation *cat3, int orange[26], int black[26],
+                             int white[26], int gray[26]) {
+  int current_frame_loop = cat0->frame_index;
 
   int case_no = rand() % 3; // NOLINT(cert-msc30-c, cert-msc50-cpp)
   // default case
   switch (case_no) {
   case 0:
-    if (current_frame_loop != *black) {
+    if (current_frame_loop != black) {
       change_cat_color(cat0, cat1, cat2, cat3, black);
     }
     break;
   case 1:
-    if (current_frame_loop != *white) {
+    if (current_frame_loop != white) {
       change_cat_color(cat0, cat1, cat2, cat3, white);
     }
     break;
   case 2:
-    if (current_frame_loop != *gray) {
+    if (current_frame_loop != gray) {
       change_cat_color(cat0, cat1, cat2, cat3, gray);
     }
     break;
