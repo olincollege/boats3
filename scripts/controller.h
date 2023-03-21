@@ -19,4 +19,4 @@ the correct corresponding behavior
 * should continue running
 * @param event An SDL event queue to manage
 **/
-void Handle_Event(bool *quit, SDL_Event event);
+int handle_event(SDL_Event event);
