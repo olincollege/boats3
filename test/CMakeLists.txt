@@ -3,23 +3,17 @@
 # conversion warnings for test code.
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-conversion")
 
-# add_executable(test_array_sort test_array_sort.c)
-# target_link_libraries(test_array_sort
-#   PRIVATE array_sort
-#   PUBLIC ${CRITERION}
-# )
-# add_test(
-#   NAME test_array_sort
-#   COMMAND test_array_sort ${CRITERION_FLAGS}
-# )
+find_library(SDL2 SDL2_image m REQUIRED)
 
+add_executable(test_model test_model.c)
 
-# add_executable(test_shout test_shout.c)
-# target_link_libraries(test_shout
-#   PRIVATE shout
-#   PUBLIC ${CRITERION}
-# )
-# add_test(
-#   NAME test_shout
-#   COMMAND test_shout ${CRITERION_FLAGS}
-# )
+target_link_libraries(test_model
+  PRIVATE model
+  PRIVATE SDL2 SDL2_image m
+  PUBLIC ${CRITERION}
+)
+
+add_test(
+  NAME test_model
+  COMMAND test_model ${CRITERION_FLAGS}
+)

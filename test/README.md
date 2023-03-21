@@ -1,1 +1,1 @@
-TEST FUNCTIONS TO BE WRITTEN BY LILY
+Unit test functions for the movement of the sprite.
