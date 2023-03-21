@@ -83,7 +83,7 @@ Test(test_model, right_boundary) {
 Test(test_model, random_number_range) {
   int prev = 0;
   for (int i = 0; i < 100; i++) {
-    int rand = generate_random(0, 5, &prev);
+    int rand = generate_random(0, 5, prev);
     prev = rand;
     cr_assert(all(rand >= 0 && rand < 5));
   }
