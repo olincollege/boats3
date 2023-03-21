@@ -22,10 +22,9 @@
 // Int from 0-10; a higher number = smoother .
 #define SMOOTHNESS 10
 
-
 /**
  * Represents an animation loop of the desktop pet for one direction.
-*/
+ */
 typedef struct animation {
   // A pointer to the image representing the pet, displayed on screen
   SDL_Texture *texture;
@@ -44,8 +43,9 @@ typedef struct animation {
 } animation;
 
 /**
- *A structure containing all of the parameters of our screen's background display
-*/
+ *A structure containing all of the parameters of our screen's background
+ *display
+ */
 typedef struct initialized_state {
   // A pointer to an SDL Window object
   SDL_Window *window;
@@ -240,7 +240,7 @@ int make_animation_box(SDL_Rect *box, animation *loop, int xpos, int ypos,
 
 /**
  * Changes the color of the cat sprite.
- * 
+ *
  * For each of the 4 cat animations (representing the cat moving in 4
  * directions), the frame loops are updated to refer to a different cat
  * sequence within the sprite sheet.
