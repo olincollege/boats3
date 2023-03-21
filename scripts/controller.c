@@ -5,8 +5,10 @@ Handles interaction with the user.
 #include "controller.h"
 #include "model.h"
 #include "view.h"
+#include <SDL2/SDL_image.h>
+#include <stdbool.h>
 
-void Handle_Event(SDL_Event event) {
+void Handle_Event(bool* quit, SDL_Event event) {
 
   switch (event.type) {
   // if you press a key
@@ -14,7 +16,7 @@ void Handle_Event(SDL_Event event) {
     switch (event.key.keysym.sym) {
 
     case SDLK_ESCAPE:
-      quit = true;
+      *quit = true;
       break;
     }
     switch (event.type) {
@@ -22,8 +24,8 @@ void Handle_Event(SDL_Event event) {
     case SDL_KEYDOWN:
       switch (event.key.keysym.sym) {
       case SDLK_ESCAPE:
-        printf("got here\n");
-        quit = true;
+        printf("got here (Handle_Event)\n");
+        *quit = true;
         break;
       }
 
@@ -31,7 +33,7 @@ void Handle_Event(SDL_Event event) {
       break;
 
     case SDL_QUIT:
-      quit = true;
+      *quit = true;
       break;
     }
   }
