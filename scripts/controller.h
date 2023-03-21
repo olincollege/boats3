@@ -1,6 +1,6 @@
-/*
-The controller, responsible for handling inputs from the user.
-*/
+/**
+ * The controller, responsible for handling inputs from the user.
+ */
 
 #pragma once
 
