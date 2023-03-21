@@ -8,7 +8,7 @@ etc.
 
 #include <SDL2/SDL_image.h>
 #include <stdbool.h>
-#include <stdio.h> /* printf and fprintf */
+#include <stdio.h>
 #include <stdlib.h>
 
 int find_sprite_grid(SDL_Texture *texture, int *row_height, int *column_width,
@@ -22,13 +22,10 @@ int find_sprite_grid(SDL_Texture *texture, int *row_height, int *column_width,
     fprintf(stderr, "QueryTexture Error in find_sprite_grid.\n");
     return 1;
   }
-  // printf("total texture height: %d total texture width:
-  // %d\n",height_texture,width_texture);
 
   *row_height = height_texture / num_rows;
   *column_width = width_texture / num_columns;
 
-  // printf("row height: %d colm width: %d\n",*row_height,*column_width);
   return 0;
 }
 
@@ -146,11 +143,8 @@ void end_program(SDL_Texture *bg_texture, SDL_Texture *sprite_texture,
                  SDL_Renderer *renderer, SDL_Window *window) {
   SDL_DestroyTexture(bg_texture);
   SDL_DestroyTexture(sprite_texture);
-  // printf("got here 4\n");
   SDL_DestroyRenderer(renderer);
-  // printf("got here 6\n");
   SDL_DestroyWindow(window);
-  // printf("got here 7\n");
   SDL_Quit();
   printf("Successfully exited program.\n");
 }
@@ -160,7 +154,6 @@ void loop_Animation(animation *loop, SDL_Renderer *renderer,
   int xpos = 0;
 
   xpos = loop->frames_loop[loop->frame_index] * loop->width;
-  // printf("%d\n", xpos);
 
   SDL_Rect crop_sprite = {
       .x = xpos, .y = loop->ypos, .w = loop->width, .h = loop->height};
@@ -168,7 +161,6 @@ void loop_Animation(animation *loop, SDL_Renderer *renderer,
   if (0 != SDL_RenderCopy(renderer, loop->texture, &crop_sprite, box_ptr)) {
     fprintf(stderr, "Error animating.");
   }
-  // printf("animated frame %d\n",loop->frame_index);
   //  update the position in the loop
   loop->frame_index = loop->frame_index + 1;
   loop->frame_index = loop->frame_index % loop->num_frames;

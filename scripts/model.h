@@ -22,45 +22,39 @@
 // Int from 0-10; a higher number = smoother .
 #define SMOOTHNESS 10
 
-// Define maximum animation length
-#define MAX_LENGTH_ANIMATION 30
-// TO DO: refactor main.c and model.c code to rely on these global constants
-// instead of passing lots of parameters
-// #define WALK_GRAY \
-//   = {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, \
-//      2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1};
-// #define WALK_WHITE \
-//   = {3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, \
-//      5, 5, 5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4};
-// #define WALK_BLACK \
-//   = {6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, \
-//      8, 8, 8, 8, 8, 8, 8, 7, 7, 7, 7, 7, 7};
-// #define WALK_ORANGE \
-//   = {9,  9,  9,  9,  9,  9,  9,  10, 10, 10, 10, 10, 10, \
-//      11, 11, 11, 11, 11, 11, 11, 10, 10, 10, 10, 10, 10};
 
-// #define DELAY 3000
-
-typedef struct sprite {
-  SDL_Texture *texture;
-  SDL_Rect *rect;
-  const char *path;
-} sprite;
-
+/**
+ * Represents an animation loop of the desktop pet for one direction.
+*/
 typedef struct animation {
+  // A pointer to the image representing the pet, displayed on screen
   SDL_Texture *texture;
+  // The width of the animation
   int width;
+  // The height of the animation
   int height;
+  // The y position of the animation
   int ypos;
+  // The total number of frames the animation will cycle through
   int num_frames;
+  // A pointer to the array of possibel frame positions within the sprite sheet
   int *frames_loop;
+  // The current frame position within the sprite sheet
   int frame_index;
 } animation;
 
+
+/**
+ *A structure containing all of the parameters of our screen's background display
+*/
 typedef struct initialized_state {
+  // A pointer to an SDL Window object
   SDL_Window *window;
+  // A pointer to the image representing the pet, displayed on screen
   SDL_Texture *texture;
+  // A pointer to an SDL Renderer object
   SDL_Renderer *renderer;
+  // A pointer to the image representing the background
   SDL_Surface *background;
 } state;
 
@@ -232,7 +226,7 @@ void end_program(SDL_Texture *bg_texture, SDL_Texture *sprite_texture,
  * @param renderer  An SDL_Renderer representing the current window to display
  *  images on.
  */
-void loop_Animation(animation *loop, SDL_Renderer *renderer, SDL_Rect *box_ptr);
+void loop_animation(animation *loop, SDL_Renderer *renderer, SDL_Rect *box_ptr);
 
 /**
  * Creates a rectangle in which the animation loop will be run onto.
@@ -240,8 +234,8 @@ void loop_Animation(animation *loop, SDL_Renderer *renderer, SDL_Rect *box_ptr);
  * Scales the animation to the size of the rectangle.
  *
  * @param box   A pointer to an SDL_Rect that the animation will be run on.
- * @param loop  A pointer to the animation struct containing the information for
- *  the sprite loop.
+ * @param loop  A pointer to the instance of the animation struct containing
+ *  the information for the sprite loop.
  * @param xpos  An integer representing the x position of the rectangle.
  * @param ypos  An integer representing the y position of the rectangle.
  * @param scale An integer representing how much to scale the image by to match
@@ -250,5 +244,52 @@ void loop_Animation(animation *loop, SDL_Renderer *renderer, SDL_Rect *box_ptr);
 int make_animation_box(SDL_Rect *box, animation *loop, int xpos, int ypos,
                        float scale);
 
+/**
+ * Changes the color of the cat sprite.
+ * 
+ * For each of the 4 cat animations (representing the cat moving in 4
+ * directions), the frame loops are updated to refer to a different cat
+ * sequence within the sprite sheet.
+ *
+ * @param cat0  A pointer to an instance of an animation struct representing
+ *  the cat while it is moving forward.
+ * @param cat1  A pointer to an instance of an animation struct representing
+ *  the cat while it is moving left.
+ * @param cat2  A pointer to an instance of an animation struct representing
+ *  the cat while it is moving right.
+ * @param cat3  A pointer to an instance of an animation struct representing
+ *  the cat while it is moving backwards.
+ * @param new_frame_loop  An int pointer representing the new set of frames
+ *  within the sprite sheet to loop through.
+ */
 void change_cat_color(animation *cat0, animation *cat1, animation *cat2,
                       animation *cat3, int *new_frame_loop);
+
+/**
+ * Determines which color the cat should randomly change to.
+ *
+ * This function also ensures the new color is not the same as the old color,
+ * by comparing the current frame loop to the potential new frame loops.
+ *
+ * @param cat0  A pointer to an instance of an animation struct representing
+ *  the cat while it is moving forward.
+ * @param cat1  A pointer to an instance of an animation struct representing
+ *  the cat while it is moving left.
+ * @param cat2  A pointer to an instance of an animation struct representing
+ *  the cat while it is moving right.
+ * @param cat3  A pointer to an instance of an animation struct representing
+ *  the cat while it is moving backwards.
+ * @param orange  An int pointer representing an array of the frame sequence
+ *  for the orange cat.
+ * @param black  An int pointer representing an array of the frame sequence
+ *  for the black cat.
+ * @param white  An int pointer representing an array of the frame sequence
+ *  for the white cat.
+ * @param gray  An int pointer representing an array of the frame sequence
+ *  for the gray cat.
+ * @param current_frame_loop  An int pointer representing an array of the frame
+ *  sequence for the current cat.
+ */
+void change_random_cat_color(animation *cat0, animation *cat1, animation *cat2,
+                             animation *cat3, int *orange, int *black,
+                             int *white, int *gray, int *current_frame_loop);

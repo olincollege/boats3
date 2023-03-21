@@ -8,5 +8,6 @@ add_library(view view.c view.h)
 add_library(model model.c model.h)
 
 add_executable(main main.c)
-target_link_libraries(model SDL2 SDL2_image m)
 target_link_libraries(main model SDL2 SDL2_image m)
+target_link_libraries(main controller SDL2 SDL2_image m)
+target_link_libraries(main view SDL2 SDL2_image m)
