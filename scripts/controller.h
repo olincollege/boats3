@@ -16,6 +16,6 @@ The controller, responsible for handling inputs from the user.
  * @param event An SDL event queue to manage
  *
  * @return An integer corresponding to the behavior that should occur in the
- *loop 0 = Quit, 1 = Change speed, 2 = Change color.
+ *loop 0 = Do nothing, 1 = Change speed, 2 = Change color, 3 = Quit.
  **/
 int handle_event(SDL_Event event);
