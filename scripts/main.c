@@ -95,15 +95,14 @@ int main(void) {
   animation cat_animate1 = cat_animate;
   animation cat_animate2 = cat_animate;
   animation cat_animate3 = cat_animate;
-
   const int cat_sheet_rows = 8;
   const int cat_sheet_cols = 12;
+  const float cat_box_scale = 3.0;
+
   initialize_animation(&cat_animate, cat_sheet_rows, cat_sheet_cols, 0);
   initialize_animation(&cat_animate1, cat_sheet_rows, cat_sheet_cols, 1);
   initialize_animation(&cat_animate2, cat_sheet_rows, cat_sheet_cols, 2);
   initialize_animation(&cat_animate3, cat_sheet_rows, cat_sheet_cols, 3);
-
-  const float cat_box_scale = 3.0;
   SDL_Rect cat_box;
   make_animation_box(&cat_box, &cat_animate, 0, 0, cat_box_scale);
   SDL_Rect cat_box1;
@@ -126,31 +125,18 @@ int main(void) {
     // poll event, contents of if need to be in a function, if statement is
     // important
     if (SDL_PollEvent(&event)) {
-      switch (event.type) {
+      int action = handle_event(event);
+
+      switch (action) {
       // if you press a key
-      case SDL_KEYDOWN:
-        switch (event.key.keysym.sym) {
-        case SDLK_ESCAPE:
-          quit = true;
-          break;
-
-        case SDLK_SPACE:
-          speed = rand() % 10 + 1;
-          printf("Manually changing speed to %i\n", speed);
-          break;
-        }
-
-        // break out of larger SDL_KEYDOWN
-        break;
-
-      case SDLK_ESCAPE:
-      case SDL_QUIT:
+      case 0:
         quit = true;
         break;
-
-      case SDL_MOUSEBUTTONDOWN:
-        // idk why but commenting out the print statement causes stuff to break.
-        // boo.
+      case 1:
+        speed = rand() % 10 + 1;
+        printf("Manually changing speed to %i\n", speed);
+        break;
+      case 2:
         printf("Clicked mouse\n");
         SDL_Point mousePosition;
         // Mouse click coords from event handler
