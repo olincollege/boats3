@@ -43,6 +43,7 @@ typedef struct animation {
   int frame_index;
 } animation;
 
+
 /**
  *A structure containing all of the parameters of our screen's background display
 */
