@@ -9,17 +9,17 @@ Handles interaction with the user.
 #include <stdbool.h>
 
 int handle_event(SDL_Event event) {
-
-  // QUIT = 0
+  // WORKING AS INTENDED = 0
   // CHANGE_SPEED = 1
   // CHANGE_COLOR = 2
+  // QUIT = 3
 
   switch (event.type) {
   // if you press a key
   case SDL_KEYDOWN:
     switch (event.key.keysym.sym) {
     case SDLK_ESCAPE:
-      return 0;
+      return 3;
       break;
     case SDLK_SPACE:
       return 1;
@@ -29,13 +29,12 @@ int handle_event(SDL_Event event) {
 
   // Sometimes it registers ESCAPE without a KEYDOWN
   case SDLK_ESCAPE || SDL_QUIT:
-    return 0;
+    return 3;
     break;
 
   case SDL_MOUSEBUTTONDOWN:
     return 2;
     break;
   }
-  puts("Yikes! An error occurred");
   return 0;
 }
