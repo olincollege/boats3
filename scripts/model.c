@@ -236,6 +236,9 @@ void animate_sequential(SDL_Renderer * renderer,animation animations[10],SDL_Rec
 
   animations[0].super_animation_index++;
   animations[0].super_animation_index = animations[0].super_animation_index %frame_sum;
+
+void change_cat_color(animation *cat0, animation *cat1, animation *cat2, animation *cat3, int *new_frame_loop){
+
   int case_no = rand() % 3;
   // default case
   switch (case_no) {
