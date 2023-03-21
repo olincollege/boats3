@@ -9,19 +9,20 @@
 #include <stdlib.h>
 
 // Defines the resolution of the screen.
-#define WIDTH 1920
-#define HEIGHT 1080
+enum { WIDTH = 1920 };
+enum { HEIGHT = 1080 };
 
 // Define starting position and size of sprite.
-#define SPRITE_X 50
-#define SPRITE_Y 50
-#define SPRITE_WIDTH 550
-#define SPRITE_HEIGHT 350
+enum { SPRITE_X = 50 };
+enum { SPRITE_Y = 50 };
+enum { SPRITE_WIDTH = 550 };
+enum { SPRITE_HEIGHT = 350 };
 
 // Defines smoothness of sprite movement.
 // Int from 0-10; a higher number = smoother .
-#define SMOOTHNESS 10
+enum { SMOOTHNESS = 10 };
 
+enum { MAX_ANIMATION_LEN = 26 };
 /**
  * Represents an animation loop of the desktop pet for one direction.
  */
@@ -37,7 +38,7 @@ typedef struct animation {
   // The total number of frames the animation will cycle through
   int num_frames;
   // A pointer to the array of possibel frame positions within the sprite sheet
-  int* frames_loop;
+  int *frames_loop;
   // The current frame position within the sprite sheet
   int frame_index;
 } animation;

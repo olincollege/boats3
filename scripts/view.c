@@ -27,10 +27,12 @@ state setup_state() {
       SDL_WINDOWPOS_UNDEFINED, // Position y of the window
       WIDTH,                   // Width of the window in pixels
       HEIGHT,                  // Height of the window in pixels
-      SDL_WINDOW_BORDERLESS || SDL_WINDOW_MAXIMIZED); // Additional flag(s)
+      SDL_WINDOW_BORDERLESS ||
+          SDL_WINDOW_MAXIMIZED); // NOLINT(clang-diagnostic-int-in-bool-context)
 
   if (init.window == NULL) {
-    (void)fprintf(stderr, "SDL window failed to initialise: %s\n", SDL_GetError());
+    (void)fprintf(stderr, "SDL window failed to initialise: %s\n",
+                  SDL_GetError());
   }
 
   init.renderer = SDL_CreateRenderer(init.window, -1, SDL_RENDERER_ACCELERATED);

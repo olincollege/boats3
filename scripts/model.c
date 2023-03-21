@@ -18,7 +18,7 @@ int find_sprite_grid(SDL_Texture *texture, int *row_height, int *column_width,
   int height_texture = 0;
   int width_texture = 0;
   if (0 !=
-    SDL_QueryTexture(texture, NULL, NULL, &width_texture, &height_texture)) {
+      SDL_QueryTexture(texture, NULL, NULL, &width_texture, &height_texture)) {
     (void)fprintf(stderr, "QueryTexture Error in find_sprite_grid.\n");
     return 1;
   }
@@ -75,13 +75,16 @@ SDL_Texture *initialize_texture(const char *filepath, SDL_Renderer *renderer) {
 int generate_random(int min, int max, int prev) {
   int random_val = prev;
   const int probability_baseline = 10;
-  int probability = rand() % probability_baseline; // NOLINT(cert-msc30-c, cert-msc50-cpp)
+  int probability =
+      rand() % probability_baseline; // NOLINT(cert-msc30-c, cert-msc50-cpp)
   if (probability > 4) {
-    random_val = rand() % (max - min) + min; // NOLINT(cert-msc30-c, cert-msc50-cpp)
+    random_val =
+        rand() % (max - min) + min; // NOLINT(cert-msc30-c, cert-msc50-cpp)
   }
   return random_val;
 }
 
+// NOLINTBEGIN(misc-no-recursion)
 int move_up(SDL_Rect *sprite, int distance) {
   if (sprite->y > 0) {
     sprite->y -= distance;
@@ -140,6 +143,8 @@ void move_random_direction(int num, SDL_Rect *sprite_pos, int distance,
   }
 }
 
+// NOLINTEND(misc-no-recursion)
+
 void end_program(SDL_Texture *bg_texture, SDL_Texture *sprite_texture,
                  SDL_Renderer *renderer, SDL_Window *window) {
   SDL_DestroyTexture(bg_texture);
@@ -178,7 +183,7 @@ int make_animation_box(SDL_Rect *box, animation *loop, int xpos, int ypos,
 }
 
 void change_cat_color(animation *cat0, animation *cat1, animation *cat2,
-                      animation *cat3, int new_frame_loop[26]) {
+                      animation *cat3, int new_frame_loop[MAX_ANIMATION_LEN]) {
   cat0->frames_loop = new_frame_loop;
   cat1->frames_loop = new_frame_loop;
   cat2->frames_loop = new_frame_loop;
@@ -186,11 +191,14 @@ void change_cat_color(animation *cat0, animation *cat1, animation *cat2,
 }
 
 void change_random_cat_color(animation *cat0, animation *cat1, animation *cat2,
-                             animation *cat3, int orange[26], int black[26],
-                             int white[26], int gray[26]) {
+                             animation *cat3, int orange[MAX_ANIMATION_LEN],
+                             int black[MAX_ANIMATION_LEN],
+                             int white[MAX_ANIMATION_LEN],
+                             int gray[MAX_ANIMATION_LEN]) {
   int current_frame_loop = cat0->frame_index;
 
-  int case_no = rand() % 3; // NOLINT(cert-msc30-c, cert-msc50-cpp)
+  int case_no =
+      rand() % 3; // NOLINT(cert-msc30-c, cert-msc50-cpp concurrency-mt-unsafe)
   // default case
   switch (case_no) {
   case 0:

@@ -22,17 +22,16 @@ int main(void) {
   SDL_Texture *cat_texture =
       initialize_texture("assets/catsheet_1.jpg", init.renderer);
 
-
   // NOLINTBEGIN(*-magic-numbers)
   const int number_frames = 26;
   int walk_gray[26] = {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
-                  2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1};
+                       2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1};
   int walk_white[26] = {3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4,
-                  5, 5, 5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4};
+                        5, 5, 5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4};
   int walk_black[26] = {6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7,
-                  8, 8, 8, 8, 8, 8, 8, 7, 7, 7, 7, 7, 7};
-  int walk_orange[26] = {9,  9,  9,  9,  9,  9,  9,  10, 10, 10, 10,
-                  10, 10, 11, 11, 11, 11, 11, 11, 11, 10, 10, 10, 10, 10, 10};
+                        8, 8, 8, 8, 8, 8, 8, 7, 7, 7, 7, 7, 7};
+  int walk_orange[26] = {9,  9,  9,  9,  9,  9,  9,  10, 10, 10, 10, 10, 10,
+                         11, 11, 11, 11, 11, 11, 11, 10, 10, 10, 10, 10, 10};
   // NOLINTEND(*-magic-numbers)
   animation cat_animate = {.texture = cat_texture,
                            .frames_loop = walk_orange,
@@ -42,7 +41,7 @@ int main(void) {
   animation cat_animate3 = cat_animate;
   const int cat_sheet_rows = 8;
   const int cat_sheet_cols = 12;
-  const float cat_box_scale = 3.0;
+  const float cat_box_scale = 3.0F;
 
   initialize_animation(&cat_animate, cat_sheet_rows, cat_sheet_cols, 0);
   initialize_animation(&cat_animate1, cat_sheet_rows, cat_sheet_cols, 1);
@@ -74,36 +73,39 @@ int main(void) {
       int action = handle_event(event);
 
       switch (action) {
-        // if you press a key
-        case 1:
-          speed = rand() % speed_range + 1; // NOLINT(cert-msc30-c, cert-msc50-cpp)
-          printf("Manually changing speed to %i\n", speed);
-          break;
-        case 2:
-          printf("Clicked mouse\n");
-          SDL_Point mousePosition;
-          // Mouse click coords from event handler
-          mousePosition.x = event.motion.x;
-          mousePosition.y = event.motion.y;
+      // if you press a key
+      case 1:
+        speed = rand() % speed_range +
+                1; // NOLINT(cert-msc30-c, cert-msc50-cpp concurrency-mt-unsafe)
+        printf("Manually changing speed to %i\n", speed);
+        break;
+      case 2:
+        printf("Clicked mouse\n");
+        SDL_Point mousePosition;
+        // Mouse click coords from event handler
+        mousePosition.x = event.motion.x;
+        mousePosition.y = event.motion.y;
 
-          if (SDL_PointInRect(&mousePosition, &cat_box)) {
-            change_random_cat_color(&cat_animate, &cat_animate1, &cat_animate2,
-                                    &cat_animate3, walk_orange, walk_black,
-                                    walk_white, walk_gray);
-          }
-          break;
-        case 3:
-          quit = true;
-          break;
-        default:
-          break;
+        if (SDL_PointInRect(&mousePosition, &cat_box)) {
+          change_random_cat_color(&cat_animate, &cat_animate1, &cat_animate2,
+                                  &cat_animate3, walk_orange, walk_black,
+                                  walk_white, walk_gray);
         }
+        break;
+      case 3:
+        quit = true;
+        break;
+      default:
+        break;
+      }
     }
 
     // NOLINTBEGIN(*-magic-numbers)
     // randomly change speed
-    if (rand() % 70000000 == 0) { // NOLINT(cert-msc30-c, cert-msc50-cpp)
-      speed = rand() % 10 + 1; // NOLINT(cert-msc30-c, cert-msc50-cpp)
+    if (rand() % 70000000 ==
+        0) { // NOLINT(cert-msc30-c, cert-msc50-cpp concurrency-mt-unsafe)
+      speed = rand() % 10 +
+              1; // NOLINT(cert-msc30-c, cert-msc50-cpp concurrency-mt-unsafe)
       printf("Changing speed to %i\n", speed);
     }
     cycle++;
@@ -126,7 +128,8 @@ int main(void) {
     case 2:
       loop_animation(&cat_animate1, init.renderer, &cat_box);
       break;
-    case 3: default:
+    case 3:
+    default:
       loop_animation(&cat_animate2, init.renderer, &cat_box);
       break;
     }
