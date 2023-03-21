@@ -28,7 +28,7 @@ int handle_event(SDL_Event event) {
     break;
 
   // Sometimes it registers ESCAPE without a KEYDOWN
-  case SDLK_ESCAPE || SDL_QUIT:
+  case SDL_QUIT:
     return 3;
     break;
 
