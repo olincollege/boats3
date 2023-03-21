@@ -114,7 +114,7 @@ int main(void) {
       direction = generate_random(0, 5, prev);
       cycle = 0;
     }
-    move_random_direction(direction, &cat_box, speed, &prev);
+    move_direction(direction, &cat_box, speed, &prev);
     SDL_RenderClear(init.renderer);
     SDL_RenderCopy(init.renderer, init.texture, NULL, NULL);
 

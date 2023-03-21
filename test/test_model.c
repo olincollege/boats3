@@ -114,30 +114,30 @@ Test(test_model, random_number_range) {
  * Check that calling move_random_direction updates the previous move to match
  * the direction that the rectangle is moved to.
  */
-Test(test_model, move_random_direction) {
+Test(test_model, move_direction) {
   // Starting location chosen so that the boundary cases are not triggered.
   SDL_Rect test_rect = {10, 10, SPRITE_WIDTH, SPRITE_HEIGHT};
   int prev = 0;
 
   // Storing movement up.
-  move_random_direction(0, &test_rect, 1, &prev);
+  move_direction(0, &test_rect, 1, &prev);
   cr_assert(eq(int, 0, prev));
 
   // Storing movement down.
-  move_random_direction(1, &test_rect, 1, &prev);
+  move_direction(1, &test_rect, 1, &prev);
   cr_assert(eq(int, 1, prev));
 
   // Storing movement left.
-  move_random_direction(2, &test_rect, 1, &prev);
+  move_direction(2, &test_rect, 1, &prev);
 
   cr_assert(eq(int, 2, prev));
 
   // Storing movement right.
-  move_random_direction(3, &test_rect, 1, &prev);
+  move_direction(3, &test_rect, 1, &prev);
   cr_assert(eq(int, 3, prev));
 
   // Storing idle.
-  move_random_direction(4, &test_rect, 1, &prev);
+  move_direction(4, &test_rect, 1, &prev);
   cr_assert(eq(int, 4, prev));
 }
 

@@ -120,8 +120,7 @@ int move_right(SDL_Rect *sprite, int distance) {
   return 2;
 }
 
-void move_random_direction(int num, SDL_Rect *sprite_pos, int distance,
-                           int *prev) {
+void move_direction(int num, SDL_Rect *sprite_pos, int distance, int *prev) {
   switch (num) {
   case 0:
     *prev = move_up(sprite_pos, distance);

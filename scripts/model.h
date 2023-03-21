@@ -178,8 +178,7 @@ int move_right(SDL_Rect *sprite, int distance);
  * @param distance An integer representing the number of pixels to travel.
  * @param prev An integer pointer representing the previously-chosen number.
  */
-void move_random_direction(int num, SDL_Rect *sprite_pos, int distance,
-                           int *prev);
+void move_direction(int num, SDL_Rect *sprite_pos, int distance, int *prev);
 
 /**
  * Runs the cleanup commands when exiting the program.
