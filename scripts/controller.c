@@ -8,33 +8,33 @@ Handles interaction with the user.
 #include <SDL2/SDL_image.h>
 #include <stdbool.h>
 
-void Handle_Event(bool* quit, SDL_Event event) {
+int handle_event(SDL_Event event) {
+  // WORKING AS INTENDED = 0
+  // CHANGE_SPEED = 1
+  // CHANGE_COLOR = 2
+  // QUIT = 3
 
   switch (event.type) {
   // if you press a key
   case SDL_KEYDOWN:
     switch (event.key.keysym.sym) {
-
     case SDLK_ESCAPE:
-      *quit = true;
+      return 3;
+      break;
+    case SDLK_SPACE:
+      return 1;
       break;
     }
-    switch (event.type) {
-    // if you press a key
-    case SDL_KEYDOWN:
-      switch (event.key.keysym.sym) {
-      case SDLK_ESCAPE:
-        printf("got here (Handle_Event)\n");
-        *quit = true;
-        break;
-      }
+    break;
 
-      // break out of larger SDL_KEYDOWN
-      break;
+  // Sometimes it registers ESCAPE without a KEYDOWN
+  case SDL_QUIT:
+    return 3;
+    break;
 
-    case SDL_QUIT:
-      *quit = true;
-      break;
-    }
+  case SDL_MOUSEBUTTONDOWN:
+    return 2;
+    break;
   }
+  return 0;
 }
