@@ -176,8 +176,8 @@ int make_animation_box(SDL_Rect *box, animation *loop, int xpos, int ypos,
                        float scale) {
   box->x = xpos;
   box->y = ypos;
-  box->w = (int)floorf(loop->width * scale);
-  box->h = (int)floorf(loop->height * scale);
+  box->w = floor(loop->width * scale);
+  box->h = floor(loop->height * scale);
 
   return 0;
 }
