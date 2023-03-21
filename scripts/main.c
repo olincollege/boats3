@@ -77,9 +77,9 @@ int main(void) {
       case 1:
         speed = rand() % speed_range +
                 1; // NOLINT(cert-msc30-c, cert-msc50-cpp concurrency-mt-unsafe)
-        printf("Manually changing speed to %i\n", speed);
         break;
       case 2:
+        // For some reason removing this print statement breaks code.
         printf("Clicked mouse\n");
         SDL_Point mousePosition;
         // Mouse click coords from event handler.
@@ -106,7 +106,6 @@ int main(void) {
         0) { // NOLINT(cert-msc30-c, cert-msc50-cpp concurrency-mt-unsafe)
       speed = rand() % 10 +
               1; // NOLINT(cert-msc30-c, cert-msc50-cpp concurrency-mt-unsafe)
-      printf("Changing speed to %i\n", speed);
     }
     cycle++;
     if (cycle == SMOOTHNESS) {
