@@ -84,13 +84,13 @@ int generate_random(int min, int max, int prev) {
   return random_val;
 }
 
-// NOLINTBEGIN(misc-no-recursion)
 int move_up(SDL_Rect *sprite, int distance) {
   if (sprite->y > 0) {
     sprite->y -= distance;
     return 0;
   }
-  return move_down(sprite, distance);
+  sprite->y += distance;
+  return 1;
 }
 
 int move_down(SDL_Rect *sprite, int distance) {
@@ -98,7 +98,8 @@ int move_down(SDL_Rect *sprite, int distance) {
     sprite->y += distance;
     return 1;
   }
-  return move_up(sprite, distance);
+  sprite->y -= distance;
+  return 0;
 }
 
 int move_left(SDL_Rect *sprite, int distance) {
@@ -106,7 +107,8 @@ int move_left(SDL_Rect *sprite, int distance) {
     sprite->x -= distance;
     return 2;
   }
-  return move_right(sprite, distance);
+  sprite->x += distance;
+  return 3;
 }
 
 int move_right(SDL_Rect *sprite, int distance) {
@@ -114,7 +116,8 @@ int move_right(SDL_Rect *sprite, int distance) {
     sprite->x += distance;
     return 3;
   }
-  return move_left(sprite, distance);
+  sprite->x -= distance;
+  return 2;
 }
 
 void move_random_direction(int num, SDL_Rect *sprite_pos, int distance,
@@ -142,8 +145,6 @@ void move_random_direction(int num, SDL_Rect *sprite_pos, int distance,
     break;
   }
 }
-
-// NOLINTEND(misc-no-recursion)
 
 void end_program(SDL_Texture *bg_texture, SDL_Texture *sprite_texture,
                  SDL_Renderer *renderer, SDL_Window *window) {
