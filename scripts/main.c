@@ -18,10 +18,10 @@ state setup_state(state init) {
     fprintf(stderr, "SDL failed to initialise: %s\n", SDL_GetError());
   }
   if (IMG_Init(IMG_INIT_PNG) == 0) {
-    printf("Error SDL2_image Initialization-PNG\n");
+    fprintf(stderr, "Error SDL2_image Initialization-PNG\n");
   }
   if (IMG_Init(IMG_INIT_JPG) == 0) {
-    printf("Error SDL2_image Initialization-JPG\n");
+    fprintf(stderr, "Error SDL2_image Initialization-JPG\n");
   }
 
   // Creates a SDL window
@@ -70,25 +70,27 @@ int main(void) {
   bool quit = false;
   SDL_Event event;
 
-  // Initialize our window.
+  // Initialize window.
   init = setup_state(init);
+
+  SDL_Rect cat_box;
+  sprite *cat1 =
+      initialize_sprite(init.renderer, &cat_box, "assets/catsheet_1.jpg");
 
   SDL_Texture *cat_texture =
       initialize_texture("assets/catsheet_1.jpg", init.renderer);
 
   const int number_frames = 26;
-  // int sprint_all[30] =
-  // {0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,11,11}; int
-  // sprint_gray[30] = {0,0,1,1,2,2,1,1,0,0,1,1,2,2,1,1,0,0,1,1,2,2,1,1,0,0};
-  // int run_gray[30] = {0,0,0,0,1,1,1,1,2,2,2,2,1,1,1,1,0,0,0,0,1,1,1,1,1,1};
-  int walk_gray[30] = {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
-                       2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1};
-  int walk_white[30] = {3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4,
-                        5, 5, 5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4};
-  int walk_black[30] = {6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7,
-                        8, 8, 8, 8, 8, 8, 8, 7, 7, 7, 7, 7, 7};
-  int walk_orange[30] = {9,  9,  9,  9,  9,  9,  9,  10, 10, 10, 10, 10, 10,
-                         11, 11, 11, 11, 11, 11, 11, 10, 10, 10, 10, 10, 10};
+  // Cat walk animations
+  const int walk_gray[30] = {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
+                             2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1};
+  const int walk_white[30] = {3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4,
+                              5, 5, 5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4};
+  const int walk_black[30] = {6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7,
+                              8, 8, 8, 8, 8, 8, 8, 7, 7, 7, 7, 7, 7};
+  const int walk_orange[30] = {9,  9,  9,  9,  9,  9,  9,  10, 10,
+                               10, 10, 10, 10, 11, 11, 11, 11, 11,
+                               11, 11, 10, 10, 10, 10, 10, 10};
   animation cat_animate = {.texture = cat_texture,
                            .frames_loop = &walk_orange,
                            .num_frames = number_frames};
@@ -104,15 +106,8 @@ int main(void) {
   initialize_animation(&cat_animate3, cat_sheet_rows, cat_sheet_cols, 3);
 
   const float cat_box_scale = 3.0;
-  SDL_Rect cat_box;
+  //  make_animation_box(&cat_box, &cat_animate, 0, 0, cat_box_scale);
   make_animation_box(&cat_box, &cat_animate, 0, 0, cat_box_scale);
-  SDL_Rect cat_box1;
-  make_animation_box(&cat_box1, &cat_animate1, 0, SPRITE_HEIGHT, cat_box_scale);
-  SDL_Rect cat_box2;
-  make_animation_box(&cat_box2, &cat_animate2, SPRITE_WIDTH, 0, cat_box_scale);
-  SDL_Rect cat_box3;
-  make_animation_box(&cat_box3, &cat_animate3, SPRITE_WIDTH, SPRITE_HEIGHT,
-                     cat_box_scale);
 
   int direction = 0;
   int prev = 0;  // represents the previous direction the sprite moved

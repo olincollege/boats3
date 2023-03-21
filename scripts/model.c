@@ -11,6 +11,52 @@ etc.
 #include <stdio.h> /* printf and fprintf */
 #include <stdlib.h>
 
+SDL_Texture *initialize_texture(const char *filepath, SDL_Renderer *renderer) {
+  // Make surface from image path
+  SDL_Surface *image = IMG_Load(filepath);
+  if (image == NULL) {
+    fprintf(stderr, "Error loading image.\n");
+    return 6;
+  }
+
+  // Make texture from surface.
+  SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, image);
+  if (texture == NULL) {
+    fprintf(stderr, "Error creating texture.\n");
+    return 7;
+  }
+
+  // Free surface to save memory.
+  SDL_FreeSurface(image);
+  return texture;
+}
+
+sprite *initialize_sprite(SDL_Renderer *renderer, SDL_Rect *rect,
+                          const char *sprite_path) {
+  // Make surface from image path
+  SDL_Surface *sprite_surface = IMG_Load(sprite_path);
+  if (sprite_surface == NULL) {
+    fprintf(stderr, "Error loading image.\n");
+    return 6;
+  }
+
+  // Make texture from surface
+  SDL_Texture *sprite_texture =
+      SDL_CreateTextureFromSurface(renderer, sprite_surface);
+  if (sprite_texture == NULL) {
+    fprintf(stderr, "Error creating texture.\n");
+    return 7;
+  }
+
+  // Sprite struct!
+  sprite spr = {sprite_texture, rect, sprite_path};
+
+  // Free the surface to save memory
+  SDL_FreeSurface(sprite_surface);
+
+  return &spr;
+}
+
 int find_sprite_grid(SDL_Texture *texture, int *row_height, int *column_width,
                      int num_rows, int num_columns) {
   // function for automatically finding frame rectangles dimensions
@@ -56,23 +102,6 @@ int initialize_animation(animation *loop, int num_rows, int num_col,
   loop->frame_index = 0;
 
   return 0;
-}
-
-SDL_Texture *initialize_texture(const char *filepath, SDL_Renderer *renderer) {
-  SDL_Surface *image = IMG_Load(filepath);
-  if (image == NULL) {
-    fprintf(stderr, "Surface creation error.");
-    return NULL;
-  }
-
-  SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, image);
-  if (texture == NULL) {
-    fprintf(stderr, "Texture creation error.");
-    return NULL;
-  }
-
-  SDL_FreeSurface(image);
-  return texture;
 }
 
 int generate_random(int min, int max, int *prev) {
@@ -184,7 +213,8 @@ int make_animation_box(SDL_Rect *box, animation *loop, int xpos, int ypos,
   return 0;
 }
 
-void change_cat_color(animation *cat0, animation *cat1, animation *cat2, animation *cat3, int *new_frame_loop) {
+void change_cat_color(animation *cat0, animation *cat1, animation *cat2,
+                      animation *cat3, int *new_frame_loop) {
   cat0->frames_loop = new_frame_loop;
   cat1->frames_loop = new_frame_loop;
   cat2->frames_loop = new_frame_loop;
@@ -192,27 +222,28 @@ void change_cat_color(animation *cat0, animation *cat1, animation *cat2, animati
 }
 
 void change_random_cat_color(animation *cat0, animation *cat1, animation *cat2,
-                             animation *cat3, int *orange, int *black, int *white,
-                             int *gray, int *current_frame_loop) {
-  // if the number corresponds to the current color, then fall through to the default case
+                             animation *cat3, int *orange, int *black,
+                             int *white, int *gray, int *current_frame_loop) {
+  // if the number corresponds to the current color, then fall through to the
+  // default case
   switch (rand() % 3) {
-    case 0:
-      if (current_frame_loop != black) {
-        change_cat_color(cat0, cat1, cat2, cat3, black);
-        break;
-      }
-    case 1:
-      if (current_frame_loop != white) {
-        change_cat_color(cat0, cat1, cat2, cat3, white);
-        break;
-      }
-    case 2:
-      if (current_frame_loop != gray) {
-        change_cat_color(cat0, cat1, cat2, cat3, gray);
-        break;
-      }
-    default:
-      change_cat_color(cat0, cat1, cat2, cat3, orange);
+  case 0:
+    if (current_frame_loop != black) {
+      change_cat_color(cat0, cat1, cat2, cat3, black);
       break;
+    }
+  case 1:
+    if (current_frame_loop != white) {
+      change_cat_color(cat0, cat1, cat2, cat3, white);
+      break;
+    }
+  case 2:
+    if (current_frame_loop != gray) {
+      change_cat_color(cat0, cat1, cat2, cat3, gray);
+      break;
+    }
+  default:
+    change_cat_color(cat0, cat1, cat2, cat3, orange);
+    break;
   }
 }
