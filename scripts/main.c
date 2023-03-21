@@ -126,11 +126,8 @@ int main(void) {
     case 2:
       loop_animation(&cat_animate1, init.renderer, &cat_box);
       break;
-    case 3:
+    case 3: default:
       loop_animation(&cat_animate2, init.renderer, &cat_box);
-      break;
-    default:
-      loop_animation(&cat_animate, init.renderer, &cat_box);
       break;
     }
 
