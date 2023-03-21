@@ -128,10 +128,8 @@ int main(void) {
       int action = handle_event(event);
 
       switch (action) {
-      // if you press a key
-      case 0:
-        quit = true;
-        break;
+        // if you press a key
+
       case 1:
         speed = rand() % 10 + 1;
         printf("Manually changing speed to %i\n", speed);
@@ -149,6 +147,9 @@ int main(void) {
                                   &walk_white, &walk_gray,
                                   cat_animate.frames_loop);
         }
+        break;
+      case 3:
+        quit = true;
         break;
       }
     }
