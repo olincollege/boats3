@@ -23,10 +23,6 @@ int main(void) {
       initialize_texture("assets/catsheet_1.jpg", init.renderer);
 
   const int number_frames = 26;
-  // int sprint_all[30] =
-  // {0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,11,11}; int
-  // sprint_gray[30] = {0,0,1,1,2,2,1,1,0,0,1,1,2,2,1,1,0,0,1,1,2,2,1,1,0,0};
-  // int run_gray[30] = {0,0,0,0,1,1,1,1,2,2,2,2,1,1,1,1,0,0,0,0,1,1,1,1,1,1};
   int walk_gray[30] = {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
                        2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1};
   int walk_white[30] = {3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4,
@@ -136,9 +132,7 @@ int main(void) {
 
     SDL_RenderPresent(init.renderer);
 
-    // put this in a function
     Uint64 time_end = SDL_GetPerformanceCounter();
-    // find elapse time
     float elapsed_time = (time_end - time_start) /
                          (float)SDL_GetPerformanceFrequency() * 1000.0F;
 
