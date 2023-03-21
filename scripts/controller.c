@@ -20,16 +20,21 @@ int handle_event(SDL_Event event) {
     switch (event.key.keysym.sym) {
     case SDLK_ESCAPE:
       return 0;
+      break;
     case SDLK_SPACE:
       return 1;
+      break;
     }
     break;
-  case SDLK_ESCAPE:
+
+  // Sometimes it registers ESCAPE without a KEYDOWN
+  case SDLK_ESCAPE || SDL_QUIT:
     return 0;
-  case SDL_QUIT:
-    return 0;
+    break;
 
   case SDL_MOUSEBUTTONDOWN:
     return 2;
+    break;
   }
+  return 0;
 }
