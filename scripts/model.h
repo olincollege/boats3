@@ -43,25 +43,6 @@ typedef struct animation {
 } animation;
 
 /**
- *A structure containing all of the parameters of our screen's background
- *display
- */
-typedef struct initialized_state {
-  // A pointer to an SDL Window object
-  SDL_Window *window;
-  // A pointer to the image representing the pet, displayed on screen
-  SDL_Texture *texture;
-  // A pointer to an SDL Renderer object
-  SDL_Renderer *renderer;
-  // A pointer to the image representing the background
-  SDL_Surface *background;
-} state;
-
-extern state init;
-
-state setup_state(state init);
-
-/**
  * Determines a frame rectangle's dimensions.
  *
  * Sets the given pointers to row height and column width of the frames to the
